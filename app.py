@@ -16,10 +16,10 @@ def games():
 
 @app.route('/boardgamegenres', methods=['POST', 'GET'])
 def genres():
-        return render_template('boardgamegenres.html')
+        return render_template('genres.html')
 
 @app.route('/boardgamepublishers', methods=['POST', 'GET'])
 def publishers():
-        return render_template('boardgamepublishers.html')
+        return render_template('publishers.html')
 if __name__ == "__main__":
     app.run(debug=True)
