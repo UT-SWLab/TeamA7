@@ -11,33 +11,70 @@
 {% endblock %}
 
 {% block bodywithmargin %}
-<div class="container-fluid">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-4">
-          <img src="">
-        <br>
-        <br>
+
+
+
+    <h1 style = "font-size:30px; padding-top:100px;">Board Game Publishers</h1>
+
+
+    <p>Welcome to the Board Games Publishers Page. We pride our selves on staying up to date on the latest board game publishers around the Globe </p>
+
+
+   
+
+    <h1 style = "font-size:30px; padding-top:100px; padding-left: 30px">Board Game Publishers</h1>
+
+<div class="row">
+
+
+  <div class="col-sm-4">
+    <div class="card" style="width:400px">
+      <a href="/Mattel" >
+
+	  <img class="card-img-top" src={{url_for('static', filename='mattelImage.jpg')}} alt="mattellimage"  width="300" height="300"> </a>
+	  <div class="card-body">
+        Publisher: <a href="/Mattel">Mattel</a></p>
         <h5>Founded 1945</h5>
         <h5>Genre They Specialize In:<a href="/WordGames">Word Games</a> </h5>
         <h5>Latest Game: Lizard Kings</h5>
         <h5>Recomended Game:<a href="/Scrabble">Scrabble</a> </h5>
-      </div>
-      <div class="col-sm-8">
-        <h2>Mattel</h2>
-        <hr>
-        <h5>Description:</h5>
-        <p>
-            Mattel, Inc. is an American multinational toy manufacturing company founded in 1945 with headquarters in El Segundo, California. Harold "Matt" Matson and Elliot Handler founded Mattel in 1945. The company sold picture frames, and later dollhouse furniture. Matson sold[when?] his share to Handler due to poor health, and Handler's wife Ruth took Matson's role. In 1947, the company had its first hit toy, a ukulele called "Uke-A-Doodle".
-             In the early 1980s, Mattel produced video game systems, under its own brands and under license from Nintendo. The company has presence in 40 countries and territories and sells products in more than 150 countries.[3] The company operates through three business segments: North America, international, and American Girl.
-        <br><br>
-        — Our Favorite Mattel Board Game
-        <br><br>
-        What more is there to say?! Scrabble is an all time classic. Generations upon generations have sat the table together passing countless hours. A game full of words and yet almost no words can describe just how exiting and fun it is for the whole familiy!
-        Scrabble is easy to learn and fun for all ages!
-        </p>
-      </div>
-    </div>
+	  </div>
+	</div>
   </div>
+
+
+  <div class="col-sm-4">
+    <div class="card" style="width:400px" >
+      <a href="/RioGrandeGames" >
+
+    <img class="card-img-top" src={{url_for('static', filename='rio-grande-games-logo.png')}} alt="rio-grande-games-logo" width="300" height="300">
+      </a>
+	  <div class="card-body">
+        Publisher: <a href="/RioGrandeGames">Rio Grande Games</a></p>
+        <h5>Founded 1996</h5>
+        <h5>Genre They Specialize In:<a href="/PartyGames">Party Games</a> </h5>
+        <h5>Latest Game: Dominion</h5>
+        <h5>Recomended Game:<a href="/Dominion">Dominion</a> </h5>
+	  </div>
+	</div>
+  </div>
+
+
+  <div class="col-sm-4">
+    <div class="card" style="width:400px" >
+      <a href="/Hasbro" >
+    <img class="card-img-top" src={{url_for('static', filename='Hasbro.png')}} alt="Hasbro" width="300" height="300">
+    </a>
+	  <div class="card-body">
+        Publisher: <a href="/Hasbro">Hasbro</a></p>
+        <h5>Founded 1923</h5>
+        <h5>Genre They Specialize In:<a href="/DeckBuilders">DeckBuilder Games</a> </h5>
+        <h5>Latest Game: GodZilla Warfare</h5>
+        <h5>Recomended Game:<a href="/Apples_to_Apples">Apples to Apples</a> </h5>
+	  </div>
+	</div>
+  </div>
+
+
 </div>
 {% endblock %}
