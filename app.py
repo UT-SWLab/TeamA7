@@ -20,7 +20,7 @@ def genres():
 
 @app.route('/boardgamepublishers', methods=['POST', 'GET'])
 def publishers():
-        return render_template('publishers.html')
+        return render_template('Publishers_List.html')
 
 
 ############ ROUTES TO PUBLISHERS ############
