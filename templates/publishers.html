@@ -2,6 +2,12 @@
 
 {% block head %} 
     <title>Board Game Publishers</title>
+    <style>
+    	.card {
+    		margin-top: 30px;
+    		margin-left: 20px;
+    	}
+	</style>
 {% endblock %}
 
 {% block bodywithmargin %}
@@ -14,7 +20,7 @@
     <p>Welcome to the Board Games Publishers Page. We pride our selves on staying up to date on the latest board game publishers around the Globe </p>
 
 
-    <h2> Below you will find our Top Three Board game Publishers as of October 2020</h2>
+    <h2>  Top Three Board game Publishers as of October 2020</h2>
 
     <div id="demo" class="carousel slide" data-ride="carousel">
 
@@ -54,4 +60,51 @@
       
       </div>
     <p> Click on the Company Logos to Learn more about the Publishers website. </p>
+
+
+      <br></br>
+
+    <h1 style = "font-size:30px; padding-top:100px; padding-left: 30px">Board Game Publishers</h1>
+
+<div class="row">
+
+
+  <div class="col-sm-4">
+    <div class="card" style="width:400px">
+      <a href="/Mattel" >
+
+	  <img class="card-img-top" src={{url_for('static', filename='mattelImage.jpg')}} alt="mattellimage"  width="300" height="300"> </a>
+	  <div class="card-body">
+	    	Publisher: <a href="/Mattel">Mattel</a></p>
+	  </div>
+	</div>
+  </div>
+
+
+  <div class="col-sm-4">
+    <div class="card" style="width:400px" >
+      <a href="/RioGrandeGames" >
+
+    <img class="card-img-top" src={{url_for('static', filename='rio-grande-games-logo.png')}} alt="rio-grande-games-logo" width="300" height="300">
+      </a>
+	  <div class="card-body">
+	    	Publisher: <a href="/RioGrandeGames">Rio Grande Games</a></p>
+	  </div>
+	</div>
+  </div>
+
+
+  <div class="col-sm-4">
+    <div class="card" style="width:400px" >
+      <a href="/Hasbro" >
+    <img class="card-img-top" src={{url_for('static', filename='Hasbro.png')}} alt="Hasbro" width="300" height="300">
+    </a>
+	  <div class="card-body">
+	    	Publisher: <a href="/Hasbro">Hasbro</a></p>
+	  </div>
+	</div>
+  </div>
+
+
+</div>
 {% endblock %}
