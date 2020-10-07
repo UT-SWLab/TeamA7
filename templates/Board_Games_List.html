@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block head %} 
+    <title>Board Games List</title>
+    <style>
+    	.card {
+    		margin-top: 30px;
+    		margin-left: 20px;
+    	}
+	</style>
+{% endblock %}
+
+{% block bodywithmargin %}
+
+<h1 style = "font-size:30px; padding-top:100px; padding-left: 30px">Board Games</h1>
+
+<div class="row">
+  <div class="col-sm-4">
+  	<div class="card" style="width:400px">
+	  <img class="card-img-top" src={{url_for('static', filename='Apples to Apples.png')}} alt="Apples to Applese">
+	  <div class="card-body">
+	    <h4 class="card-title">Apples to Apples</h4>
+	    <p class="card-text">Genre: <a href="/PartyGames">Party Games</a>
+	    	<br>
+	    	Publisher: <a href="/Mattel">Mattel</a></p>
+	    <a href="/ApplestoApples" class="btn btn-primary">See More</a>
+	  </div>
+	</div>
+  </div>
+  <div class="col-sm-4">
+  	<div class="card" style="width:400px">
+	  <img class="card-img-top" src={{url_for('static', filename='Dominion.png')}} alt="Dominion">
+	  <div class="card-body">
+	    <h4 class="card-title">Dominion</h4>
+	    <p class="card-text">Genre: <a href="/DeckBuilders">Deck Builders</a>
+	    	<br>
+	    	Publisher: <a href="/RioGrandeGames">Rio Grande Games</a></p>
+	    <a href="/Dominion" class="btn btn-primary">See More</a>
+	  </div>
+	</div>
+  </div>
+  <div class="col-sm-4">
+  	<div class="card" style="width:400px">
+	  <img class="card-img-top" src={{url_for('static', filename='Scrabble.png')}} alt="Scrabble">
+	  <div class="card-body">
+	    <h4 class="card-title">Scrabble</h4>
+	    <p class="card-text">Genre: <a href="/WordGames">Word Games</a>
+	    	<br>
+	    	Publisher: <a href="/Hasbro">Hasbro</a></p>
+	    <a href="/Scrabble" class="btn btn-primary">See More</a>
+	  </div>
+	</div>
+  </div>
+</div>
+
+{% endblock %}
