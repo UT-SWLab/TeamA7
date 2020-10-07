@@ -21,5 +21,25 @@ def genres():
 @app.route('/boardgamepublishers', methods=['POST', 'GET'])
 def publishers():
         return render_template('publishers.html')
+
+
+
+
+@app.route('/RioGrandeGames', methods=['POST', 'GET'])
+def RioGrandeGames():
+        return render_template('RioGrandeGames.html')
+
+
+@app.route('/Mattel', methods=['POST', 'GET'])
+def Mattel():
+        return render_template('Mattel.html')
+
+@app.route('/Hasbro', methods=['POST', 'GET'])
+def Hasbro():
+        return render_template('Hasbro.html')
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
