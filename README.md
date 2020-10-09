@@ -1,4 +1,6 @@
-# TeamA7
+# TeamA7 EE 461L Fall 2020
+
+## TeamA7 Members:
 Allegra Thomas
 Cedrik Ho
 Grant Ross
@@ -10,15 +12,22 @@ Link to website
 Estimated completion time for each member (hours : int)
 Actual completion time for each member (hours : int)
 
-
-Welcome to our repo for EE461L's semester long project. We are focusing on board games. This is a full stack development project that we hope will be both informative and fun to use. 
+## Summary
+Welcome to our repo for EE461L's semester long project. Our project topic is board games. This is a full stack development project that we hope will be informative and fun to use. 
 Link to website:
- 
-Cedrik Ho ch45935 , GithubID: cedrikho
-Estimated completion time:  (8 hours)
-Actual completion time: (10 hours)
+
+## Team Contribution Time
+Cedrik Ho ch45935
+Github ID: cedrikho
+Estimated Completion Time:  (8 hours)
+Actual Completion Time: (10 hours)
 
 Allegra Thomas at35737
 GitHub ID: AllegraThomas
-Estimated Completion Time: 10 hours
-Actual Completion Time: 8 hours
+Estimated Completion Time: (10 hours)
+Actual Completion Time: (8 hours)
+
+Sanne Bloemsma scb2936
+Github ID: sbloemsma
+Estimated completion Time: (8 hours)
+Actual Completion Time: (6 hours)
