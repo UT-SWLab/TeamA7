@@ -7,49 +7,85 @@
 {% block bodywithmargin %}
     <h1 style = "font-size:30px; padding-top:100px;"> Monthly Board Game News</h1>
 
-
-    <h2>  Top Three Board game Publishers as of October 2020</h2>
-
-    <div id="demo" class="carousel slide" data-ride="carousel">
-
+    <div class = "container">
+    <h2>Featured Board Game Publishers</h2>
+    <div id="pubs" class="carousel slide" data-ride="carousel" style="padding: 0% 25%; width: 100%" >
         <!-- Indicators -->
         <ul class="carousel-indicators">
-          <li data-target="#demo" data-slide-to="0" class="active"></li>
-          <li data-target="#demo" data-slide-to="1"></li>
-          <li data-target="#demo" data-slide-to="2"></li>
+          <li data-target="#pubs" data-slide-to="0" class="active"></li>
+          <li data-target="#pubs" data-slide-to="1"></li>
+          <li data-target="#pubs" data-slide-to="2"></li>
         </ul>
 
         <!-- The slideshow -->
         <div class="carousel-inner">
           <div class="carousel-item active">
             <a href= "/RioGrandeGames"> >
-              <img class="card-img-top" src={{url_for('static', filename='rio-grande-games-logo.png')}} alt="RioGrandeGames"width="600" height="500">  </a>
+              <img class="card-img-top" src={{url_for('static', filename='rio-grande-games-logo.png')}} alt="RioGrandeGames" style="width=100%">  </a>
           </div>
 
           <div class="carousel-item">
             <a href="/Mattel" >
-              <img class="card-img-top" src={{url_for('static', filename='mattelImage.jpg')}} alt="mattelImage"width="600" height="500"> </a>
+              <img class="card-img-top" src={{url_for('static', filename='mattelImage.jpg')}} alt="mattelImage" style="width=100%"> </a>
+
           </div>
 
           <div class="carousel-item">
               <a href="/Hasbro" >
                 <img class="card-img-top" src={{url_for('static', filename='Hasbro.png')}}
-                alt="Hasbro" width="600" height="500">     </a>
+                alt="Hasbro" style="width=100%">     </a>
           </div>
 
         </div>
 
         <!-- Left and right controls -->
-        <a class="carousel-control-prev" href="#demo" data-slide="prev">
+        <a class="carousel-control-prev" href="#pubs" data-slide="prev" style="background-color:black">
           <span class="carousel-control-prev-icon"></span>
         </a>
-        <a class="carousel-control-next" href="#demo" data-slide="next">
+        <a class="carousel-control-next" href="#pubs" data-slide="next" style="background-color:black">
           <span class="carousel-control-next-icon"></span>
         </a>
 
       </div>
-    <p> Click on the Company Logos to Learn more about the Publishers website. </p>
+    </div>
+    <div class = "container">
+    <h2>Featured Board Games</h2>
+    <div id="games" class="carousel slide" data-ride="carousel" style="padding: 0% 25%" >
+        <!-- Indicators -->
+        <ul class="carousel-indicators">
+          <li data-target="#games" data-slide-to="0" class="active"></li>
+          <li data-target="#games" data-slide-to="1"></li>
+          <li data-target="#games" data-slide-to="2"></li>
+        </ul>
 
+        <!-- The slideshow -->
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <a href= "/ApplestoApples"> >
+              <img class="card-img-top" src={{url_for('static', filename='Apples to Apples.png')}} alt="ApplestoApples" style="width=100%">  </a>
+          </div>
 
-      <br></br>
+          <div class="carousel-item">
+            <a href="/Dominion" >
+              <img class="card-img-top" src={{url_for('static', filename='Dominion.png')}} alt="Dominion" style="width=100%"> </a>
+          </div>
+
+          <div class="carousel-item">
+              <a href="/Scrabble" >
+                <img class="card-img-top" src={{url_for('static', filename='Scrabble.png')}}
+                alt="Scrabble" style="width=100%">     </a>
+          </div>
+
+        </div>
+
+        <!-- Left and right controls -->
+        <a class="carousel-control-prev" href="#games" data-slide="prev" style="background-color:black">
+          <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#games" data-slide="next" style="background-color:black">
+          <span class="carousel-control-next-icon" style="padding: 0% 10%"></span>
+        </a>
+
+      </div>
+    </div>
 {% endblock %}
