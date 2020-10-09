@@ -16,7 +16,7 @@ def games():
 
 @app.route('/boardgamegenres', methods=['POST', 'GET'])
 def genres():
-        return render_template('genres.html')
+        return render_template('Genres_List.html')
 
 @app.route('/boardgamepublishers', methods=['POST', 'GET'])
 def publishers():
