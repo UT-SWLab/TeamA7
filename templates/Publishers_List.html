@@ -7,6 +7,13 @@
     		margin-top: 30px;
     		margin-left: 20px;
     	}
+
+    	.card-img-top{
+    max-height:300px;
+    max-width:300px;
+    height:100%;
+    width:100%;
+}
 	</style>
 {% endblock %}
 
@@ -29,7 +36,7 @@
   <div class="col-sm-4">
   	<div class="card" style="width:100%">
    <a href="/Mattel" >
-	  <img class="card-img-top" src={{url_for('static', filename='mattelImage.jpg')}} alt="mattellimage"  height="300px" width="300px" > </a>
+	  <img class="card-img-top" src={{url_for('static', filename='mattelImage.jpg')}} alt="mattellimage"  > </a>
         <div class="card-body">
             <br>
             <h5>Founded 1945</h5>
@@ -44,7 +51,7 @@
   <div class="col-sm-4">
   	<div class="card" style="width:100%">
       <a href="/RioGrandeGames" >
-    <img class="card-img-top" src={{url_for('static', filename='rio-grande-games-logo.png')}} alt="rio-grande-games-logo" height="300px" width="300px">
+    <img class="card-img-top" src={{url_for('static', filename='rio-grande-games-logo.png')}} alt="rio-grande-games-logo"  >
       </a>
 	  <div class="card-body">
           <br>
@@ -60,7 +67,7 @@
   <div class="col-sm-4">
   	<div class="card" style="width:100%">
       <a href="/Hasbro" >
-    <img class="card-img-top" src={{url_for('static', filename='Hasbro.png')}} alt="Hasbro"  height="300px" width="300px">
+    <img class="card-img-top" src={{url_for('static', filename='Hasbro.png')}} alt="Hasbro" >
     </a>
 	  <div class="card-body">
           <br>
