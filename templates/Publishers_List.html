@@ -1,3 +1,22 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Board Game Publishers</title>
+    <style>
+    	.card {
+    		margin-top: 30px;
+    		margin-left: 20px;
+    	}
+
+	</style>
+{% endblock %}
+
+{% block bodywithmargin %}
+
+
+
+    <h1 style = "font-size:30px; padding-top:100px;">Board Game Publishers</h1>
+KK
 
 <div class="row">
   <div class="col-sm-4">
@@ -32,7 +51,6 @@
 
   <div class="col-sm-4">
   	<div class="card h-100" style="width:100%">
-  		<div class="card h-100" style="width:100%">
   		 <a href="/Hasbro" >
     <img class="card-img-top" src={{url_for('static', filename='Hasbro.png')}} alt="Hasbro" >
     </a>
@@ -46,3 +64,6 @@
 	</div>
   </div>
 </div>
+
+
+{% endblock %}
