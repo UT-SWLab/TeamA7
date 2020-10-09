@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block head %} 
+    <title>Board Games Genres List</title>
+    <style>
+    	.card {
+    		margin-top: 30px;
+    		margin-left: 20px;
+    	}
+	</style>
+{% endblock %}
+
+{% block bodywithmargin %}
+
+<h1 style = "font-size:30px; padding-top:100px; padding-left: 30px">Board Games</h1>
+
+<div class="row">
+  <div class="col-sm-4">
+  	<div class="card" style="width:100%">
+	  <img class="card-img-top" src={{url_for('static', filename='Apples to Apples.png')}} alt="Apples to Apples">
+	  <div class="card-body">
+	    <h4 class="card-title" href="/PartyGames">Party Games</h4>
+	  </div>
+	</div>
+  </div>
+  <div class="col-sm-4">
+  	<div class="card" style="width:100%">
+	  <img class="card-img-top" src={{url_for('static', filename='Dominion.png')}} alt="Dominion">
+	  <div class="card-body">
+	    <h4 class="card-title" href="/DeckBuilders">Deck Builders</h4>
+	  </div>
+	</div>
+  </div>
+  <div class="col-sm-4">
+  	<div class="card" style="width:100%">
+	  <img class="card-img-top" src={{url_for('static', filename='Scrabble.png')}} alt="Scrabble">
+	  <div class="card-body">
+	    <h4 class="card-title" href="/WordGames">Word Games</h4>
+	  </div>
+	</div>
+  </div>
+</div>
+
+{% endblock %}

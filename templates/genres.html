@@ -15,21 +15,15 @@
         <br>
         <br>
         <h5>Specializing Publisher: {% block publisher %}{% endblock %} </h5>
-        <h5>Latest Game: Lizard Kings</h5>
-        <h5>Recomended Game:<a href="/Scrabble">Scrabble</a> </h5>
+        <h5>Latest Game: </h5>
+        <h5>Recommended Game:{% block game %}{% endblock %}</h5>
       </div>
       <div class="col-sm-8">
-        <h2>Mattel</h2>
+        <h2></h2>
         <hr>
         <h5>Description:</h5>
         <p>
-            Mattel, Inc. is an American multinational toy manufacturing company founded in 1945 with headquarters in El Segundo, California. Harold "Matt" Matson and Elliot Handler founded Mattel in 1945. The company sold picture frames, and later dollhouse furniture. Matson sold[when?] his share to Handler due to poor health, and Handler's wife Ruth took Matson's role. In 1947, the company had its first hit toy, a ukulele called "Uke-A-Doodle".
-             In the early 1980s, Mattel produced video game systems, under its own brands and under license from Nintendo. The company has presence in 40 countries and territories and sells products in more than 150 countries.[3] The company operates through three business segments: North America, international, and American Girl.
-        <br><br>
-        — Our Favorite Mattel Board Game
-        <br><br>
-        What more is there to say?! Scrabble is an all time classic. Generations upon generations have sat the table together passing countless hours. A game full of words and yet almost no words can describe just how exiting and fun it is for the whole familiy!
-        Scrabble is easy to learn and fun for all ages!
+            {% block description %}{% endblock %}
         </p>
       </div>
     </div>
