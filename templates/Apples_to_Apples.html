@@ -1,14 +1,12 @@
 {% extends 'boardgames.html' %}
 
-{% block bodywithmargin %}
-    
-<h1 style = "font-size:30px; padding-top:100px; padding-bottom: 30px; padding-left: 30px">Board Games</h1>
+{% block body %}
 
 <div class="container-fluid">
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-4">
-        <img src={{url_for('static', filename='Apples to Apples.png')}} width="300px" class="rounded" alt="Apples to Apples">
+        <img src={{url_for('static', filename='Apples to Apples.png')}} width="100%" class="rounded" alt="Apples to Apples">
         <br>
         <br>
         <h5>Players: 4-10</h5>
