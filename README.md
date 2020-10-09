@@ -15,7 +15,10 @@ Welcome to our repo for EE461L's semester long project. We are focusing on board
 Link to website:
  
 Cedrik Ho ch45935 , GithubID: cedrikho
-
 Estimated completion time:  (8 hours)
-Actual completion time for each member (10 hours)
+Actual completion time: (10 hours)
 
+Allegra Thomas at35737
+GitHub ID: AllegraThomas
+Estimated Completion Time: 10 hours
+Actual Completion Time: 8 hours
