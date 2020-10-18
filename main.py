@@ -1,4 +1,15 @@
 from flask import Flask, render_template, url_for, request, redirect
+import pymongo
+from pymongo import MongoClient
+from bson.objectid import ObjectId
+from mongoengine import *
+import requests
+from classes import BoardGame, Publisher, Category
+
+# client = MongoClient("mongodb+srv://teama7:ee461lteama7@mongodbcluster.bs58o.gcp.mongodb.net/BGDB?retryWrites=true&w=majority")
+# db = client["BGDB"]
+
+# connect('BGDB', host='localhost', port=27017)
 
 app = Flask(__name__)
 
