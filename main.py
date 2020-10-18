@@ -12,17 +12,21 @@ connect('BGDB', host='localhost', port=27017)
 
 app = Flask(__name__)
 
-@app.route('/', methods=['POST', 'GET'])
+
+@app.route('/')
 def home():
         return render_template('home.html')
 
-@app.route('/about', methods=['POST', 'GET'])
+
+@app.route('/about')
 def about():
         return render_template('about.html')
 
-@app.route('/boardgames', methods=['POST', 'GET'])
+
+@app.route('/boardgames')
 def games():
         return render_template('Board_Games_List.html')
+
 
 @app.route('/boardgamegenres', methods=['POST', 'GET'])
 def genres():
@@ -34,6 +38,10 @@ def publishers():
 
 
 ############ ROUTES TO PUBLISHERS ############
+@app.route('/boardgames/<string:name>', methods=['POST', 'GET'])
+def RioGrandeGames():
+        return render_template('RioGrandeGames.html')
+
 
 @app.route('/RioGrandeGames', methods=['POST', 'GET'])
 def RioGrandeGames():
@@ -65,6 +73,11 @@ def Scrabble():
 
 
 ############ ROUTES TO GENRES ############
+@app.route('/boardgamegenres/<string:name>')
+def genres(name):
+
+        return render_template('genres.html')
+
 
 @app.route('/DeckBuilders', methods=['POST', 'GET'])
 def DeckBuilders():

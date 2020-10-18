@@ -2,79 +2,30 @@
 
 {% block head %} 
     <title>Board Game Publishers</title>
-    <style>
-    	.card {
-    		margin-top: 30px;
-    		margin-left: 20px;
-    	}
-	</style>
 {% endblock %}
 
 {% block bodywithmargin %}
+<h1 style = "font-size:30px; padding-top:100px; padding-bottom: 30px; padding-left: 30px">Publisher</h1>
 
-
-
-    <h1 style = "font-size:30px; padding-top:100px;">Board Game Publishers</h1>
-
-
-    <p>Welcome to the Board Games Publishers Page. We pride our selves on staying up to date on the latest board game publishers around the Globe </p>
-
-
-   
-
-    <h1 style = "font-size:30px; padding-top:100px; padding-left: 30px">Board Game Publishers</h1>
-
-<div class="row">
-
-
-  <div class="col-sm-4">
-    <div class="card" style="width:400px">
-      <a href="/Mattel" >
-
-	  <img class="card-img-top" src={{url_for('static', filename='mattelImage.jpg')}} alt="mattellimage"  width="300" height="300"> </a>
-	  <div class="card-body">
-        Publisher: <a href="/Mattel">Mattel</a></p>
-        <h5>Founded 1945</h5>
-        <h5>Genre They Specialize In:<a href="/WordGames">Word Games</a> </h5>
-        <h5>Latest Game: Lizard Kings</h5>
-        <h5>Recomended Game:<a href="/Scrabble">Scrabble</a> </h5>
-	  </div>
-	</div>
+<div class="container-fluid">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-4">
+        {% block image%}{% endblock %}
+        <br>
+        <br>
+        <h5>Founded {% block foundingyear %}{% endblock %}</h5>
+        <h5>Genre They Specialize In: {% block genre%}{% endblock %}</h5>
+        <h5>Latest Game: {% block latestgame%}{% endblock %}</h5>
+        <h5>Recommended Game: {% block gamelist%}{% endblock %}</h5>
+      </div>
+      <div class="col-sm-8">
+        <h2>{% block name%}{% endblock %}</h2>
+        <hr>
+        <h5>Description:</h5>
+          <p>{% block description %}{% endblock %}</p>
+      </div>
+    </div>
   </div>
-
-
-  <div class="col-sm-4">
-    <div class="card" style="width:400px" >
-      <a href="/RioGrandeGames" >
-
-    <img class="card-img-top" src={{url_for('static', filename='rio-grande-games-logo.png')}} alt="rio-grande-games-logo" width="300" height="300">
-      </a>
-	  <div class="card-body">
-        Publisher: <a href="/RioGrandeGames">Rio Grande Games</a></p>
-        <h5>Founded 1996</h5>
-        <h5>Genre They Specialize In:<a href="/PartyGames">Party Games</a> </h5>
-        <h5>Latest Game: Dominion</h5>
-        <h5>Recomended Game:<a href="/Dominion">Dominion</a> </h5>
-	  </div>
-	</div>
-  </div>
-
-
-  <div class="col-sm-4">
-    <div class="card" style="width:400px" >
-      <a href="/Hasbro" >
-    <img class="card-img-top" src={{url_for('static', filename='Hasbro.png')}} alt="Hasbro" width="300" height="300">
-    </a>
-	  <div class="card-body">
-        Publisher: <a href="/Hasbro">Hasbro</a></p>
-        <h5>Founded 1923</h5>
-        <h5>Genre They Specialize In:<a href="/DeckBuilders">DeckBuilder Games</a> </h5>
-        <h5>Latest Game: GodZilla Warfare</h5>
-        <h5>Recomended Game:<a href="/Apples_to_Apples">Apples to Apples</a> </h5>
-	  </div>
-	</div>
-  </div>
-
-
 </div>
 {% endblock %}
