@@ -1,4 +1,4 @@
-#you may need to download some of these things to get this code (or similar code) working
+#you may need to download some of these things to get this code (or similar code) to work
 #let me (Allegra) know if you have any questions
 import pymongo
 from pymongo import MongoClient
