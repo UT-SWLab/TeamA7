@@ -6,25 +6,26 @@
 
 {% block bodywithmargin %}
     <h1 style = "font-size:30px; padding-top:100px; padding-bottom: 25px; padding-left: 30px;">Board Games</h1>
-
 <div class="container-fluid">
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-4">
-        {% block image %}{% endblock %}
+          <img src= image_URL width="100%" class="rounded" alt="Apples to Apples">
         <br>
         <br>
-        <h5>Players: {% block players %}{% endblock %}</h5>
-        <h5>Playtime: {% block playtime%}{% endblock %}</h5>
-        <h5>Year Published: {% block publishyear%}{% endblock %}</h5>
-        <h5>Publisher: {% block publisher%}{% endblock %}</h5>
-        <h5>Genre: {% block genre%}{% endblock %}</h5>
+        <h5>Players: {{ doc["Min_Players"] }}-{{ doc["Max_Players"] }} Players</h5>
+        <h5>Playtime: {{ doc["Min_Playtime"] }}-{{ doc["Max_Playtime"] }} minutes</h5>
+        <h5>Year Published: {{ doc["Year_Published"] }}</h5>
+        <h5>Publisher: <a href="boardgamepublishers/{{ publisher_link }}" >{{ doc["Publisher"] }}</a></h5>
+        <h5>Genre:
+          <a href="boardgamegenres/{{ genre_link }}">Category Placeholder</a>
+        </h5>
       </div>
       <div class="col-sm-8">
-        <h2>{% block name %}{% endblock %}</h2>
+        <h2>{{ doc["Name"] }}</h2>
         <hr>
         <h5>Description:</h5>
-        <p>{% block description %}{% endblock %}</p>
+        <p>{{ doc["Description"] }}</p>
       </div>
     </div>
   </div>

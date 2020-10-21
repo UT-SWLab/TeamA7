@@ -28,7 +28,7 @@ def games():
         return render_template('Board_Games_List.html')
 
 
-@app.route('/boardgamegenres', methods=['POST', 'GET'])
+@app.route('/boardgamegenres')
 def genres():
         return render_template('Genres_List.html')
 
@@ -38,9 +38,16 @@ def publishers():
 
 
 ############ ROUTES TO PUBLISHERS ############
-@app.route('/boardgames/<string:name>', methods=['POST', 'GET'])
-def RioGrandeGames():
-        return render_template('RioGrandeGames.html')
+game_column = db["boardgamecollection"]
+
+
+@app.route('/boardgames/<string:name>')
+def boardgames(name):
+        query = {"Name": name}
+        doc = game_column.find(query)
+        publisher_link = doc["Publisher"]
+        Image_URL = doc["Image_URL"]
+        return render_template('boardgames.html', doc=doc, publisher_link=publisher_link, Image_URL=Image_URL)
 
 
 @app.route('/RioGrandeGames', methods=['POST', 'GET'])
