@@ -46,6 +46,8 @@ def boardgames(name):
         query = {"Name": name}
         doc = game_column.find(query)
         publisher_link = doc["Publisher"]
+        publisher_link.replace(" ", "")
+        publisher_link.replace(":", "")
         Image_URL = doc["Image_URL"]
         return render_template('boardgames.html', doc=doc, publisher_link=publisher_link, Image_URL=Image_URL)
 
