@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Board Games</title>
+{% endblock %}
+
+{% block bodywithmargin %}
+    <h1 style = "font-size:30px; padding-top:100px; padding-bottom: 25px; padding-left: 30px;">Board Games</h1>
+    <div class="container-fluid">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4" style="width: 100%">
+                    <br>
+                    <br>
+                    <h4>Games by Publisher:</h4>
+                {% set game = [] %}
+        {% for game in gamesforpub %}
+            <form action='/game' method="POST">
+                    <button type= "submit" name = "gamename" id="gamename" value='{{ game['Name'] }}'>{{ game['Name'] }}</button>
+                </form>
+        {% endfor %}
+      </div>
+      <div class="col-sm-8" style="justify-content: center">
+        <h2>{{ publishername }}</h2>
+        <hr>
+        <h5>Description:</h5>
+          <p>tbd</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

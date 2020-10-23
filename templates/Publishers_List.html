@@ -1,69 +1,54 @@
 {% extends 'base.html' %}
 
 {% block head %}
-    <title>Board Game Publishers</title>
+    <title>Board Games Publisher List</title>
+    <script>
+        var elements = document.getElementsByClassName("column");
+        var i;
+        function listView() {
+            for (i = 0; i < elements.length; i++) {
+                elements[i].style.width = "100%";
+            }
+        }
+        function gridView() {
+            for (i = 0; i < elements.length; i++) {
+                elements[i].style.width = "25%";
+            }
+        }
+        function getLink(inputstring){
+            var linkstring = ""
+            linkstring = linkstring.concat(inputstring.replace(/\W/g, ''));
+            return linkstring
+
+        }
+    </script>
     <style>
-    	.card {
-    		margin-top: 30px;
-    		margin-left: 20px;
-    	}
-
-	</style>
+        #publishername{
+            justify-content: center;
+            color: black;
+            font-size: larger;
+            font-family: Cambria;
+            text-align: center;
+            text-anchor: middle;
+        }
+    </style>
 {% endblock %}
-
 {% block bodywithmargin %}
+    <h1 style = "font-size:30px; padding-top:100px; padding-bottom: 25px; padding-left: 30px;">Publishers</h1>
+    <button onclick="listView()">List</button>
+    <button onclick="gridView()">Grid</button>
 
-
-
-    <h1 style = "font-size:30px; padding-top:100px;">Board Game Publishers</h1>
-
-
-<div class="row">
-  <div class="col-sm-4">
-  	<div class="card h-100" style="width:100%">
-  	   <a href="/Mattel" >
-	  <img class="card-img-top" src={{url_for('static', filename='mattelImage.jpg')}} alt="mattellimage"  >
-	  </a>
-	    <div class="card-body">
-            <br>
-            <h5>Founded 1945</h5>
-        <h5>Genre They Specialize In:<a href="/WordGames">Word Games</a> </h5>
-        <h5>Latest Game: Lizard Kings</h5>
-        <h5>Recommended Game:<a href="/Scrabble">Scrabble</a> </h5>
-	  </div>
-	</div>
-  </div>
-
-  <div class="col-sm-4">
-  	<div class="card h-100" style="width:100%">
-    <a href="/RioGrandeGames" >
-    <img class="card-img-top" src={{url_for('static', filename='rio-grande-games-logo.png')}} alt="rio-grande-games-logo"  >
-      </a>
-	 <div class="card-body">
-          <br>
-        <h5>Founded 1996</h5>
-        <h5>Genre They Specialize In:<a href="/PartyGames">Party Games</a> </h5>
-        <h5>Latest Game: Dominion</h5>
-        <h5>Recommended Game:<a href="/Dominion">Dominion</a> </h5>
-	  </div>
-	</div>
-  </div>
-
-  <div class="col-sm-4">
-  	<div class="card h-100" style="width:100%">
-  		 <a href="/Hasbro" >
-    <img class="card-img-top" src={{url_for('static', filename='Hasbro.png')}} alt="Hasbro" >
-    </a>
-	  <div class="card-body">
-          <br>
-        <h5>Founded 1923</h5>
-        <h5>Genre They Specialize In:<a href="/DeckBuilders">DeckBuilder Games</a> </h5>
-        <h5>Latest Game: Canary</h5>
-        <h5>Recommended Game:<a href="/ApplestoApples">Apples to Apples</a> </h5>
-	  </div>
-	</div>
-  </div>
-</div>
-
-
+    <div class="row" style="width: 100%; justify-content: center">
+        {% for i in range (0,12) %}
+            <div class="column" style="width:25%; height: 25%; justify-content: center">
+                <form action='/publisher' method="POST">
+                    <button type= "submit" class="btn btn-link" name = "publishername" id="publishername" value='{{publishernames[i]}}'>{{publishernames[i]}}</button>
+                </form>
+                    <p>Categories: tobeadded</p>
+                </div>
+                {% if i>0 and ((i++1)%4==0) %}
+                    </div><div class="row">
+                {% endif %}
+                {% endfor %}
+        </div>
 {% endblock %}

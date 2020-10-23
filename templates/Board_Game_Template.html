@@ -1,37 +1,34 @@
-{% extends 'boardgames.html' %}
+{% extends 'base.html' %}
 
-{% block body %}
+{% block head %}
+    <title>Board Games</title>
+{% endblock %}
 
-<script>
-
-
-
-</script>
-
-<div class="container-fluid">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-4">
-        <img id="Image">
+{% block bodywithmargin %}
+    <h1 style = "font-size:30px; padding-top:100px; padding-bottom: 25px; padding-left: 30px;">Board Games</h1>
+    <div class="container-fluid">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4" style="width: 100%">
+                    <img src='{{ game['Image_URL'] }}' style="max-width: 100%; justify-content: center">
+          <br>
         <br>
-        <br>
-        <h5 id="Players">Players Placeholder</h5>
-        <h5 id="Playtime">Playtime Placeholder</h5>
-        <h5 id="Description">Year Published Placeholder</h5>
-        <h5 id="Publisher">Publisher Placeholder</h5>
-        <h5 id="Categories">Categories Placeholder</h5>
-        <h5 id="Year_Published">Year Published Placeholder</h5>
-        <h5 id="Min_Age">Min. Age Placeholder</h5>
-        <h5 id="Official_Website">Official Website Placeholder</h5>
+        <h5>Minimum Number of Players: {{ game['Min_Players'] }}</h5>
+        <h5>Minimum Playtime: {{ game['Min_Playtime'] }}</h5>
+        <h5>Year Published: {{ game['Year_Published'] }}</h5>
+        <form action="/publisher" method="POST">
+            <button type="submit" class="btn btn-link" name= "publishername" id="publishername" value='{{game['Publisher']}}'> <h5>Publisher: {{ game['Publisher'] }}</h5></button>
+        </form>
+        <h5>Genre: to be added</h5>
       </div>
-      <div class="col-sm-8">
-        <h2 id="Name">Name Placeholder</h2>
+      <div class="col-sm-8" style="justify-content: center">
+        <h2>{{ game['Name'] }}</h2>
         <hr>
         <h5>Description:</h5>
-        <p id="Description">The party game Apples to Apples consists of two decks of cards: Things and Descriptions. Each round, the active player draws a Description card (which features an adjective like "Hairy" or "Smarmy") from the deck, then the other players each secretly choose the Thing card in hand that best matches that description and plays it face-down on the table. The active player then reveals these cards and chooses the Thing card that, in his opinion, best matches the Description card, which he awards to whoever played that Thing card. This player becomes the new active player for the next round. Once a player has won a pre-determined number of Description cards, that player wins.</p>
+          <p>{{ game['Description'] }}</p>
       </div>
     </div>
   </div>
 </div>
-
 {% endblock %}
+
