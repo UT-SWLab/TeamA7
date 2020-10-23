@@ -32,12 +32,13 @@ def games():
 def genres():
         return render_template('Genres_List.html')
 
+
 @app.route('/boardgamepublishers', methods=['POST', 'GET'])
 def publishers():
         return render_template('Publishers_List.html')
 
 
-############ ROUTES TO PUBLISHERS ############
+############ ROUTES ############
 game_column = db["boardgamecollection"]
 
 
@@ -47,59 +48,26 @@ def boardgames(name):
         doc = game_column.find(query)
         publisher_link = doc["Publisher"]
         publisher_link.replace(" ", "")
-        publisher_link.replace(":", "")
+        publisher_link.replace(r'[^\w]', '')
         Image_URL = doc["Image_URL"]
         return render_template('boardgames.html', doc=doc, publisher_link=publisher_link, Image_URL=Image_URL)
 
 
-@app.route('/RioGrandeGames', methods=['POST', 'GET'])
-def RioGrandeGames():
-        return render_template('RioGrandeGames.html')
-
-@app.route('/Mattel', methods=['POST', 'GET'])
-def Mattel():
-        return render_template('Mattel.html')
-
-@app.route('/Hasbro', methods=['POST', 'GET'])
-def Hasbro():
-        return render_template('Hasbro.html')
+@app.route('/boardgamepublisher/<string:name>')
+def boardgamegenres(name):
+        query = {"Name": name}
+        doc = game_column.find(query)
+        Image_URL = doc["Image_URL"]
+        return render_template('boardgames.html', doc=doc, Image_URL=Image_URL)
 
 
-############ ROUTES TO GAMES ############
-
-@app.route('/ApplestoApples', methods=['POST', 'GET'])
-def ApplestoApples():
-        return render_template('Board_Game_Template.html')
-
-
-@app.route('/Dominion', methods=['POST', 'GET'])
-def Dominion():
-        return render_template('Dominion.html')
-
-@app.route('/Scrabble', methods=['POST', 'GET'])
-def Scrabble():
-        return render_template('Scrabble.html')
-
-
-############ ROUTES TO GENRES ############
 @app.route('/boardgamegenres/<string:name>')
-def genres(name):
+def boardgamepublishers(name):
+        query = {"Name": name}
+        doc = game_column.find(query)
 
-        return render_template('genres.html')
-
-
-@app.route('/DeckBuilders', methods=['POST', 'GET'])
-def DeckBuilders():
-        return render_template('DeckBuilders.html')
-
-
-@app.route('/PartyGames', methods=['POST', 'GET'])
-def PartyGames():
-        return render_template('PartyGames.html')
-
-@app.route('/WordGames', methods=['POST', 'GET'])
-def WordGames():
-        return render_template('WordGames.html')
+        Image_URL = doc["Image_URL"]
+        return render_template('boardgames.html', doc=doc, Image_URL=Image_URL)
 
 
 if __name__ == "__main__":
