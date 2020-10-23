@@ -33,7 +33,7 @@ def home():
 @app.route('/about')
 def about():
         return render_template('about.html')
-
+### LIST PAGES ###
 @app.route('/boardgames')
 def games():
         global boardgameobjects
@@ -50,8 +50,31 @@ def publishers():
     publishers = PublisherNames()
     return render_template('Publishers_List.html', publishernames=publishers, gameobjects=boardgameobjects)
 
+###### ROUTES (Grant I put them back here) #####
+game_column = db["boardgamecollection"]
+@app.route('/boardgames/<string:name>')
+def boardgames(name):
+        query = {"Name": name}
+        doc = game_column.find(query)
+        publisher_link = doc["Publisher"]
+        publisher_link.replace(" ", "")
+        publisher_link.replace(r'[^\w]', '')
+        Image_URL = doc["Image_URL"]
+        return render_template('boardgames.html', doc=doc, publisher_link=publisher_link, Image_URL=Image_URL)
+@app.route('/boardgamepublisher/<string:name>')
+def boardgamegenres(name):
+        query = {"Name": name}
+        doc = game_column.find(query)
+        Image_URL = doc["Image_URL"]
+        return render_template('boardgames.html', doc=doc, Image_URL=Image_URL)
+@app.route('/boardgamegenres/<string:name>')
+def boardgamepublishers(name):
+    query = {"Name": name}
+    doc = game_column.find(query)
+    Image_URL = doc["Image_URL"]
+    return render_template('boardgames.html', doc=doc, Image_URL=Image_URL)
 
-############ ROUTES TO PUBLISHERS ############
+############ ROUTE TO PUBLISHERS SB ############
 @app.route('/publisher', methods=['POST'])
 def PubRouting():
     publishername = request.form['publishername']
@@ -66,7 +89,7 @@ def PubRouting():
 def PubPage(publisherlink):
     return render_template("Publisher_Template.html", gamesforpub=pubpagerequest, publishername=pubnamerequest)
 
-############ ROUTES TO GAMES ############
+############ ROUTE TO GAMES SB ############
 @app.route('/game', methods=['POST'])
 def GameRouting():
     gamename = request.form['gamename']
@@ -81,7 +104,7 @@ def GamePage(gamelink):
     game = boardgameobjects.find({'Name': gamepagerequest}).next()
     return render_template("Board_Game_Template.html", game=game)
 
-############ ROUTES TO GENRES ############
+############ ROUTES TO GENRES SB ############
 
 @app.route('/DeckBuilders', methods=['POST', 'GET'])
 def DeckBuilders():
