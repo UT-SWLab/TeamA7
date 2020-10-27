@@ -10,16 +10,22 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-4" style="width: 100%">
-                    <img src='{{ game['Image_URL'] }}' style="max-width: 100%; justify-content: center">
+                    <img src='{{ game["Image_URL"] }}' style="max-width: 100%; justify-content: center">
           <br>
         <br>
         <h5>Minimum Number of Players: {{ game['Min_Players'] }}</h5>
         <h5>Minimum Playtime: {{ game['Min_Playtime'] }}</h5>
         <h5>Year Published: {{ game['Year_Published'] }}</h5>
         <form action="/publisher" method="POST">
-            <button type="submit" class="btn btn-link" name= "publishername" id="publishername" value='{{game['Publisher']}}'> <h5>Publisher: {{ game['Publisher'] }}</h5></button>
+            <button type="submit" class="btn btn-link" name= "publishername" id="publishername" value='{{game["Publisher"]}}'> <h5>Publisher: {{ game['Publisher'] }}</h5></button>
         </form>
-        <h5>Genre: to be added</h5>
+        <h5>Genre:
+            {% for g in {{ game["genre"] }} %}
+                <form action="/publisher" method="POST">
+                    <button type="submit" class="btn btn-link" name= "genre" id="genre" value=g> <h5>Genre: g</h5></button>
+                </form>
+            {% endfor %}
+        </h5>
       </div>
       <div class="col-sm-8" style="justify-content: center">
         <h2>{{ game['Name'] }}</h2>

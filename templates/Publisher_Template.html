@@ -16,7 +16,7 @@
                 {% set game = [] %}
         {% for game in gamesforpub %}
             <form action='/game' method="POST">
-                    <button type= "submit" name = "gamename" id="gamename" value='{{ game['Name'] }}'>{{ game['Name'] }}</button>
+                    <button type= "submit" name = "gamename" id="gamename" value='{{ game["Name"] }}'>{{ game['Name'] }}</button>
                 </form>
         {% endfor %}
       </div>

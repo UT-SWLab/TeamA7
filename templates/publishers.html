@@ -11,19 +11,19 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-4">
-        {% block image%}{% endblock %}
+        <img src='doc["Image_URL"]' width="100%" class="rounded">
         <br>
         <br>
-        <h5>Founded {% block foundingyear %}{% endblock %}</h5>
-        <h5>Genre They Specialize In: {% block genre%}{% endblock %}</h5>
-        <h5>Latest Game: {% block latestgame%}{% endblock %}</h5>
-        <h5>Recommended Game: {% block gamelist%}{% endblock %}</h5>
+        <h5>Founded {{ doc[] }}</h5>
+        <h5>Genre They Specialize In: {{ doc[] }}</h5>
+        <h5>Latest Game: {{ doc[] }}</h5>
+        <h5>Recommended Game: {{ doc[] }}</h5>
       </div>
       <div class="col-sm-8">
-        <h2>{% block name%}{% endblock %}</h2>
+        <h2>{{ doc["Name"] }}}</h2>
         <hr>
         <h5>Description:</h5>
-          <p>{% block description %}{% endblock %}</p>
+          <p>{{ doc[] }}</p>
       </div>
     </div>
   </div>

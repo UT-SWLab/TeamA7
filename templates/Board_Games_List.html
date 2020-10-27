@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block head %} 
+{% block head %}
     <title>Board Games List</title>
     <script>
         var elements = document.getElementsByClassName("column");
@@ -57,17 +57,19 @@
             {% set g = gameobjects.next() %}
             <div class="column" style="width:25%; height: 100%; justify-content: center;padding: 0% 1%">
                 <form action= '/game' method="POST">
-                    <button type= "submit" class="btn btn-link" name ="gamename" id="gamename" value= '{{g['Name']}}' >{{g['Name']}}</button>
+                    <button type= "submit" class="btn btn-link" name ="gamename" id="gamename" value= '{{g["Name"]}}' >{{g['Name']}}</button>
                 </form>
-                <img style="max-width: 100%; height: auto; max-height: 50%;" src='{{g['Image_URL']}}' alt='{{g['Name']}}'>
+                <img style="max-width: 100%; height: auto; max-height: 50%;" src='{{g["Image_URL"]}}' alt='{{g["Name"]}}'>
                 <form action="/publisher" method="POST">
-                    <button type="submit" class="btn btn-link" name= "publishername" id="publishername" value='{{ g['Publisher'] }}'>Publisher: {{ g['Publisher'] }}</button>
+                    <button type="submit" class="btn btn-link" name= "publishername" id="publishername" value='{{ g["Publisher"] }}'>Publisher: {{ g['Publisher'] }}</button>
                 </form>
-                    <p>Categories: tobeadded</p>
+                <form action="/genre" method="POST">
+                    <h6>Genre:{% for genre in g["genres"] %}<button type="submit" class="btn btn-link" name= "genrename" id="genrename" value='{{ genre }}'> {{ genre }}</button>{% endfor %}</h6>
+                </form>
                 </div>
                 {% if i>0 and ((i++1)%4==0) %}
                     </div><div class="row">
                 {% endif %}
-                {% endfor %}
+        {% endfor %}
         </div>
 {% endblock %}
