@@ -64,7 +64,7 @@
                     <button type="submit" class="btn btn-link" name= "publishername" id="publishername" value='{{ g["Publisher"] }}'>Publisher: {{ g['Publisher'] }}</button>
                 </form>
                 <form action="/genre" method="POST">
-                    <h6>Genre:{% for genre in g["genres"] %}<button type="submit" class="btn btn-link" name= "genrename" id="genrename" value='{{ genre }}'> {{ genre }}</button>{% endfor %}</h6>
+                    <h6>Genres:{% for genre in g["genres"] %}<button type="submit" class="btn btn-link" name= "genrename" id="genrename" value='{{ genre }}'> {{ genre }}</button>{% endfor %}</h6>
                 </form>
                 </div>
                 {% if i>0 and ((i++1)%4==0) %}
