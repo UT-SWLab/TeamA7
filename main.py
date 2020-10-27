@@ -37,14 +37,15 @@ def home():
 @app.route('/about')
 def about():
         return render_template('about.html')
+
 ### LIST PAGES ###
 
 
-@app.route('/boardgames')
-def games():
+@app.route('/boardgames/<int:page>')
+def games(page):
         global boardgameobjects
         gameobjects = boardgameobjects.find()
-        return render_template('Board_Games_List.html', gameobjects=gameobjects)
+        return render_template('Board_Games_List.html', gameobjects=gameobjects, page=page,)
 
 
 @app.route('/boardgamegenres', methods=['POST', 'GET'])
@@ -58,8 +59,66 @@ def publishers():
     publishers = PublisherNames()
     return render_template('Publishers_List.html', publishernames=publishers, gameobjects=boardgameobjects)
 
-###### ROUTES (Grant I put them back here) #####
+############ ROUTE TO PUBLISHERS SB ############
+
+
+@app.route('/genre', methods=['POST'])
+def genre_routing():
+    genre_name = request.form['genrename']
+    global genre_name_request
+    genre_name_request = genre_name
+    genre_link = GameLinkify(genre_name)
+    global genre_page_request
+    genre_page_request = boardgameobjects.find({'genres': genre_name})
+    return redirect(url_for('.genre_page', genre_link=genre_link))
+
+
+@app.route('/genre/<genre_link>', methods=['POST', 'GET'])
+def genre_page(genre_link):
+    return render_template("Genre_Template.html", genre_games=genre_page_request)
+
+
+@app.route('/publisher', methods=['POST'])
+def PubRouting():
+    publishername = request.form['publishername']
+    global pubnamerequest
+    pubnamerequest = publishername
+    publisherlink = GameLinkify(publishername)
+    global pubpagerequest
+    pubpagerequest = boardgameobjects.find({'Publisher': publishername})
+    return redirect(url_for('.PubPage', publisherlink=publisherlink))
+
+
+@app.route('/publisher/<publisherlink>', methods=['POST', 'GET'])
+def PubPage(publisherlink):
+    return render_template("Publisher_Template.html", gamesforpub=pubpagerequest, publishername=pubnamerequest)
+
+############ ROUTE TO GAMES SB ############
+
+
+@app.route('/game', methods=['POST'])
+def GameRouting():
+    gamename = request.form['gamename']
+    gamelink = GameLinkify(gamename)
+    global gamepagerequest
+    gamepagerequest = gamename
+    return redirect(url_for('.GamePage', gamelink=gamelink))
+
+
+@app.route('/<gamelink>')
+def GamePage(gamelink):
+    global gamepagerequest
+    game = boardgameobjects.find({'Name': gamepagerequest}).next()
+    return render_template("Board_Game_Template.html", game=game)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+
 game_column = db["boardgamecollection"]
+
+
 @app.route('/boardgames/<string:name>')
 def boardgames(name):
         query = {"Name": name}
@@ -85,57 +144,3 @@ def boardgamepublishers(name):
     doc = game_column.find(query)
     Image_URL = doc["Image_URL"]
     return render_template('boardgames.html', doc=doc, Image_URL=Image_URL)
-
-############ ROUTE TO PUBLISHERS SB ############
-
-
-@app.route('/genre', methods=['POST'])
-def genre_routing():
-    genre_name = request.form['genrename']
-    global genre_name_request
-    genre_name_request = genre_name
-    genre_link = GameLinkify(genre_name)
-    global genre_page_request
-    genre_page_request = boardgameobjects.find({'genre': genre_name})
-    return redirect(url_for('.genre_page', genre_link=genre_link))
-
-
-@app.route('/genre/<genre_link>', methods=['POST', 'GET'])
-def genre_page(genre_link):
-    return render_template("Genre_Template.html")
-
-
-@app.route('/publisher', methods=['POST'])
-def PubRouting():
-    publishername = request.form['publishername']
-    global pubnamerequest
-    pubnamerequest = publishername
-    publisherlink = GameLinkify(publishername)
-    global pubpagerequest
-    pubpagerequest = boardgameobjects.find({'Publisher': publishername})
-    return redirect(url_for('.PubPage', publisherlink=publisherlink))
-
-
-@app.route('/publisher/<publisherlink>', methods=['POST', 'GET'])
-def PubPage(publisherlink):
-    return render_template("Publisher_Template.html", gamesforpub=pubpagerequest, publishername=pubnamerequest)
-
-############ ROUTE TO GAMES SB ############
-@app.route('/game', methods=['POST'])
-def GameRouting():
-    gamename = request.form['gamename']
-    gamelink = GameLinkify(gamename)
-    global gamepagerequest
-    gamepagerequest = gamename
-    return redirect(url_for('.GamePage', gamelink=gamelink))
-
-@app.route('/<gamelink>')
-def GamePage(gamelink):
-    global gamepagerequest
-    game = boardgameobjects.find({'Name': gamepagerequest}).next()
-    return render_template("Board_Game_Template.html", game=game)
-
-
-
-if __name__ == "__main__":
-    app.run(debug=True)

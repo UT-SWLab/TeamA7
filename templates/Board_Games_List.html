@@ -21,6 +21,12 @@
             return linkstring
 
         }
+        function pageFirst(p){
+            return (p-1)*12
+        }
+        function pageLast(p){
+            return ((p-1)*12)+12
+        }
     </script>
     <style>
         gamename,publishername{
@@ -53,8 +59,8 @@
     <button onclick="listView()">List</button>
     <button onclick="gridView()">Grid</button>
     <div class="row">
-        {% for i in range (0,12) %}
-            {% set g = gameobjects.next() %}
+        {% for i in range((page-1)*12, ((page-1)*12)+12) %}
+            {% set g = gameobjects[i] %}
             <div class="column" style="width:25%; height: 100%; justify-content: center;padding: 0% 1%">
                 <form action= '/game' method="POST">
                     <button type= "submit" class="btn btn-link" name ="gamename" id="gamename" value= '{{g["Name"]}}' >{{g['Name']}}</button>
@@ -72,4 +78,17 @@
                 {% endif %}
         {% endfor %}
         </div>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+      {% if page != 1 %}
+    <li class="page-item"><a class="page-link" href="{{ page-1 }}">Previous</a></li>
+      {% endif %}
+    <li class="page-item"><a class="page-link" href="1">1</a></li>
+    <li class="page-item"><a class="page-link" href="2">2</a></li>
+    <li class="page-item"><a class="page-link" href="3">3</a></li>
+      {% if page != 12 %}
+    <li class="page-item"><a class="page-link" href="{{ page+1 }}">Next</a></li>
+      {% endif %}
+  </ul>
+</nav>
 {% endblock %}
