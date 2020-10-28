@@ -76,7 +76,7 @@ def publishers(page):
     publishergame = publishersTupple[1]
     publishyear = publishersTupple[2]
     gameobjects = boardgameobjects.find()
-    return render_template('Publishers_List.html',  publishernames=publishers, gameobjects=gameobjects, publishergame=publishergame, publishyear=publishyear,)
+    return render_template('Publishers_List.html',  publishernames=publishers, gameobjects=gameobjects, publishergame=publishergame, publishyear=publishyear, page=page)
 
 ############ ROUTE TO PUBLISHERS SB ############
 
@@ -113,7 +113,8 @@ def PubRouting():
 @app.route('/publisher/<publisherlink>', methods=['POST', 'GET'])
 def PubPage(publisherlink):
     global pubnamerequest
-    publisherDict = publish_objects.find({'Publisher' : pubnamerequest}).next() #Gets Description.
+    pubnamerequest = publisherlink
+    publisherDict = publish_objects.find({'Publisher': pubnamerequest}).next() #Gets Description.
     publishersTupple = PublisherNames()
     publishers = publishersTupple[0]
     publishergame = publishersTupple[1]
