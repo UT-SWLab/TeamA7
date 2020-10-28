@@ -89,14 +89,15 @@ def genre_routing():
     global genre_name_request
     genre_name_request = genre_name
     genre_link = GameLinkify(genre_name)
-    global genre_page_request
-    genre_page_request = boardgameobjects.find({'genres': genre_name})
     return redirect(url_for('.genre_page', genre_link=genre_link))
 
 
 @app.route('/genre/<genre_link>', methods=['POST', 'GET'])
 def genre_page(genre_link):
-    return render_template("Genre_Template.html", genre_games=genre_page_request, genre_name=genre_name_request)
+    global genre_name_request
+    global genre_objects
+    genre = genre_objects.find({'Name': genre_name_request}).next()
+    return render_template("Genre_Template.html", genre=genre)
 
 
 @app.route('/publisher', methods=['POST'])
