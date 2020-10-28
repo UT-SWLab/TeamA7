@@ -55,28 +55,20 @@
 <h5></h5>
 <nav aria-label="Page nav">
   <ul class="pagination">
-      {% if page == 1 %} <!-- DUMB HARD CODING AH -->
-    <li class="page-item"><a class="page-link" href="1">1</a></li>
-    <li class="page-item"><a class="page-link" href="2">2</a></li>
-    <li class="page-item"><a class="page-link" href="3">3</a></li>
-    <li class="page-item"><a class="page-link" href="{{ page+1 }}">Next</a></li>
-      {% elif page == 7 %}
+      {% if page != 1 %}
     <li class="page-item"><a class="page-link" href="{{ page-1 }}">Previous</a></li>
-    <li class="page-item"><a class="page-link" href="5">5</a></li>
-    <li class="page-item"><a class="page-link" href="6">6</a></li>
-    <li class="page-item"><a class="page-link" href="7">7</a></li>
-      {% else %}
-    <li class="page-item"><a class="page-link" href="{{ page-1 }}">Previous</a></li>
-    <li class="page-item"><a class="page-link" href="{{ page-1 }}">{{ page-1 }}</a></li>
-    <li class="page-item"><a class="page-link" href="{{ page }}">{{ page }}</a></li>
-    <li class="page-item"><a class="page-link" href="{{ page+1 }}">{{ page+1 }}</a></li>
+      {% endif %}
+      {% for i in range(1, 7) %}
+         <li class="page-item"><a class="page-link" href="{{ i }}">{{ i }}</a></li>
+      {% endfor %}
+      {% if page != 6 %}
     <li class="page-item"><a class="page-link" href="{{ page+1 }}">Next</a></li>
       {% endif %}
   </ul>
 </nav>
     <div class="row">
         {% for i in range((page-1)*12, ((page-1)*12)+12) %}
-            {% if i < 74 %} <!-- DUMB HARD CODING AH -->
+            {% if i < 72 %} <!-- DUMB HARD CODING AH -->
             {% set g = genres[i] %}
             <div class="column" style="width:25%; height: 100%; justify-content: center;padding: 0% 1%">
                 <form action= '/genre' method="POST">
@@ -86,9 +78,9 @@
 <!--                <form action="/publisher" method="POST">-->
 <!--                    <button type="submit" class="btn btn-link" name= "publishername" id="publishername" value='{{ g["Publisher"] }}'>Publisher: {{ g['Publisher'] }}</button>-->
 <!--                </form>-->
-<!--                <form action="/genre" method="POST">-->
-<!--                    <h6>Genres:{% for game in g["Games"] %}<button type="submit" class="btn btn-link" name= "gamename" id="gamename" value='{{ game }}'> {{ game }}</button>{% endfor %}</h6>-->
-<!--                </form>-->
+                <form action="/game" method="POST">
+                    <h6>Games:{% for game in g["Games"] %}<button type="submit" class="btn btn-link" name= "gamename" id="gamename" value='{{ game["Name"] }}'> {{ game["Name"] }}</button>{% endfor %}</h6>
+                </form>
             </div>
                 {% if i>0 and ((i++1)%4==0) %}
                     </div><div class="row">
