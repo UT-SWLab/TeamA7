@@ -44,7 +44,10 @@ def PublisherNames():
 
 @app.route('/')
 def home():
-        return render_template('home.html')
+        games = boardgameobjects.find().limit(3)
+        genres = genre_objects.find().limit(3)
+        publishers = publish_objects.find().limit(3)
+        return render_template('home.html', games=games, genres=genres, publishers=publishers)
 
 
 @app.route('/about')
@@ -106,14 +109,12 @@ def PubRouting():
     publisherlink = GameLinkify(publishername)
     global pubpagerequest
     pubpagerequest = publish_objects.find({'Publisher': publishername})
-
     return redirect(url_for('.PubPage', publisherlink=publisherlink))
 
 
 @app.route('/publisher/<publisherlink>', methods=['POST', 'GET'])
 def PubPage(publisherlink):
     global pubnamerequest
-    pubnamerequest = publisherlink
     publisherDict = publish_objects.find({'Publisher': pubnamerequest}).next() #Gets Description.
     publishersTupple = PublisherNames()
     publishers = publishersTupple[0]

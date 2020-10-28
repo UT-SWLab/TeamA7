@@ -41,13 +41,13 @@
             </ul>
             <div class="carousel-inner" style="max-height:100%">
                 <div class="carousel-item active">
-                    <a href= "/ApplestoApples"><img class="img-fluid" src={{url_for('static', filename='Apples to Apples.png')}} alt="ApplestoApples" style="width:100%"></a>
+                    <form action="/game" method="POST"><button type = "submit" name = "gamename" value="{{ games[0]["Name"]}}"><img class="img-fluid" src={{games[0]["Image_URL"]}} alt="{{games[0]["Name"]}}" style="width:100%"></button></form>
                 </div>
                 <div class="carousel-item">
-                    <a href="/Dominion"><img class="img-fluid" src={{url_for('static', filename='Dominion.png')}} alt="Dominion" style="width:100%"> </a>
+                    <form action="/game" method="POST"><button type = "submit" name = "gamename" value="{{ games[1]["Name"]}}"><img class="img-fluid" src={{games[1]["Image_URL"]}} alt="{{games[1]["Name"]}}" style="width:100%"></button></form>
                 </div>
                 <div class="carousel-item">
-                    <a href="/Scrabble"><img class="img-fluid" src={{url_for('static', filename='Scrabble.png')}} alt="Scrabble" style="width:100%"></a>
+                    <form action="/game" method="POST"><button type = "submit" name = "gamename" value="{{ games[2]["Name"]}}"><img class="img-fluid" src={{games[2]["Image_URL"]}} alt="{{games[2]["Name"]}}" style="width:100%"></button></form>
                 </div>
             </div>
             <a class="carousel-control-prev" href="#gams" data-slide="prev" style="background-color:black"><span class="carousel-control-prev-icon"></span></a>
