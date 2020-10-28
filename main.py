@@ -96,7 +96,7 @@ def genre_routing():
 
 @app.route('/genre/<genre_link>', methods=['POST', 'GET'])
 def genre_page(genre_link):
-    return render_template("Genre_Template.html", genre_games=genre_page_request)
+    return render_template("Genre_Template.html", genre_games=genre_page_request, genre_name=genre_name_request)
 
 
 @app.route('/publisher', methods=['POST'])
