@@ -70,15 +70,15 @@ def genres(page):
         return render_template('Genres_List.html', genres=genre_obj, page=page)
 
 
-@app.route('/boardgamepublishers', methods=['POST', 'GET'])
-def publishers():
+@app.route('/boardgamepublishers/<int:page>', methods=['POST', 'GET'])
+def publishers(page):
     global boardgameobjects
     publishersTupple = PublisherNames()
     publishers = publishersTupple[0]
     publishergame = publishersTupple[1]
     publishyear = publishersTupple[2]
     gameobjects = boardgameobjects.find()
-    return render_template('Publishers_List.html',  publishernames=publishers, gameobjects=gameobjects, publishergame=publishergame, publishyear=publishyear,)
+    return render_template('Publishers_List.html',  publishernames=publishers, gameobjects=gameobjects, publishergame=publishergame, publishyear=publishyear, page=page)
 
 ############ ROUTE TO PUBLISHERS SB ############
 
