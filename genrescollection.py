@@ -19,11 +19,11 @@ for game in boardgamecollection.find():
 		if genrecollection.find_one(query) != None:
 			genretoupdate = genrecollection.find_one(query)
 			print(genretoupdate["Name"])
-			genrecollection.update_one({'Name': genre}, { "$push" : {"Games": game["Name"]}})
+			genrecollection.update_one({'Name': genre}, { "$push" : {"Games": game}})
 		else:
 			newgenre = {
 				"Name": genre,
-				"Games": [game["Name"]]
+				"Games": [game]
 			}
 			genrecollection.insert_one(newgenre)
 
