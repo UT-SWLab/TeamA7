@@ -64,14 +64,14 @@
                 <li data-target="#gens" data-slide-to="2"></li>
             </ul>
             <div class="carousel-inner" style="max-height:100%">
-                <div class="carousel-item active">
-                    <a href= "/PartyGames"><img class="img-fluid" src="https://funattic.com/app/uploads/2018/09/Best-Party-Board-Games-feat-img.jpg" style="width:100%"></a>
+                 <div class="carousel-item active">
+                    <form action="/genre" method="POST"><button type = "submit" name = "genrename" value="{{ genres[0]["Name"]}}"><img class="img-fluid" src={{genres[0]["Image_URL"]}} alt="{{genres[0]["Name"]}}" style="width:100%"></button></form>
                 </div>
                 <div class="carousel-item">
-                    <a href="/DeckBuilders"><img class="img-fluid" src="https://lethweb.files.wordpress.com/2017/07/46144-deck1.jpg?w=863" style="width:100%"> </a>
+                    <form action="/genre" method="POST"><button type = "submit" name = "genrename" value="{{ genres[1]["Name"]}}"><img class="img-fluid" src={{genres[1]["Image_URL"]}} alt="{{genres[1]["Name"]}}" style="width:100%"></button></form>
                 </div>
                 <div class="carousel-item">
-                    <a href="/WordGames"><img class="img-fluid" src="https://amp.thenational.ae/image/policy:1.993885:1584454976/ac16-MAR-board-game-scrabble.jpg?f=16x9&w=1200&$p$f$w=00082c2" style="width:100%"></a>
+                    <form action="/genre" method="POST"><button type = "submit" name = "genrename" value="{{ genres[2]["Name"]}}"><img class="img-fluid" src={{genres[2]["Image_URL"]}} alt="{{genres[2]["Name"]}}" style="width:100%"></button></form>
                 </div>
             </div>
             <a class="carousel-control-prev" href="#gens" data-slide="prev" style="background-color:black"><span class="carousel-control-prev-icon"></span></a>
