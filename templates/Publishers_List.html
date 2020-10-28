@@ -47,13 +47,26 @@
 
        <img style="max-width: 100%; height: auto; max-height: 50%;" src='{{g["Image_URL"]}}' alt='{{g["Name"]}}'>
 
-        <p>Categories: tobeadded</p>
-         <form action='/publisher' method="POST">
-                    <button type= "submit" class="btn btn-link" name = "publishergame" id="publishergame" value='{{publishergame[i]}}'>{{publishergame[i]}}</button>
+
+         <form>
+           <h6> Top Game Publish Date: {{publishyear[i]}} </h6>
          </form>
 
+
+            <form action= '/game' method="POST">
+                <h6>Top Rated Game: <button type= "submit" class="btn btn-link" name ="gamename" id="gamename" value= '{{g["Name"]}}' >{{g['Name']}}</button></h6>
+                </form>
+<!--
+         <form action= '/game' method="POST">
+                    <button type= "submit" class="btn btn-link" name ="gamename" id="gamename" value= '{{g["Name"]}}' >{{g['Name']}}</button>
+         </form>
+
+            <form action='/game' method="POST">
+             <h6>Top Rated Game:<button type= "submit" class="btn btn-link" name = "publishergame" id="publishergame" value='{{publishergame[i]}}'>{{publishergame[i]}}</button> </h6>
+         </form>
+-->
           <form action="/genre" method="POST">
-                    <h6>Genres:{% for genre in g["genres"] %}<button type="submit" class="btn btn-link" name= "genrename" id="genrename" value='{{ genre }}'> {{ genre }}</button>{% endfor %}</h6>
+                    <h6>Genre They Specialize In:<button type="submit" class="btn btn-link" name= "genrename" id="genrename" value='{{ g["genres"][0] }}'> {{ g["genres"][0] }}</button></h6>
           </form>
                 </div>
                 {% if i>0 and ((i++1)%4==0) %}

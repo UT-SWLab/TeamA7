@@ -25,13 +25,17 @@ def PublisherNames():
     bgc = boardgameobjects.find()
     publishernames = []
     publishernameGame = []
+    publishYear = []
     for game in bgc:
-        if game['Publisher'] not in publishernames and game['Publisher'] != 'None':
+        if game['Publisher'] not in publishernames:
+            if game['Publisher'] == 'None':
+                game['Publisher'] = "unaffiliated"
             publishernames.append(game['Publisher'])
             publishernameGame.append(game['Name'])
+            publishYear.append(game['Year_Published'])
     print (publishernames) #Debuggin
     print (publishernameGame)
-    return publishernames, publishernameGame
+    return publishernames, publishernameGame , publishYear
 
 
 
@@ -69,8 +73,9 @@ def publishers():
     publishersTupple = PublisherNames()
     publishers = publishersTupple[0]
     publishergame = publishersTupple[1]
+    publishyear = publishersTupple[2]
     gameobjects = boardgameobjects.find()
-    return render_template('Publishers_List.html',  publishernames=publishers, gameobjects=gameobjects, publishergame=publishergame)
+    return render_template('Publishers_List.html',  publishernames=publishers, gameobjects=gameobjects, publishergame=publishergame, publishyear=publishyear,)
 
 ############ ROUTE TO PUBLISHERS SB ############
 
