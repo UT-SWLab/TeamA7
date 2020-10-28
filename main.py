@@ -10,6 +10,7 @@ client = MongoClient("mongodb+srv://teama7:ee461lteama7@mongodbcluster.bs58o.gcp
 db = client["BGDB"]
 connect('BGDB', host='localhost', port=27017)
 boardgameobjects = client["BGDB"].boardgamecollection
+genre_objects = client["BGDB"].genrecollection
 gamepagerequest = ''
 pubnamerequest = ''
 genre_name_request = ''
@@ -48,9 +49,11 @@ def games(page):
         return render_template('Board_Games_List.html', gameobjects=gameobjects, page=page,)
 
 
-@app.route('/boardgamegenres', methods=['POST', 'GET'])
-def genres():
-        return render_template('Genres_Template.html')
+@app.route('/boardgamegenres/<int:page>')
+def genres(page):
+        global genre_objects
+        genre_obj = genre_objects.find()
+        return render_template('Genres_List.html', genres=genre_obj, page=page)
 
 
 @app.route('/boardgamepublishers', methods=['POST', 'GET'])
@@ -105,7 +108,7 @@ def GameRouting():
     return redirect(url_for('.GamePage', gamelink=gamelink))
 
 
-@app.route('/<gamelink>')
+@app.route('/game/<gamelink>')
 def GamePage(gamelink):
     global gamepagerequest
     game = boardgameobjects.find({'Name': gamepagerequest}).next()
@@ -116,31 +119,31 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 
-game_column = db["boardgamecollection"]
-
-
-@app.route('/boardgames/<string:name>')
-def boardgames(name):
-        query = {"Name": name}
-        doc = game_column.find(query)
-        publisher_link = doc["Publisher"]
-        publisher_link.replace(" ", "")
-        publisher_link.replace(r'[^\w]', '')
-        Image_URL = doc["Image_URL"]
-        return render_template('boardgames.html', doc=doc, publisher_link=publisher_link, Image_URL=Image_URL)
-
-
-@app.route('/boardgamepublisher/<string:name>')
-def boardgamegenres(name):
-        query = {"Name": name}
-        doc = game_column.find(query)
-        Image_URL = doc["Image_URL"]
-        return render_template('boardgames.html', doc=doc, Image_URL=Image_URL)
-
-
-@app.route('/boardgamegenres/<string:name>')
-def boardgamepublishers(name):
-    query = {"Name": name}
-    doc = game_column.find(query)
-    Image_URL = doc["Image_URL"]
-    return render_template('boardgames.html', doc=doc, Image_URL=Image_URL)
+# game_column = db["boardgamecollection"]
+#
+#
+# @app.route('/boardgames/<string:name>')
+# def boardgames(name):
+#         query = {"Name": name}
+#         doc = game_column.find(query)
+#         publisher_link = doc["Publisher"]
+#         publisher_link.replace(" ", "")
+#         publisher_link.replace(r'[^\w]', '')
+#         Image_URL = doc["Image_URL"]
+#         return render_template('boardgames.html', doc=doc, publisher_link=publisher_link, Image_URL=Image_URL)
+#
+#
+# @app.route('/boardgamepublisher/<string:name>')
+# def boardgamegenres(name):
+#         query = {"Name": name}
+#         doc = game_column.find(query)
+#         Image_URL = doc["Image_URL"]
+#         return render_template('boardgames.html', doc=doc, Image_URL=Image_URL)
+#
+#
+# @app.route('/boardgamegenres/<string:name>')
+# def boardgamepublishers(name):
+#     query = {"Name": name}
+#     doc = game_column.find(query)
+#     Image_URL = doc["Image_URL"]
+#     return render_template('boardgames.html', doc=doc, Image_URL=Image_URL)
