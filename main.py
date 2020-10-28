@@ -21,12 +21,22 @@ def GameLinkify(name):
     linkname = linkformat.sub('', name)
     return linkname
 def PublisherNames():
+    #Function now returns tupple of list to so game and publisher are tied for publisher page elements.
     bgc = boardgameobjects.find()
     publishernames = []
+    publishernameGame = []
     for game in bgc:
-        if game['Publisher'] not in publishernames:
+        if game['Publisher'] not in publishernames and game['Publisher'] != 'None':
             publishernames.append(game['Publisher'])
-    return(publishernames)
+            publishernameGame.append(game['Name'])
+    print (publishernames) #Debuggin
+    print (publishernameGame)
+    return publishernames, publishernameGame
+
+
+
+
+
 
 
 @app.route('/')
@@ -56,8 +66,11 @@ def genres():
 @app.route('/boardgamepublishers', methods=['POST', 'GET'])
 def publishers():
     global boardgameobjects
-    publishers = PublisherNames()
-    return render_template('Publishers_List.html', publishernames=publishers, gameobjects=boardgameobjects)
+    publishersTupple = PublisherNames()
+    publishers = publishersTupple[0]
+    publishergame = publishersTupple[1]
+    gameobjects = boardgameobjects.find()
+    return render_template('Publishers_List.html',  publishernames=publishers, gameobjects=gameobjects, publishergame=publishergame)
 
 ############ ROUTE TO PUBLISHERS SB ############
 
