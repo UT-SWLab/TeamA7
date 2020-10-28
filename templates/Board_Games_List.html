@@ -45,6 +45,14 @@
             text-align: left;
             text-anchor: start;
         }
+        #genrename{
+            color: black;
+            font-size: smaller;
+            font-family: Cambria;
+            text-align: left;
+            text-anchor: start;
+        }
+
 
     </style>
 {% endblock %}
@@ -79,7 +87,15 @@
                     <button type="submit" class="btn btn-link" name= "publishername" id="publishername" value='{{ g["Publisher"] }}'>Publisher: {{ g['Publisher'] }}</button>
                 </form>
                 <form action="/genre" method="POST">
-                    <h6>Genres:{% for genre in g["genres"] %}<button type="submit" class="btn btn-link" name= "genrename" id="genrename" value='{{ genre }}'> {{ genre }}</button>{% endfor %}</h6>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="game_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Genres
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            {% for genre in g["genres"] %}<button type="submit" class="btn btn-link" name= "genrename" id="genrename" value='{{ genre }}'> {{ genre }}</button>{% endfor %}
+                        </div>
+                    </div>
+                    <h6></h6>
                 </form>
                 </div>
                 {% if i>0 and ((i++1)%4==0) %}

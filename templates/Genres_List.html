@@ -82,18 +82,33 @@
                     <button type= "submit" class="btn btn-link" name ="genrename" id="genrename" value= '{{g["Name"]}}' >{{g['Name']}}</button>
                 </form>
                 <img style="max-width: 100%; height: auto; max-height: 50%;" src='{{g["Image_URL"]}}' alt='{{g["Name"]}}'>
+                <h6></h6>
                 <form action="/publisher" method="POST">
-                    <h6>Publishers:{% for publisher in g["Publishers"] %}
-                        {% if (g["Publishers"]) | length == 1 and publisher == None %}
-                         None
-                        {% elif publisher != None %}
-                        <button type="submit" class="btn btn-link" name="publishername" id="publishername" value='{{ publisher }}'> {{ publisher }}</button>
-                        {% endif %}
-                        {% endfor %}
-                    </h6>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="publisher_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Publishers
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            {% for publisher in g["Publishers"] %}
+                            {% if (g["Publishers"]) | length == 1 and publisher == None %}
+                            None
+                            {% elif publisher != None %}
+                            <button type="submit" class="btn btn-link" name="publishername" id="publishername" value='{{ publisher }}'> {{ publisher }}</button>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
                 </form>
+                <h6></h6>
                 <form action="/game" method="POST">
-                    <h6>Games:{% for game in g["Games"] %}<button type="submit" class="btn btn-link" name= "gamename" id="gamename" value='{{ game["Name"] }}'> {{ game["Name"] }}</button>{% endfor %}</h6>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="game_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Games
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            {% for game in g["Games"] %}<button type="submit" class="btn btn-link" name= "gamename" id="gamename" value='{{ game["Name"] }}'> {{ game["Name"] }}</button>{% endfor %}
+                        </div>
+                    </div>
                 </form>
             </div>
                 {% if i>0 and ((i++1)%4==0) %}
