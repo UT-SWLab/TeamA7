@@ -30,7 +30,7 @@
         .row{
             width: 100%; justify-content: center; padding: 5% 5%; max-height: 50%;
         }
-        #gamename{
+        #genrename{
             justify-content: center;
             color: black;
             font-size: larger;
@@ -39,6 +39,13 @@
             text-anchor: middle;
         }
         #publishername{
+            color: black;
+            font-size: smaller;
+            font-family: Cambria;
+            text-align: left;
+            text-anchor: start;
+        }
+        #gamename{
             color: black;
             font-size: smaller;
             font-family: Cambria;
@@ -75,9 +82,16 @@
                     <button type= "submit" class="btn btn-link" name ="genrename" id="genrename" value= '{{g["Name"]}}' >{{g['Name']}}</button>
                 </form>
                 <img style="max-width: 100%; height: auto; max-height: 50%;" src='{{g["Image_URL"]}}' alt='{{g["Name"]}}'>
-<!--                <form action="/publisher" method="POST">-->
-<!--                    <button type="submit" class="btn btn-link" name= "publishername" id="publishername" value='{{ g["Publisher"] }}'>Publisher: {{ g['Publisher'] }}</button>-->
-<!--                </form>-->
+                <form action="/publisher" method="POST">
+                    <h6>Publishers:{% for publisher in g["Publishers"] %}
+                        {% if (g["Publishers"]) | length == 1 and publisher == None %}
+                         None
+                        {% elif publisher != None %}
+                        <button type="submit" class="btn btn-link" name="publishername" id="publishername" value='{{ publisher }}'> {{ publisher }}</button>
+                        {% endif %}
+                        {% endfor %}
+                    </h6>
+                </form>
                 <form action="/game" method="POST">
                     <h6>Games:{% for game in g["Games"] %}<button type="submit" class="btn btn-link" name= "gamename" id="gamename" value='{{ game["Name"] }}'> {{ game["Name"] }}</button>{% endfor %}</h6>
                 </form>

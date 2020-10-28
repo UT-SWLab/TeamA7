@@ -36,7 +36,7 @@ def PublisherNames():
             publishYear.append(game['Year_Published'])
     print (publishernames) #Debuggin
     print (publishernameGame)
-    return publishernames, publishernameGame , publishYear
+    return publishernames, publishernameGame, publishYear
 
 
 
