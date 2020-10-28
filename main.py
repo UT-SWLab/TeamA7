@@ -103,24 +103,24 @@ def genre_page(genre_link):
 
 @app.route('/publisher', methods=['POST'])
 def PubRouting():
-    publishername = request.form['publishername']
+    publisher_name = request.form['publishername']
     global pubnamerequest
-    pubnamerequest = publishername
-    publisherlink = GameLinkify(publishername)
+    pubnamerequest = publisher_name
+    publisherlink = GameLinkify(publisher_name)
     global pubpagerequest
-    pubpagerequest = publish_objects.find({'Publisher': publishername})
     return redirect(url_for('.PubPage', publisherlink=publisherlink))
 
 
 @app.route('/publisher/<publisherlink>', methods=['POST', 'GET'])
 def PubPage(publisherlink):
     global pubnamerequest
+    publisher = publish_objects.find({'Publisher': pubnamerequest}).next()
     publisherDict = publish_objects.find({'Publisher': pubnamerequest}).next() #Gets Description.
     publishersTupple = PublisherNames()
     publishers = publishersTupple[0]
     publishergame = publishersTupple[1]
     publishyear = publishersTupple[2]
-    return render_template("Publisher_Template.html", gamesforpub=pubpagerequest, publishername=pubnamerequest, publishyear=publishyear, publisherDict=publisherDict,)
+    return render_template("Publisher_Template.html", publisher=publisher, gamesforpub=pubpagerequest, publishername=pubnamerequest, publishyear=publishyear, publisherDict=publisherDict)
 
 
 ############ ROUTE TO GAMES SB ############

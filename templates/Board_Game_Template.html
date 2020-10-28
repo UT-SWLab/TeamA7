@@ -31,7 +31,7 @@
         <h2>{{ game['Name'] }}</h2>
         <hr>
         <h5>Description:</h5>
-          <p>{{ game['Description'] }}</p>
+          <p>{{ game['Description'].replace("<br />", '').replace("<p>", '').replace("</p>", '').replace("<em>", '').replace("</em>", '') }}</p>
       </div>
     </div>
   </div>
