@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block bodywithmargin %}
-    <h1 style = "font-size:30px; padding-top:100px; padding-bottom: 25px; padding-left: 30px;">Board Games</h1>
+    <h1 style = "font-size:30px; padding-top:100px; padding-bottom: 25px; padding-left: 30px;">Publisher</h1>
     <div class="container-fluid">
         <div class="container-fluid">
             <div class="row">
@@ -21,10 +21,10 @@
         {% endfor %}
       </div>
       <div class="col-sm-8" style="justify-content: center">
-        <h2>{{ publishername }}</h2>
+        <h2>{{ publisher["Publisher"] }}</h2>
         <hr>
         <h5>Description:</h5>
-          <p>{{ publisherDict }}</p>
+          <p>{{ publisher["Description"] }}</p>
       </div>
     </div>
   </div>

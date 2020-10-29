@@ -48,7 +48,7 @@
     </style>
 {% endblock %}
 {% block bodywithmargin %}
-    <h1 style = "font-size:30px; padding-top:100px; padding-bottom: 25px; padding-left: 30px;">Publishers</h1>
+    <h1 style = "font-size:30px; padding-top:100px; padding-bottom: 25px; padding-left: 30px;">Publishers Page {{ page }}</h1>
     <button onclick="listView()">List</button>
     <button onclick="gridView()">Grid</button>
     <h5></h5>
@@ -57,21 +57,21 @@
           {% if page != 1 %}
         <li class="page-item"><a class="page-link" href="{{ page-1 }}">Previous</a></li>
           {% endif %}
-          {% for i in range(1, 5) %}
+          {% for i in range(1, 7) %}
              <li class="page-item"><a class="page-link" href="{{ i }}">{{ i }}</a></li>
           {% endfor %}
           {% if page != 6 %}
-        <li class="page-item"><a class="page-link" href="{{ page+1 }}">Next</a></li>
+        <li class="page-item"><a class="page-link" href="{{ page++1 }}">Next</a></li>
           {% endif %}
       </ul>
     </nav>
     <div class="row">
-    {% for i in range ((page-1)*12, ((page-1)*12)+12) %}
+    {% for i in range ((page-1)*12, ((page-1)*12)++12) %}
         {% if i < 72 %} <!-- DUMB HARD CODING AH -->
             {% set g = gameobjects[i] %}
                 <div class="column" style="width:25%; height: 100%; justify-content: center;padding: 0% 1%">
                   <form action='/publisher' method="POST">
-                                <button type= "submit" class="btn btn-link" name = "publishername" id="publishername" value='{{publishernames[i]}}'>{{publishernames[i]}}</button>
+                      <button type= "submit" class="btn btn-link" name = "publishername" id="publishername" value='{{publishernames[i]}}'>{{publishernames[i]}}</button>
                   </form>
                    <img style="max-width: 100%; height: auto; max-height: 50%;" src='{{g["Image_URL"]}}' alt='{{g["Name"]}}'>
                      <form>
@@ -87,6 +87,7 @@
                 {% if i>0 and ((i++1)%4==0) %}
             </div><div class="row">
                 {% endif %}
+        {% endif %}
     {%endfor%}
         </div>
 

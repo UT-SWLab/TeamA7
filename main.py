@@ -44,7 +44,10 @@ def PublisherNames():
 
 @app.route('/')
 def home():
-        return render_template('home.html')
+        games = boardgameobjects.find().limit(3)
+        genres = genre_objects.find().limit(3)
+        publishers = publish_objects.find().limit(3)
+        return render_template('home.html', games=games, genres=genres, publishers=publishers)
 
 
 @app.route('/about')
@@ -76,7 +79,7 @@ def publishers(page):
     publishergame = publishersTupple[1]
     publishyear = publishersTupple[2]
     gameobjects = boardgameobjects.find()
-    return render_template('Publishers_List.html',  publishernames=publishers, gameobjects=gameobjects, publishergame=publishergame, publishyear=publishyear,)
+    return render_template('Publishers_List.html',  publishernames=publishers, gameobjects=gameobjects, publishergame=publishergame, publishyear=publishyear, page=page)
 
 ############ ROUTE TO PUBLISHERS SB ############
 
@@ -100,25 +103,22 @@ def genre_page(genre_link):
 
 @app.route('/publisher', methods=['POST'])
 def PubRouting():
-    publishername = request.form['publishername']
+    publisher_name = request.form['publishername']
     global pubnamerequest
-    pubnamerequest = publishername
-    publisherlink = GameLinkify(publishername)
-    global pubpagerequest
-    pubpagerequest = publish_objects.find({'Publisher': publishername})
-
+    pubnamerequest = publisher_name
+    publisherlink = GameLinkify(publisher_name)
     return redirect(url_for('.PubPage', publisherlink=publisherlink))
 
 
 @app.route('/publisher/<publisherlink>', methods=['POST', 'GET'])
 def PubPage(publisherlink):
     global pubnamerequest
-    publisherDict = publish_objects.find({'Publisher' : pubnamerequest}).next() #Gets Description.
+    publisher = publish_objects.find({'Publisher': pubnamerequest}).next()
     publishersTupple = PublisherNames()
     publishers = publishersTupple[0]
     publishergame = publishersTupple[1]
     publishyear = publishersTupple[2]
-    return render_template("Publisher_Template.html", gamesforpub=pubpagerequest, publishername=pubnamerequest, publishyear=publishyear, publisherDict=publisherDict,)
+    return render_template("Publisher_Template.html", publisher=publisher, gamesforpub=publishergame, publishername=pubnamerequest, publishyear=publishyear)
 
 
 ############ ROUTE TO GAMES SB ############
