@@ -46,7 +46,7 @@ def PublisherNames():
 def home():
         games = boardgameobjects.find().limit(3)
         genres = genre_objects.find().limit(3)
-        publishers = publish_objects.find().limit(3)
+        publishers = publish_objects.find().skip(3).limit(6)
         pubimages = ['', '', '']
         for p in range(0,3):
             g = boardgameobjects.find({"Publisher": publishers[p]['Publisher']}).next()
