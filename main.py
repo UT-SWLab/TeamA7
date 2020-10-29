@@ -82,8 +82,9 @@ def publishers(page):
     publishers = publishersTupple[0]
     publishergame = publishersTupple[1]
     publishyear = publishersTupple[2]
+    publishers = publish_objects.find()
     gameobjects = boardgameobjects.find()
-    return render_template('Publishers_List.html',  publishernames=publishers, gameobjects=gameobjects, publishergame=publishergame, publishyear=publishyear, page=page)
+    return render_template('Publishers_List.html', publishers=publishers, publishernames=publishers, gameobjects=gameobjects, publishergame=publishergame, publishyear=publishyear, page=page)
 
 ############ ROUTE TO PUBLISHERS SB ############
 

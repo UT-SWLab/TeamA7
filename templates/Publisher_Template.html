@@ -29,6 +29,7 @@
                 <div class="col-sm-4" style="width: 100%">
                     <br>
                     <br>
+                    <img src='{{ publisher["Image_URL"] }}' style="max-width: 100%; justify-content: center">
                     <form action='/game' method="POST">
                         <h4>Games by Publisher:
                         {% for game in publisher["Games"] %}
