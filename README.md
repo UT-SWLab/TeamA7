@@ -19,8 +19,11 @@ Link to website:
 ## Team Contribution Time
 Cedrik Ho ch45935
 Github ID: cedrikho
-Estimated Completion Time:  (11 hours)
-Actual Completion Time: (9 hours)
+Estimated Completion Time:  (10 hours)
+Actual Completion Time: (8 hours)
+Break down by User Story:
+https://github.com/UT-SWLab/TeamA7/projects/1#card-48230419 :2 hours
+https://github.com/UT-SWLab/TeamA7/projects/1#card-48230396 :6 hours
 
 Allegra Thomas at35737
 GitHub ID: AllegraThomas
