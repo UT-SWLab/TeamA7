@@ -107,7 +107,6 @@ def PubRouting():
     global pubnamerequest
     pubnamerequest = publisher_name
     publisherlink = GameLinkify(publisher_name)
-    global pubpagerequest
     return redirect(url_for('.PubPage', publisherlink=publisherlink))
 
 
@@ -115,12 +114,11 @@ def PubRouting():
 def PubPage(publisherlink):
     global pubnamerequest
     publisher = publish_objects.find({'Publisher': pubnamerequest}).next()
-    publisherDict = publish_objects.find({'Publisher': pubnamerequest}).next() #Gets Description.
     publishersTupple = PublisherNames()
     publishers = publishersTupple[0]
     publishergame = publishersTupple[1]
     publishyear = publishersTupple[2]
-    return render_template("Publisher_Template.html", publisher=publisher, gamesforpub=pubpagerequest, publishername=pubnamerequest, publishyear=publishyear, publisherDict=publisherDict)
+    return render_template("Publisher_Template.html", publisher=publisher, gamesforpub=publishergame, publishername=pubnamerequest, publishyear=publishyear)
 
 
 ############ ROUTE TO GAMES SB ############
