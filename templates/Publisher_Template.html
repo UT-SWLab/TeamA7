@@ -36,10 +36,10 @@
                         {% endfor %}
                         </h4>
                     </form>
-                    <form action='/game' method="POST">
+                    <form action='/genre' method="POST">
                         <h4>Genres Covered by Publisher:
                         {% for genre in publisher["Genres"] %}
-                            <button type= "submit" class="btn btn-link" name = "gamename" id="genrename" value='{{ genre }}'>{{ genre }}</button>
+                            <button type= "submit" class="btn btn-link" name = "genrename" id="genrename" value='{{ genre }}'>{{ genre }}</button>
                         {% endfor %}
                         </h4>
                     </form>
