@@ -20,7 +20,7 @@ listOfDicts = [{"Publisher": "Stronghold Games",
                 "Description": "Founded in late 2009, the focus of Stronghold Games has been to provide maximum customer value by delivering high-quality products, and maximum customer satisfaction with Best of Breed games, i.e. games that are the finest in mechanic, theme, and/or other attributes valued by gamers.",
                 },
 
-               {"Publisher": "CMON", "Description": " This Publisher Is private and does not have public information sorry :(", },
+               {"Publisher": "CMON", "Description": "This Publisher Is private and does not have public information sorry :(", },
 
                {"Publisher": "Hasbro", "Description": ""},
 

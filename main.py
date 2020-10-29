@@ -107,13 +107,21 @@ def PubRouting():
     pubnamerequest = publishername
     publisherlink = GameLinkify(publishername)
     global pubpagerequest
-    pubpagerequest = boardgameobjects.find({'Publisher': publishername})
+    pubpagerequest = publish_objects.find({'Publisher': publishername})
+
     return redirect(url_for('.PubPage', publisherlink=publisherlink))
 
 
 @app.route('/publisher/<publisherlink>', methods=['POST', 'GET'])
 def PubPage(publisherlink):
-    return render_template("Publisher_Template.html", gamesforpub=pubpagerequest, publishername=pubnamerequest)
+    global pubnamerequest
+    publisherDict = publish_objects.find({'Publisher' : pubnamerequest}).next()
+    publishersTupple = PublisherNames()
+    publishers = publishersTupple[0]
+    publishergame = publishersTupple[1]
+    publishyear = publishersTupple[2]
+    return render_template("Publisher_Template.html", gamesforpub=pubpagerequest, publishername=pubnamerequest, publishyear=publishyear, publisherDict=publisherDict,)
+
 
 ############ ROUTE TO GAMES SB ############
 
