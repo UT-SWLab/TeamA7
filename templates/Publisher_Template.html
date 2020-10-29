@@ -2,6 +2,23 @@
 
 {% block head %}
     <title>Publishers</title>
+    <style>
+
+        #genrename{
+            color: black;
+            font-size: smaller;
+            font-family: Cambria;
+            text-align: left;
+            text-anchor: start;
+        }
+        #gamename{
+            color: black;
+            font-size: smaller;
+            font-family: Cambria;
+            text-align: left;
+            text-anchor: start;
+        }
+        </style>
 {% endblock %}
 
 {% block bodywithmargin %}
@@ -12,22 +29,29 @@
                 <div class="col-sm-4" style="width: 100%">
                     <br>
                     <br>
-                    <h4>Games by Publisher:</h4>
-                {% set game = [] %}
-        {% for game in gamesforpub %}
-            <form action='/game' method="POST">
-                    <button type= "submit" name = "gamename" id="gamename" value='{{ game["Name"] }}'>{{ game['Name'] }}</button>
-                </form>
-        {% endfor %}
-      </div>
-      <div class="col-sm-8" style="justify-content: center">
-        <h2>{{ publisher["Publisher"] }}</h2>
-        <hr>
-        <h5>Description:</h5>
-          <p>{{ publisher["Description"] }}</p>
-      </div>
+                    <form action='/game' method="POST">
+                        <h4>Games by Publisher:
+                        {% for game in publisher["Games"] %}
+                            <button type= "submit" class="btn btn-link" name = "gamename" id="gamename" value='{{ game }}'>{{ game }}</button>
+                        {% endfor %}
+                        </h4>
+                    </form>
+                    <form action='/game' method="POST">
+                        <h4>Genres Covered by Publisher:
+                        {% for genre in publisher["Genres"] %}
+                            <button type= "submit" class="btn btn-link" name = "gamename" id="genrename" value='{{ genre }}'>{{ genre }}</button>
+                        {% endfor %}
+                        </h4>
+                    </form>
+                    </div>
+                    <div class="col-sm-8" style="justify-content: center">
+                    <h2>{{ publisher["Publisher"] }}</h2>
+                    <hr>
+                    <h5>Description:</h5>
+                    <p>{{ publisher["Description"] }}</p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 {% endblock %}
 

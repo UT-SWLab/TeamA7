@@ -2,7 +2,25 @@
 
 {% block head %} 
     <title>Board Game Genres</title>
+    <style>
+
+        #publishername{
+            color: black;
+            font-size: smaller;
+            font-family: Cambria;
+            text-align: left;
+            text-anchor: start;
+        }
+        #gamename{
+            color: black;
+            font-size: smaller;
+            font-family: Cambria;
+            text-align: left;
+            text-anchor: start;
+        }
+        </style>
 {% endblock %}
+
 
 {% block bodywithmargin %}
     <h1 style = "font-size:30px; padding-top:100px; padding-bottom: 25px; padding-left: 30px;">Genres</h1>
@@ -13,19 +31,21 @@
                     <img src='{{ genre["Image_URL"] }}' style="max-width: 100%; justify-content: center">
                       <br>
                     <br>
-                    <form action="/publisher" method="POST">
-                        <h5>Publishers:</h5>
-                        {% for publisher in genre['Publishers'] %}
-                        <button type="submit" class="btn btn-link" name= "publishername" id="publishername" value='{{ publisher }}'>{{ publisher }}</button>
-                        {% endfor %}
+                    <form action='/game' method="POST">
+                        <h4>Related Games:
+                            {% for game in genre['Games'] %}
+                                <button type= "submit" class="btn btn-link" name = "gamename" id="gamename" value='{{ game }}'>{{ game }}</button>
+                            {% endfor %}
+                        </h4>
                     </form>
-                    <h5>Games:
-                        {% for game in genre['Games'] %}
-                            <form action='/game' method="POST">
-                                <button type= "submit" name = "gamename" id="gamename" value='{{ game }}'>{{ game }}</button>
-                            </form>
-                        {% endfor %}
-                    </h5>
+                    <form action="/publisher" method="POST">
+                        <h4>Related Publishers:
+                            {% for publisher in genre['Publishers'] %}
+                            <button type="submit" class="btn btn-link" name= "publishername" id="publishername" value='{{ publisher }}'>{{ publisher }}</button>
+                            {% endfor %}
+                        </h4>
+                    </form>
+
                 </div>
                 <div class="col-sm-8" style="justify-content: center">
                     <h2>{{ genre['Name'] }}</h2>
