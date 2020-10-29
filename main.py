@@ -35,8 +35,8 @@ def PublisherNames():
             publishernames.append(game['Publisher'])
             publishernameGame.append(game['Name'])
             publishYear.append(game['Year_Published'])
-    print (publishernames) #Debuggin
-    print (publishernameGame)
+    #print (publishernames) #Debuggin
+    #print (publishernameGame)
     return publishernames, publishernameGame, publishYear
 
 
@@ -47,7 +47,11 @@ def home():
         games = boardgameobjects.find().limit(3)
         genres = genre_objects.find().limit(3)
         publishers = publish_objects.find().limit(3)
-        return render_template('home.html', games=games, genres=genres, publishers=publishers)
+        pubimages = ['', '', '']
+        for p in range(0,3):
+            g = boardgameobjects.find({"Publisher": publishers[p]['Publisher']}).next()
+            pubimages[p] = g['Image_URL']
+        return render_template('home.html', games=games, genres=genres, publishers=publishers, pubimages=pubimages)
 
 
 @app.route('/about')
