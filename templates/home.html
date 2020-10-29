@@ -17,13 +17,13 @@
             </ul>
             <div class="carousel-inner" style="max-height:100%">
                 <div class="carousel-item active">
-                    <form action="/publisher" method="POST"><button type = "submit" class="btn btn-link" name = "publishername" value="{{ publishers[0]["Publisher"]}}"><img class="img-fluid" src='{{pubimages[0]}}' alt="{{publishers[0]["Publisher"]}}" style="width:100%"></button></form>
+                    <form action="/publisher" method="POST"><button type = "submit" class="btn btn-link" name = "publishername" value='{{ publishers[0]["Publisher"]}}'><img class="img-fluid" src='{{publishers[0]["Image_URL"]}}' alt='{{publishers[0]["Publisher"]}}' style="width:100%"></button></form>
                 </div>
                 <div class="carousel-item">
-                    <form action="/publisher" method="POST"><button type = "submit" class="btn btn-link" name = "publishername" value="{{ publishers[1]["Publisher"]}}"><img class="img-fluid" src='{{pubimages[1]}}' alt="{{publishers[1]["Publisher"]}}" style="width:100%"></button></form>
+                    <form action="/publisher" method="POST"><button type = "submit" class="btn btn-link" name = "publishername" value='{{ publishers[1]["Publisher"]}}'><img class="img-fluid" src='{{publishers[1]["Image_URL"]}}' alt='{{publishers[1]["Publisher"]}}' style="width:100%"></button></form>
                 </div>
                 <div class="carousel-item">
-                    <form action="/publisher" method="POST"><button type = "submit" class="btn btn-link" name = "publishername" value="{{ publishers[2]["Publisher"]}}"><img class="img-fluid" src='{{pubimages[2]}}' alt="{{publishers[2]["Publisher"]}}" style="width:100%"></button></form>
+                    <form action="/publisher" method="POST"><button type = "submit" class="btn btn-link" name = "publishername" value='{{ publishers[2]["Publisher"]}}'><img class="img-fluid" src='{{publishers[2]["Image_URL"]}}' alt='{{publishers[2]["Publisher"]}}' style="width:100%"></button></form>
                 </div>
             </div>
             <a class="carousel-control-prev" href="#pubs" data-slide="prev" style="background-color:black"><span class="carousel-control-prev-icon"></span></a>

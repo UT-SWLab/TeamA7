@@ -48,10 +48,7 @@ def home():
         genres = genre_objects.find().limit(3)
         publishers = publish_objects.find().skip(3).limit(6)
         pubimages = ['', '', '']
-        for p in range(0,3):
-            g = boardgameobjects.find({"Publisher": publishers[p]['Publisher']}).next()
-            pubimages[p] = g['Image_URL']
-        return render_template('home.html', games=games, genres=genres, publishers=publishers, pubimages=pubimages)
+        return render_template('home.html', games=games, genres=genres, publishers=publishers)
 
 
 @app.route('/about')
