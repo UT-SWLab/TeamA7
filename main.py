@@ -11,6 +11,7 @@ db = client["BGDB"]
 connect('BGDB', host='localhost', port=27017)
 boardgameobjects = client["BGDB"].boardgamecollection
 genre_objects = client["BGDB"].genrecollection
+publish_objects = client["BGDB"].publishercollection
 gamepagerequest = ''
 pubnamerequest = ''
 genre_name_request = ''
@@ -37,9 +38,6 @@ def PublisherNames():
     print (publishernames) #Debuggin
     print (publishernameGame)
     return publishernames, publishernameGame, publishYear
-
-
-
 
 
 
@@ -78,7 +76,7 @@ def publishers(page):
     publishergame = publishersTupple[1]
     publishyear = publishersTupple[2]
     gameobjects = boardgameobjects.find()
-    return render_template('Publishers_List.html',  publishernames=publishers, gameobjects=gameobjects, publishergame=publishergame, publishyear=publishyear, page=page)
+    return render_template('Publishers_List.html',  publishernames=publishers, gameobjects=gameobjects, publishergame=publishergame, publishyear=publishyear,)
 
 ############ ROUTE TO PUBLISHERS SB ############
 
@@ -115,7 +113,7 @@ def PubRouting():
 @app.route('/publisher/<publisherlink>', methods=['POST', 'GET'])
 def PubPage(publisherlink):
     global pubnamerequest
-    publisherDict = publish_objects.find({'Publisher' : pubnamerequest}).next()
+    publisherDict = publish_objects.find({'Publisher' : pubnamerequest}).next() #Gets Description.
     publishersTupple = PublisherNames()
     publishers = publishersTupple[0]
     publishergame = publishersTupple[1]
