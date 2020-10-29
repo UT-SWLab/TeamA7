@@ -19,8 +19,8 @@ Link to website:
 ## Team Contribution Time
 Cedrik Ho ch45935
 Github ID: cedrikho
-Estimated Completion Time:  (8 hours)
-Actual Completion Time: (10 hours)
+Estimated Completion Time:  (11 hours)
+Actual Completion Time: (9 hours)
 
 Allegra Thomas at35737
 GitHub ID: AllegraThomas
