@@ -37,19 +37,26 @@ Actual Completion Time: (6 hours)
 
 Grant Ross ghr344
 Github ID: Grant Ross
-Estimated Completion Time: (8 hours)
-Actual Completion Time: (6 hours)
+User story 1: As a user, I want to see links on each page that lead to other pages, so if I want to learn more I can get more information from another page
+Estimated Completion Time: 4 hours
+Actual Completion Time: 7 hours
+User story 2: As a user, I want to see images of publisher logos when I got to publishers pages, so I can more easily recognize publishers
+Estimated time: 2 hours
+Actual time: 4 hours
+As a user, I want to see a grid of all board game categories, split up into different pages, so I don't have to wait as long for pages to load
+Estimated time: 3 hours
+Actual time: 2 hour
+
 
 # Phase II Team Contribution Time
 
 ## User Stories:
 As a user, I want to see a grid of all board game publishers, split up into different pages, so I don't have to wait as long for pages to load
-As a user, I want to see a grid of all board game categories, split up into different pages, so I don't have to wait as long for pages to load
+
 As a user, I want to see a grid of all board games, split up into different pages, so I don't have to wait as long for pages to load
 As a site user, I want to be able to travel through all main pages of the site without issue or linking to an outside site so I can intuitively get the information I need (via the navigation bar)
-As a user, I want to see links on each page that lead to other pages, so if I want to learn more I can get more information from another page
+
 As a user, I want to see accurate information from a restful API for each page
-As a user, I want to see images of publisher logos when I got to publishers pages, so I can more easily recognize publishers
 
 ## Tasks
 Populating database with information from the Board Game Atlas API
