@@ -1,13 +1,14 @@
 import unittest
-from flask import abort, url_for
 import random
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 class TestsTeamA7(unittest.TestCase):
     #Test Home Carousel takes you to legitimate pages
     def setUp(self):
         self.driver = webdriver.Firefox(executable_path=r"C:\Users\sbloe\Desktop\geckodriver.exe")
+        #for local testing, two options: use flask testing, or open up powershell, run main.py
+        #there and run the next line intead of at the deployed app
+        #self.driver.get("http://127.0.0.1:5000/")
         self.driver.get(r"https://fall-2020-ee461l-teama7.uc.r.appspot.com/")
 
     #Tests the home title is correct and logo takes you home from home
@@ -106,6 +107,19 @@ class TestsTeamA7(unittest.TestCase):
             self.driver.find_element_by_id("genresnav").click()
             genres_buttons_on_page = self.driver.find_elements(By.ID,"genrename")
 
+    def test_model_publishers_list(self):
+        #testing board game publishers list generation
+        genresbutton = self.driver.find_element_by_id("publishersnav")
+        genresbutton.click()  # should take you to Board games Page
+        self.assertEqual(self.driver.title, 'Board Games Publisher List')
+        genres_buttons_on_page = self.driver.find_elements(By.ID,"publisherename") #all games visible on this page
+        total_for_page = len(genres_buttons_on_page)
+        for i in range(0,total_for_page):
+            name = genres_buttons_on_page[i].text
+            genres_buttons_on_page[i].click()
+            self.assertEqual(self.driver.find_element(By.TAG_NAME, 'h2').text, name)
+            self.driver.find_element_by_id("publishersnav").click()
+            genres_buttons_on_page = self.driver.find_elements(By.ID,"publishername")
 
 
     def tearDown(self):

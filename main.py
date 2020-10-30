@@ -39,24 +39,18 @@ def PublisherNames():
     #print (publishernameGame)
     return publishernames, publishernameGame, publishYear
 
-
-
-
 @app.route('/')
 def home():
         games = boardgameobjects.find().limit(3)
         genres = genre_objects.find().limit(3)
-        publishers = publish_objects.find().skip(3).limit(6)
-        pubimages = ['', '', '']
+        publishers = publish_objects.find().limit(3)
         return render_template('home.html', games=games, genres=genres, publishers=publishers)
-
 
 @app.route('/about')
 def about():
         return render_template('about.html')
 
-### LIST PAGES ###
-
+############# LIST PAGES #####################
 
 @app.route('/boardgames/<int:page>')
 def games(page):
@@ -83,9 +77,7 @@ def publishers(page):
     gameobjects = boardgameobjects.find()
     return render_template('Publishers_List.html', publishers=publishers, publishernames=publishers, gameobjects=gameobjects, publishergame=publishergame, publishyear=publishyear, page=page)
 
-############ ROUTE TO PUBLISHERS SB ############
-
-
+############ ROUTE TO GENRE INSTANCE PAGES ############
 @app.route('/genre', methods=['POST'])
 def genre_routing():
     genre_name = request.form['genrename']
@@ -94,7 +86,6 @@ def genre_routing():
     genre_link = GameLinkify(genre_name)
     return redirect(url_for('.genre_page', genre_link=genre_link))
 
-
 @app.route('/genre/<genre_link>', methods=['POST', 'GET'])
 def genre_page(genre_link):
     global genre_name_request
@@ -102,7 +93,7 @@ def genre_page(genre_link):
     genre = genre_objects.find({'Name': genre_name_request}).next()
     return render_template("Genre_Template.html", genre=genre)
 
-
+############ ROUTE TO PUBLISHER INSTANCE PAGES ############
 @app.route('/publisher', methods=['POST'])
 def PubRouting():
     publisher_name = request.form['publishername']
@@ -110,7 +101,6 @@ def PubRouting():
     pubnamerequest = publisher_name
     publisherlink = GameLinkify(publisher_name)
     return redirect(url_for('.PubPage', publisherlink=publisherlink))
-
 
 @app.route('/publisher/<publisherlink>', methods=['POST', 'GET'])
 def PubPage(publisherlink):
@@ -122,10 +112,7 @@ def PubPage(publisherlink):
     publishyear = publishersTupple[2]
     return render_template("Publisher_Template.html", publisher=publisher, gamesforpub=publishergame, publishername=pubnamerequest, publishyear=publishyear)
 
-
-############ ROUTE TO GAMES SB ############
-
-
+############ ROUTE TO GAME INSTANCE PAGES ############
 @app.route('/game', methods=['POST'])
 def GameRouting():
     gamename = request.form['gamename']
@@ -134,43 +121,11 @@ def GameRouting():
     gamepagerequest = gamename
     return redirect(url_for('.GamePage', gamelink=gamelink))
 
-
 @app.route('/game/<gamelink>')
 def GamePage(gamelink):
     global gamepagerequest
     game = boardgameobjects.find({'Name': gamepagerequest}).next()
     return render_template("Board_Game_Template.html", game=game)
 
-
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-# game_column = db["boardgamecollection"]
-#
-#
-# @app.route('/boardgames/<string:name>')
-# def boardgames(name):
-#         query = {"Name": name}
-#         doc = game_column.find(query)
-#         publisher_link = doc["Publisher"]
-#         publisher_link.replace(" ", "")
-#         publisher_link.replace(r'[^\w]', '')
-#         Image_URL = doc["Image_URL"]
-#         return render_template('boardgames.html', doc=doc, publisher_link=publisher_link, Image_URL=Image_URL)
-#
-#
-# @app.route('/boardgamepublisher/<string:name>')
-# def boardgamegenres(name):
-#         query = {"Name": name}
-#         doc = game_column.find(query)
-#         Image_URL = doc["Image_URL"]
-#         return render_template('boardgames.html', doc=doc, Image_URL=Image_URL)
-#
-#
-# @app.route('/boardgamegenres/<string:name>')
-# def boardgamepublishers(name):
-#     query = {"Name": name}
-#     doc = game_column.find(query)
-#     Image_URL = doc["Image_URL"]
-#     return render_template('boardgames.html', doc=doc, Image_URL=Image_URL)
