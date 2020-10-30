@@ -46,57 +46,59 @@ Actual Completion Time: 8 hours
 
 # Phase II Team Contribution Time
 
-## User Stories:
-As a user, I want to see a grid of all board game publishers, split up into different pages, so I don't have to wait as long for pages to load
+## User Stories:  
+As a user, I want to see a grid of all board game categories, split up into different pages, so I don't have to wait as long for pages to load  
+As a user, I want to see a grid of all board game publishers, split up into different pages, so I don't have to wait as long for pages to load  
+As a user, I want to see links on each page that lead to other pages, so if I want to learn more I can get more information from another page  
+As a user, I want to see a grid of all board games, split up into different pages, so I don't have to wait as long for pages to load  
+As a site user, I want to be able to travel through all main pages of the site without issue or linking to an outside site so I can intuitively get the information I need (via the navigation bar)  
+As a user, I want to see images of publisher logos when I got to publishers pages, so I can more easily recognize publishers  
+As a user, I want to see accurate information from a restful API for each page  
 
-As a user, I want to see a grid of all board games, split up into different pages, so I don't have to wait as long for pages to load
-As a site user, I want to be able to travel through all main pages of the site without issue or linking to an outside site so I can intuitively get the information I need (via the navigation bar)
+## Tasks  
+Populating database with information from the Board Game Atlas API  
+Populating database with information from the Board Game Geek API  
+Populating database with information from the Google Custom Search API  
+Testing the site  
+Setting up the MongoDB database  
+Setting up pagination for list pages  
+Making templates for instance pages  
+Getting the website to properly route to all pages  
 
-As a user, I want to see accurate information from a restful API for each page
-
-## Tasks
-Populating database with information from the Board Game Atlas API
-Populating database with information from the Board Game Geek API
-Populating database with information from the Google Custom Search API
-Testing the site
-Setting up the MongoDB database
-Setting up pagination for list pages
-Making templates for instance pages
-Getting the website to properly route to all pages
-
-## Allegra Thomas at35737
-GitHub ID: AllegraThomas
-User Stories Worked On:
-  As a user, I want to see accurate information from a restful API for each page
-    Estimated completion time: 5 hours
-    Actual completion time: 6 hours
-  As a user, I want to see images of publisher logos when I go to publishers' pages, so I can more easily recognize publishers
-    Estimated completion time: 1 hour
-    Actual completion time: 1 hour
-Tasks Completed:
-  Populating database with information from the Board Game Atlas API
-    Estimated completion time: 2 hours
-    Actual completion time: 3 hours
-  Populating database with information from the Google Custom Search API
-    Estimated completion time: 3 hours
-    Actual completion time: 2 hours
-  Setting up the MongoDB database:
-    Estimated completion time: 2 hours
-    Actual completion time: 3 hours
+## Allegra Thomas at35737  
+GitHub ID: AllegraThomas  
+**User Stories Worked On:**  
+  As a user, I want to see accurate information from a restful API for each page  
+    -Estimated completion time: 5 hours  
+    -Actual completion time: 6 hours  
+  As a user, I want to see images of publisher logos when I go to publishers' pages, so I can more easily recognize publishers  
+    -Estimated completion time: 1 hour  
+    -Actual completion time: 1 hour  
+**Tasks Worked On:**  
+  Populating database with information from the Board Game Atlas API  
+    -Estimated completion time: 2 hours  
+    -Actual completion time: 3 hours  
+  Populating database with information from the Google Custom Search API  
+    -Estimated completion time: 3 hours  
+    -Actual completion time: 2 hours  
+  Setting up the MongoDB database:  
+    -Estimated completion time: 2 hours  
+    -Actual completion time: 3 hours  
 
 
-Grant Ross ghr344
-Github ID: Grant Ross
-User story 1: As a user, I want to see links on each page that lead to other pages, so if I want to learn more I can get more information from another page
-Estimated Completion Time: 4 hours
-Actual Completion Time: 7 hours
-User story 2: As a user, I want to see images of publisher logos when I got to publishers pages, so I can more easily recognize publishers
-Estimated time: 2 hours
-Actual time: 4 hours
-As a user, I want to see a grid of all board game categories, split up into different pages, so I don't have to wait as long for pages to load
-Estimated time: 3 hours
-Actual time: 1.5 hours
-Tasks worked on:
-Setting up pagination for list pages
-Making templates for instance pages
-Getting the website to properly route to all pages
+## Grant Ross ghr344  
+Github ID: Grant Ross  
+**User Stories Worked On:**  
+User story 1: As a user, I want to see links on each page that lead to other pages, so if I want to learn more I can get more information from another page  
+-Estimated Completion Time: 4 hours  
+-Actual Completion Time: 7 hours  
+User story 2: As a user, I want to see images of publisher logos when I got to publishers pages, so I can more easily recognize publishers  
+-Estimated time: 2 hours  
+-Actual time: 4 hours  
+As a user, I want to see a grid of all board game categories, split up into different pages, so I don't have to wait as long for pages to load  
+-Estimated time: 3 hours  
+-Actual time: 1.5 hours  
+**Tasks Worked On:**
+Setting up pagination for list pages  
+Making templates for instance pages  
+Getting the website to properly route to all pages  
