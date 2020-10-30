@@ -37,9 +37,9 @@ Github ID: Grant Ross
 Estimated Completion Time: (8 hours)
 Actual Completion Time: (6 hours)
 
-## Phase II Team Contribution Time
+# Phase II Team Contribution Time
 
-# User Stories:
+## User Stories:
 As a user, I want to see a grid of all board game publishers, split up into different pages, so I don't have to wait as long for pages to load
 As a user, I want to see a grid of all board game categories, split up into different pages, so I don't have to wait as long for pages to load
 As a user, I want to see a grid of all board games, split up into different pages, so I don't have to wait as long for pages to load
@@ -48,7 +48,7 @@ As a user, I want to see links on each page that lead to other pages, so if I wa
 As a user, I want to see accurate information from a restful API for each page
 As a user, I want to see images of publisher logos when I got to publishers pages, so I can more easily recognize publishers
 
-# Tasks
+## Tasks
 Populating database with information from the Board Game Atlas API
 Populating database with information from the Board Game Geek API
 Populating database with information from the Google Custom Search API
@@ -58,7 +58,7 @@ Setting up pagination for list pages
 Making templates for instance pages
 Getting the website to properly route to all pages
 
-# Allegra Thomas at35737
+## Allegra Thomas at35737
 GitHub ID: AllegraThomas
 User Stories Worked On:
   As a user, I want to see accurate information from a restful API for each page
