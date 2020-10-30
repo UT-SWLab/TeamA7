@@ -1,50 +1,120 @@
 {% extends 'base.html' %}
 
-{% block head %} 
-    <title>Board Games Genres List</title>
+{% block head %}
+    <title>Board Game Genres List</title>
+    <script>
+        var elements = document.getElementsByClassName("column");
+        var i;
+        function listView() {
+            for (i = 0; i < elements.length; i++) {
+                elements[i].style.width = "100%";
+            }
+        }
+        function gridView() {
+            for (i = 0; i < elements.length; i++) {
+                elements[i].style.width = "25%";
+            }
+        }
+        function getLink(inputstring){
+            var linkstring = ""
+            linkstring = linkstring.concat(inputstring.replace(/\W/g, ''));
+            return linkstring
+
+        }
+    </script>
     <style>
-    	.card {
-    		margin-top: 30px;
-    		margin-left: 20px;
-    	}
-	</style>
+        .row{
+            width: 100%; justify-content: center; padding: 5% 5%; max-height: 50%;
+        }
+        #genrename{
+            justify-content: center;
+            color: black;
+            font-size: larger;
+            font-family: Cambria;
+            text-align: center;
+            text-anchor: middle;
+        }
+        #publishername{
+            color: black;
+            font-size: smaller;
+            font-family: Cambria;
+            text-align: left;
+            text-anchor: start;
+        }
+        #gamename{
+            color: black;
+            font-size: smaller;
+            font-family: Cambria;
+            text-align: left;
+            text-anchor: start;
+        }
+
+    </style>
 {% endblock %}
-
 {% block bodywithmargin %}
-
-<h1 style = "font-size:30px; padding-top:100px; padding-left: 30px">Board Games Genres</h1>
-
-<div class="row">
-  <div class="col-sm-4">
-  	<div class="card h-100" style="width:100%">
-		<a href="/PartyGames">
-			<img class="card-img-top" src=https://funattic.com/app/uploads/2018/09/Best-Party-Board-Games-feat-img.jpg>
-		  	<div class="card-body">
-			<h4 class="card-title">Party Games</h4>
-		  </div>
-		</a>
-	</div>
-  </div>
-  <div class="col-sm-4">
-  	<div class="card h-100" style="width:100%">
-		<a href="/DeckBuilders">
-		  <img class="card-img-top" src="https://lethweb.files.wordpress.com/2017/07/46144-deck1.jpg?w=863">
-		  <div class="card-body">
-			<h4 class="card-title">Deck Builders</h4>
-		  </div>
-		</a>
-	</div>
-  </div>
-  <div class="col-sm-4">
-  	<div class="card h-100" style="width:100%">
-		<a href="/WordGames">
-		  <img class="card-img-top" src=https://amp.thenational.ae/image/policy:1.993885:1584454976/ac16-MAR-board-game-scrabble.jpg?f=16x9&w=1200&$p$f$w=00082c2>
-		  <div class="card-body">
-			<h4 class="card-title" >Word Games</h4>
-		  </div>
-		</a>
-	</div>
-  </div>
-</div>
-
+    <h1 style = "font-size:30px; padding-top:100px; padding-bottom: 25px; padding-left: 30px;">Genres Page {{ page }}</h1>
+    <button onclick="listView()">List</button>
+    <button onclick="gridView()">Grid</button>
+<h5></h5>
+<nav aria-label="Page nav">
+  <ul class="pagination">
+      {% if page != 1 %}
+    <li class="page-item"><a class="page-link" href="{{ page-1 }}">Previous</a></li>
+      {% endif %}
+      {% for i in range(1, 7) %}
+        {% if i == page %}
+         <li class="page-item active"><a class="page-link" href="{{ i }}">{{ i }}</a></li>
+        {% else %}
+         <li class="page-item"><a class="page-link" href="{{ i }}">{{ i }}</a></li>
+        {% endif %}
+      {% endfor %}
+      {% if page != 6 %}
+    <li class="page-item"><a class="page-link" href="{{ page++1 }}">Next</a></li>
+      {% endif %}
+  </ul>
+</nav>
+    <div class="row">
+        {% for i in range((page-1)*12, ((page-1)*12)++12) %}
+            {% if i < 72 %} <!-- DUMB HARD CODING AH -->
+            {% set g = genres[i] %}
+            <div class="column" style="width:25%; height: 100%; justify-content: center;padding: 0% 1%">
+                <form action= '/genre' method="POST">
+                    <button type= "submit" class="btn btn-link" name ="genrename" id="genrename" value= '{{g["Name"]}}' >{{g['Name']}}</button>
+                    <button type= "submit" class="btn btn-link" name ="genrename" value= '{{g["Name"]}}' ><img style="max-width: 100%; height: auto; max-height: 50%;" src='{{g["Image_URL"]}}' alt='{{g["Name"]}}'></button>
+                </form>
+                <h6></h6>
+                <form action="/publisher" method="POST">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="publisher_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Publishers
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            {% for publisher in g["Publishers"] %}
+                            {% if (g["Publishers"]) | length == 1 and publisher == None %}
+                            None
+                            {% elif publisher != None %}
+                            <button type="submit" class="btn btn-link" name="publishername" id="publishername" value='{{ publisher }}'> {{ publisher }}</button>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </form>
+                <h6></h6>
+                <form action="/game" method="POST">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="game_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Games
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            {% for game in g["Games"] %}<button type="submit" class="btn btn-link" name="gamename" id="gamename" value='{{ game }}'> {{ game }}</button>{% endfor %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+                {% if i>0 and ((i++1)%4==0) %}
+                    </div><div class="row">
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        </div>
 {% endblock %}

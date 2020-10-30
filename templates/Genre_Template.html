@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block head %} 
+    <title>Board Game Genres</title>
+    <style>
+
+        #publishername{
+            color: black;
+            font-size: smaller;
+            font-family: Cambria;
+            text-align: left;
+            text-anchor: start;
+        }
+        #gamename{
+            color: black;
+            font-size: smaller;
+            font-family: Cambria;
+            text-align: left;
+            text-anchor: start;
+        }
+        </style>
+{% endblock %}
+
+
+{% block bodywithmargin %}
+    <h1 style = "font-size:30px; padding-top:100px; padding-bottom: 25px; padding-left: 30px;">Genres</h1>
+    <div class="container-fluid">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4" style="width: 100%">
+                    <img src='{{ genre["Image_URL"] }}' style="max-width: 100%; justify-content: center">
+                      <br>
+                    <br>
+                    <form action='/game' method="POST">
+                        <h4>Related Games:
+                            {% for game in genre['Games'] %}
+                                <button type= "submit" class="btn btn-link" name = "gamename" id="gamename" value='{{ game }}'>{{ game }}</button>
+                            {% endfor %}
+                        </h4>
+                    </form>
+                    <form action="/publisher" method="POST">
+                        <h4>Related Publishers:
+                            {% for publisher in genre['Publishers'] %}
+                            <button type="submit" class="btn btn-link" name= "publishername" id="publishername" value='{{ publisher }}'>{{ publisher }}</button>
+                            {% endfor %}
+                        </h4>
+                    </form>
+
+                </div>
+                <div class="col-sm-8" style="justify-content: center">
+                    <h2>{{ genre['Name'] }}</h2>
+                    <hr>
+                    <h5>Description:</h5>
+                        <p>{{ genre['Description'].replace("<br />", '').replace("<p>", '').replace("</p>", '').replace("<em>", '').replace("</em>", '') }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
