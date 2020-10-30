@@ -37,15 +37,11 @@ Actual Completion Time: (6 hours)
 
 Grant Ross ghr344
 Github ID: Grant Ross
-User story 1: As a user, I want to see links on each page that lead to other pages, so if I want to learn more I can get more information from another page
-Estimated Completion Time: 4 hours
-Actual Completion Time: 7 hours
-User story 2: As a user, I want to see images of publisher logos when I got to publishers pages, so I can more easily recognize publishers
-Estimated time: 2 hours
-Actual time: 4 hours
-As a user, I want to see a grid of all board game categories, split up into different pages, so I don't have to wait as long for pages to load
-Estimated time: 3 hours
-Actual time: 2 hour
+more information from another page
+Estimated Completion Time: 6 hours
+Actual Completion Time: 8 hours
+
+
 
 
 # Phase II Team Contribution Time
@@ -87,3 +83,20 @@ Tasks Completed:
   Setting up the MongoDB database:
     Estimated completion time: 2 hours
     Actual completion time: 3 hours
+
+
+Grant Ross ghr344
+Github ID: Grant Ross
+User story 1: As a user, I want to see links on each page that lead to other pages, so if I want to learn more I can get more information from another page
+Estimated Completion Time: 4 hours
+Actual Completion Time: 7 hours
+User story 2: As a user, I want to see images of publisher logos when I got to publishers pages, so I can more easily recognize publishers
+Estimated time: 2 hours
+Actual time: 4 hours
+As a user, I want to see a grid of all board game categories, split up into different pages, so I don't have to wait as long for pages to load
+Estimated time: 3 hours
+Actual time: 1.5 hours
+Tasks worked on:
+Setting up pagination for list pages
+Making templates for instance pages
+Getting the website to properly route to all pages
