@@ -65,18 +65,18 @@ Getting the website to properly route to all pages
 GitHub ID: AllegraThomas  
 User Stories Worked On:  
   As a user, I want to see accurate information from a restful API for each page  
-  - Estimated completion time: 5 hours  
-  - Actual completion time: 6 hours  
+    Estimated completion time: 5 hours  
+    Actual completion time: 6 hours  
   As a user, I want to see images of publisher logos when I go to publishers' pages, so I can more easily recognize publishers  
-  - Estimated completion time: 1 hour  
-  - Actual completion time: 1 hour  
+    Estimated completion time: 1 hour  
+    Actual completion time: 1 hour  
 Other Contributions:  
   Populating database with information from the Board Game Atlas API  
-  - Estimated completion time: 2 hours  
-  - Actual completion time: 3 hours  
+    Estimated completion time: 2 hours  
+    Actual completion time: 3 hours  
   Populating database with information from the Google Custom Search API  
-  - Estimated completion time: 3 hours  
-  - Actual completion time: 2 hours  
+    Estimated completion time: 3 hours  
+    Actual completion time: 2 hours  
   Setting up the MongoDB database:  
-  - Estimated completion time: 2 hours  
-  - Actual completion time: 3 hours  
+    Estimated completion time: 2 hours  
+    Actual completion time: 3 hours  
