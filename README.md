@@ -59,6 +59,7 @@ Actual Completion Time: 8 hours
 
 ## Allegra Thomas (at35737)  
 GitHub ID: AllegraThomas  
+
 **User Stories Worked On:**  
 * As a user, I want to see accurate information from a restful API for each page  
   * Estimated completion time: 5 hours  
@@ -66,6 +67,7 @@ GitHub ID: AllegraThomas
 * As a user, I want to see images of publisher logos when I go to publishers' pages, so I can more easily recognize publishers  
   * Estimated completion time: 1 hour  
   * Actual completion time: 1 hour  
+  
 **Tasks Worked On:**  
 * Populating database with information from the Board Game Atlas API  
   * Estimated completion time: 2 hours  
@@ -80,6 +82,7 @@ GitHub ID: AllegraThomas
 
 ## Grant Ross (ghr344)  
 Github ID: Grant Ross  
+
 **User Stories Worked On:**  
 * User story 1: As a user, I want to see links on each page that lead to other pages, so if I want to learn more I can get more information from another page  
   * Estimated Completion Time: 4 hours  
@@ -90,6 +93,7 @@ Github ID: Grant Ross
 * As a user, I want to see a grid of all board game categories, split up into different pages, so I don't have to wait as long for pages to load  
   * Estimated time: 3 hours  
   * Actual time: 1.5 hours  
+  
 **Tasks Worked On:**
 * Setting up pagination for list pages  
 * Making templates for instance pages  
@@ -97,6 +101,7 @@ Github ID: Grant Ross
 
 ## Sanne Bloemsma (scb2936)  
 Github ID: sbloemsma  
+
 **User Stories Worked On:**  
 * As a site user, I want to be able to travel through all main pages of the site without issue or linking to an outside site so I can intuitively get the information I need (via the navigation bar)  
   * Estimated Completion Time: <1 hour  
@@ -107,6 +112,7 @@ Github ID: sbloemsma
 * (revisted from Phase I) As a user, I want to see an about page so I know the team, process, and credibility of the site  
   * Estimated time: 1 hour  
   * Actual time:  <1 hour  
+  
 **Tasks Worked On:**
 * Updating database with information from the Board Game Atlas API 
   * Estimated time: 2 hours
@@ -124,5 +130,6 @@ Github ID: cedrikho
   * Actual time: 2 hours
 * https://github.com/UT-SWLab/TeamA7/projects/1#card-48230396
   * Actual time: 6 hours
+  
 **Tasks Worked On:**
 * Populating database with information from the Board Game Geek API  
