@@ -56,26 +56,24 @@ def about():
 def games(page):
         global boardgameobjects
         gameobjects = boardgameobjects.find()
-        return render_template('Board_Games_List.html', gameobjects=gameobjects, page=page,)
+        max_pages = (gameobjects.collection.count()//12) + 1
+        return render_template('Board_Games_List.html', gameobjects=gameobjects, page=page, max_pages=max_pages)
 
 
 @app.route('/boardgamegenres/<int:page>')
 def genres(page):
         global genre_objects
         genre_obj = genre_objects.find()
-        return render_template('Genres_List.html', genres=genre_obj, page=page)
+        max_pages = (genre_obj.collection.count() // 12) + 1
+        return render_template('Genres_List.html', genres=genre_obj, page=page, max_pages=max_pages)
 
 
 @app.route('/boardgamepublishers/<int:page>', methods=['POST', 'GET'])
 def publishers(page):
     global boardgameobjects
-    publishersTupple = PublisherNames()
-    publishers = publishersTupple[0]
-    publishergame = publishersTupple[1]
-    publishyear = publishersTupple[2]
     publishers = publish_objects.find()
-    gameobjects = boardgameobjects.find()
-    return render_template('Publishers_List.html', publishers=publishers, publishernames=publishers, gameobjects=gameobjects, publishergame=publishergame, publishyear=publishyear, page=page)
+    max_pages = (publishers.collection.count() // 12) + 1
+    return render_template('Publishers_List.html', publishers=publishers, page=page, max_pages=max_pages)
 
 ############ ROUTE TO GENRE INSTANCE PAGES ############
 @app.route('/genre', methods=['POST'])

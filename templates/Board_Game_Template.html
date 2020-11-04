@@ -31,8 +31,12 @@
           <br>
         <br>
         <h5>Players: {{ game['Min_Players'] }}-{{ game['Max_Players'] }}</h5>
-        <h5>Playtime: {{ game['Min_Playtime'] }}-{{ game['Max_Playtime'] }} minutes</h5>
-                    <h5>Year Published: {{ game['Year_Published'] }}</h5>
+        {% if game['Min_Playtime'] != game['Max_Playtime'] %}
+            <h5>Playtime: {{ game['Min_Playtime'] }}-{{ game['Max_Playtime'] }} minutes</h5>
+        {% else %}
+            <h5>Playtime: {{ game['Min_Playtime'] }} minutes</h5>
+        {% endif %}
+             <h5>Year Published: {{ game['Year_Published'] }}</h5>
         <form action="/publisher" method="POST">
             <h4>Publisher:
                 <button type="submit" class="btn btn-link" name= "publishername" id="publishername" value='{{game["Publisher"]}}'>{{ game['Publisher'] }}</button>

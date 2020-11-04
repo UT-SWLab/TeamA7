@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>{% block title %}{% endblock %}</title>
+    <script>
+        var elements = document.getElementsByClassName("column");
+        var i;
+        function listView() {
+            for (i = 0; i < elements.length; i++) {
+                elements[i].style.width = "100%";
+            }
+        }
+        function gridView() {
+            for (i = 0; i < elements.length; i++) {
+                elements[i].style.width = "25%";
+            }
+        }
+        function getLink(inputstring){
+            var linkstring = ""
+            linkstring = linkstring.concat(inputstring.replace(/\W/g, ''));
+            return linkstring
+        }
+    </script>
+    <style>
+        .row{
+            width: 100%; justify-content: center; padding: 5% 5%; max-height: 50%;
+        }
+        [title="main"]{
+            justify-content: center;
+            color: black;
+            font-size: larger;
+            font-family: Cambria;
+            text-align: center;
+            text-anchor: middle;
+        }
+        [title="list"]{
+            color: black;
+            font-size: smaller;
+            font-family: Cambria;
+            text-align: left;
+            text-anchor: start;
+        }
+
+    </style>
+{% endblock %}
+
+{% block bodywithmargin %}
+    <h1 style = "font-size:30px; padding-top:100px; padding-bottom: 25px; padding-left: 30px;">{% block pagetitle %}{% endblock %} Page {{ page }}</h1>
+    <button onclick="listView()">List</button>
+    <button onclick="gridView()">Grid</button>
+<h5></h5>
+<nav aria-label="Page nav">
+  <ul class="pagination">
+      {% if page != 1 %}
+    <li class="page-item"><a class="page-link" href="{{ page-1 }}">Previous</a></li>
+      {% endif %}
+      {% for i in range(1, max_pages+1) %}
+        {% if i == page %}
+         <li class="page-item active"><a class="page-link" href="{{ i }}">{{ i }}</a></li>
+        {% else %}
+         <li class="page-item"><a class="page-link" href="{{ i }}">{{ i }}</a></li>
+        {% endif %}
+      {% endfor %}
+      {% if page != max_pages %}
+    <li class="page-item"><a class="page-link" href="{{ page++1 }}">Next</a></li>
+      {% endif %}
+  </ul>
+</nav>
+{% block body %}{% endblock %}
+{% endblock %}

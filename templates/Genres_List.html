@@ -1,86 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'list_base.html' %}
 
-{% block head %}
-    <title>Board Game Genres List</title>
-    <script>
-        var elements = document.getElementsByClassName("column");
-        var i;
-        function listView() {
-            for (i = 0; i < elements.length; i++) {
-                elements[i].style.width = "100%";
-            }
-        }
-        function gridView() {
-            for (i = 0; i < elements.length; i++) {
-                elements[i].style.width = "25%";
-            }
-        }
-        function getLink(inputstring){
-            var linkstring = ""
-            linkstring = linkstring.concat(inputstring.replace(/\W/g, ''));
-            return linkstring
+{% block title %}Board Game Genres List{% endblock %}
+{% block pagetitle %}Genres{% endblock %}
 
-        }
-    </script>
-    <style>
-        .row{
-            width: 100%; justify-content: center; padding: 5% 5%; max-height: 50%;
-        }
-        #genrename{
-            justify-content: center;
-            color: black;
-            font-size: larger;
-            font-family: Cambria;
-            text-align: center;
-            text-anchor: middle;
-        }
-        #publishername{
-            color: black;
-            font-size: smaller;
-            font-family: Cambria;
-            text-align: left;
-            text-anchor: start;
-        }
-        #gamename{
-            color: black;
-            font-size: smaller;
-            font-family: Cambria;
-            text-align: left;
-            text-anchor: start;
-        }
-
-    </style>
-{% endblock %}
-{% block bodywithmargin %}
-    <h1 style = "font-size:30px; padding-top:100px; padding-bottom: 25px; padding-left: 30px;">Genres Page {{ page }}</h1>
-    <button onclick="listView()">List</button>
-    <button onclick="gridView()">Grid</button>
-<h5></h5>
-<nav aria-label="Page nav">
-  <ul class="pagination">
-      {% if page != 1 %}
-    <li class="page-item"><a class="page-link" href="{{ page-1 }}">Previous</a></li>
-      {% endif %}
-      {% for i in range(1, 7) %}
-        {% if i == page %}
-         <li class="page-item active"><a class="page-link" href="{{ i }}">{{ i }}</a></li>
-        {% else %}
-         <li class="page-item"><a class="page-link" href="{{ i }}">{{ i }}</a></li>
-        {% endif %}
-      {% endfor %}
-      {% if page != 6 %}
-    <li class="page-item"><a class="page-link" href="{{ page++1 }}">Next</a></li>
-      {% endif %}
-  </ul>
-</nav>
+{% block body %}
     <div class="row">
         {% for i in range((page-1)*12, ((page-1)*12)++12) %}
-            {% if i < 72 %} <!-- DUMB HARD CODING AH -->
-            {% set g = genres[i] %}
+            {% if i < genres.collection.count() %}
+            {% set genre = genres[i] %}
             <div class="column" style="width:25%; height: 100%; justify-content: center;padding: 0% 1%">
                 <form action= '/genre' method="POST">
-                    <button type= "submit" class="btn btn-link" name ="genrename" id="genrename" value= '{{g["Name"]}}' >{{g['Name']}}</button>
-                    <button type= "submit" class="btn btn-link" name ="genrename" value= '{{g["Name"]}}' ><img style="max-width: 100%; height: auto; max-height: 50%;" src='{{g["Image_URL"]}}' alt='{{g["Name"]}}'></button>
+                    <button type= "submit" class="btn btn-link" title="main" name ="genrename" id="genrename" value= '{{genre["Name"]}}' >{{genre['Name']}}</button>
+                    <button type= "submit" class="btn btn-link" name ="genrename" value= '{{genre["Name"]}}' ><img style="max-width: 100%; height: auto; max-height: 50%;" src='{{genre["Image_URL"]}}' alt='{{genre["Name"]}}'></button>
                 </form>
                 <h6></h6>
                 <form action="/publisher" method="POST">
@@ -89,11 +20,11 @@
                             Publishers
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            {% for publisher in g["Publishers"] %}
+                            {% for publisher in genre["Publishers"] %}
                             {% if (g["Publishers"]) | length == 1 and publisher == None %}
                             None
                             {% elif publisher != None %}
-                            <button type="submit" class="btn btn-link" name="publishername" id="publishername" value='{{ publisher }}'> {{ publisher }}</button>
+                            <button type="submit" class="btn btn-link" title="list" name="publishername" id="publishername" value='{{ publisher }}'> {{ publisher }}</button>
                             {% endif %}
                             {% endfor %}
                         </div>
@@ -106,7 +37,7 @@
                             Games
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            {% for game in g["Games"] %}<button type="submit" class="btn btn-link" name="gamename" id="gamename" value='{{ game }}'> {{ game }}</button>{% endfor %}
+                            {% for game in genre["Games"] %}<button type="submit" class="btn btn-link" title="list" name="gamename" id="gamename" value='{{ game }}'> {{ game }}</button>{% endfor %}
                         </div>
                     </div>
                 </form>
