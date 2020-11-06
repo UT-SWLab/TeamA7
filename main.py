@@ -52,28 +52,41 @@ def about():
 
 ############# LIST PAGES #####################
 
-@app.route('/boardgames/<int:page>')
-def games(page):
+
+@app.route('/boardgames/<string:sort_type>/<int:page>')
+def games(page, sort_type):
         global boardgameobjects
-        gameobjects = boardgameobjects.find()
+        if sort_type == "alphabetical":
+            gameobjects = boardgameobjects.find().sort("Name")
+        else:
+            gameobjects = boardgameobjects.find()
         max_pages = (gameobjects.collection.count()//12) + 1
-        return render_template('Board_Games_List.html', gameobjects=gameobjects, page=page, max_pages=max_pages)
+        return render_template('Board_Games_List.html', gameobjects=gameobjects, page=page, max_pages=max_pages,
+                               sort_type=sort_type, page_route='/boardgames/')
 
 
-@app.route('/boardgamegenres/<int:page>')
-def genres(page):
+@app.route('/boardgamegenres/<string:sort_type>/<int:page>')
+def genres(page, sort_type):
         global genre_objects
-        genre_obj = genre_objects.find()
+        if sort_type == "alphabetical":
+            genre_obj = genre_objects.find().sort("Name")
+        else:
+            genre_obj= genre_objects.find()
         max_pages = (genre_obj.collection.count() // 12) + 1
-        return render_template('Genres_List.html', genres=genre_obj, page=page, max_pages=max_pages)
+        return render_template('Genres_List.html', genres=genre_obj, page=page, max_pages=max_pages,
+                               sort_type=sort_type, page_route='/boardgamegenres/')
 
 
-@app.route('/boardgamepublishers/<int:page>', methods=['POST', 'GET'])
-def publishers(page):
-    global boardgameobjects
-    publishers = publish_objects.find()
-    max_pages = (publishers.collection.count() // 12) + 1
-    return render_template('Publishers_List.html', publishers=publishers, page=page, max_pages=max_pages)
+@app.route('/boardgamepublishers/<string:sort_type>/<int:page>')
+def publishers(page, sort_type):
+    global publish_objects
+    if sort_type == "alphabetical":
+        publish_obj = publish_objects.find().sort("Publisher")
+    else:
+        publish_obj = publish_objects.find()
+    max_pages = (publish_obj.collection.count() // 12) + 1
+    return render_template('Publishers_List.html', publishers=publish_obj, page=page, max_pages=max_pages,
+                           sort_type=sort_type, page_route='/boardgamepublishers/')
 
 ############ ROUTE TO GENRE INSTANCE PAGES ############
 @app.route('/genre', methods=['POST'])
@@ -103,12 +116,9 @@ def PubRouting():
 @app.route('/publisher/<publisherlink>', methods=['POST', 'GET'])
 def PubPage(publisherlink):
     global pubnamerequest
+    global publish_objects
     publisher = publish_objects.find({'Publisher': pubnamerequest}).next()
-    publishersTupple = PublisherNames()
-    publishers = publishersTupple[0]
-    publishergame = publishersTupple[1]
-    publishyear = publishersTupple[2]
-    return render_template("Publisher_Template.html", publisher=publisher, gamesforpub=publishergame, publishername=pubnamerequest, publishyear=publishyear)
+    return render_template("Publisher_Template.html", publisher=publisher, publishername=pubnamerequest)
 
 ############ ROUTE TO GAME INSTANCE PAGES ############
 @app.route('/game', methods=['POST'])
