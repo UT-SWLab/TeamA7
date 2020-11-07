@@ -5,14 +5,24 @@ Each one of these helper functions prints out the JSON response after filters of
 '''
 
 '''
-Player Ranges
-2-4 Players
-4 Players or More
+NOTES:
+Most recent collection function:
+	-Get the modified collection of the page we are on, so if a sorting has been implement, we get the sorted collection. 
+	-Note which button was most recently pressed.  
+Exact same implementation for filtering. We pass sorted collection to specIfic
+filtering function. Thus order is maintained. 
 
-Year Published ranges
-1940 -1970 
-1971-2001
-2001-Present
+This architecture must work the other way to. If we filter first, we need 
+to update the most recent collection function and note that the button for that specific filtering was hit
+
+
+Extra problems:
+
+Ideally multiple filters can be put on a module. Thus we need to keep track of 
+not only the most recently pressed filter button, but a list of multiple filters that are still turned on
+
+Thus also need error handling when filters get to specific, like if you applied every single filtering you probably get zero matches. 
+
 '''
 
 def four_or_more_players_Filter():

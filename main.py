@@ -91,6 +91,7 @@ def games(page, sort_type):
                                sort_type=sort_type, page_route='/boardgames/')
 
 
+
 @app.route('/boardgamegenres/<string:sort_type>/<int:page>')
 def genres(page, sort_type):
     global genre_objects
