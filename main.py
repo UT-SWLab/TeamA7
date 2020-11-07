@@ -28,7 +28,8 @@ def GameLinkify(name):
 # Name, Publisher, Genre, Min_Players, etc
 # genrefields = if looing for genres what fields are we searching in (default all)
 # publisherfields = if looking for publishers what fields are we searching in (default all)
-def search(input, models, gamefields, genrefields, publisherfields):
+#, gamefields, genrefields, publisherfields add these to the left back into input variables for search when adding fields
+def searchdb(input, models):
     exactmatches = {} # not case sensitive, array of all exact matches
     partialmatches = {} # not case sensitive, dict of all partial matches with key the word they're matched to
     if models['boardgames']:
@@ -41,7 +42,7 @@ def search(input, models, gamefields, genrefields, publisherfields):
     for word in partialwords:
         partialmatches[word] = {}
         if models['boardgames']:
-            partialmatches[word]['boargames'] = (list(boardgameobjects.find({"Name": {"$regex": "^" + word + "$", '$options': 'i'}})))
+            partialmatches[word]['boardgames'] = (list(boardgameobjects.find({"Name": {"$regex": "^" + word + "$", '$options': 'i'}})))
         if models['genres']:
             partialmatches[word]['genres'] = (list(genre_objects.find({"Name": {"$regex": "^" + word + "$", '$options': 'i'}})))
         if models['publishers']:
@@ -92,13 +93,13 @@ def games(page, sort_type):
 
 @app.route('/boardgamegenres/<string:sort_type>/<int:page>')
 def genres(page, sort_type):
-        global genre_objects
-        if sort_type == "alphabetical":
-            genre_obj = genre_objects.find().sort("Name")
-        else:
-            genre_obj= genre_objects.find()
+    global genre_objects
+    if sort_type == "alphabetical":
+        genre_obj = genre_objects.find().sort("Name")
+    else:
+        genre_obj= genre_objects.find()
         max_pages = (genre_obj.collection.count() // 12) + 1
-        return render_template('Genres_List.html', genres=genre_obj, page=page, max_pages=max_pages,
+    return render_template('Genres_List.html', genres=genre_obj, page=page, max_pages=max_pages,
                                sort_type=sort_type, page_route='/boardgamegenres/')
 
 
@@ -163,7 +164,8 @@ def GamePage(gamelink):
 @app.route('/search', methods=['POST'])
 def search():
     input_string = request.form['search']
-    exactmatches, partialmatches = search(input_string,{'boardgames':True,'genres':True,'publishers':True}, 0, 0 ,0)
+    models = {'boardgames':True,'genres':True,'publishers':True}
+    exactmatches, partialmatches = searchdb(input_string, models)
     return render_template("searchresults.html", input_string=input_string, exactmatches=exactmatches, partialmatches=partialmatches)
 if __name__ == "__main__":
     app.run(debug=True)
