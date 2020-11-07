@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Search Results for {{input_string}}</title>
+{% endblock %}
+
+{% block bodywithmargin %}
+    <div class = "container" style="padding:10%">
+        <h1>Search Results for {{input_string}}</h1>
+        <div class = "container" style="padding: 10% 0%">
+            <h2 style="padding-bottom:1%">Exact Matches for {{input_string}}</h2>
+            <div>
+                <h3>Board Game Matches</h3>
+                    {% if exactmatches['boardgames'] is [] %}
+                    <h4>No Results Found</h4>
+                    {% endif %}
+                    {% if exactmatches['boardgames'] != [] %}
+                        {% for g in exactmatches['boardgames'] %}
+                            <h4>{{g['Name'}}</h4>
+                        {% endfor %}
+                    {% endif %}
+                <h3>Genre Matches</h3>
+                    {% if exactmatches['genres'] is [] %}
+                    <h4>No Results Found</h4>
+                    {% endif %}
+                    {% if exactmatches['genres'] != [] %}
+                        {% for g in exactmatches['genres'] %}
+                            <h4>{{g['Name'}}</h4>
+                        {% endfor %}
+                    {% endif %}
+            </div>
+        </div>
+        <div class = "container" style="padding: 10% 0%">
+        <h2>Partial Matches for {{input_string}}</h2>
+        </div>
+</div>
+{% endblock %}
