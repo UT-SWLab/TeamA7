@@ -42,11 +42,11 @@ def searchdb(input, models):
     for word in partialwords:
         partialmatches[word] = {}
         if models['boardgames']:
-            partialmatches[word]['boardgames'] = (list(boardgameobjects.find({"Name": {"$regex": "^" + word + "$", '$options': 'i'}})))
+            partialmatches[word]['boardgames'] = (list(boardgameobjects.find({"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}})))
         if models['genres']:
-            partialmatches[word]['genres'] = (list(genre_objects.find({"Name": {"$regex": "^" + word + "$", '$options': 'i'}})))
+            partialmatches[word]['genres'] = (list(genre_objects.find({"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}})))
         if models['publishers']:
-            partialmatches[word]['publishers'] = list(publish_objects.find({"Name": {"$regex": "^" + word + "$", '$options': 'i'}}))
+            partialmatches[word]['publishers'] = list(publish_objects.find({"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}}))
     return exactmatches,partialmatches
 def PublisherNames():
     #Function now returns tupple of list to so game and publisher are tied for publisher page elements.
