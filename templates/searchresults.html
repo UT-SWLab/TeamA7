@@ -3,30 +3,28 @@
 {% block head %}
     <title>Search Results for "{{input_string}}"</title>
 {% endblock %}
-
 {% block bodywithmargin %}
-<div class="container">
+<div class="container" style ="padding: 15% 0%">
   <div class="row">
     <div class="col-md-12">
       <div class="grid">
       <div class="grid-body">
         <div class="row">
           <div class="col-md-3">
-            <h2 class="grid-title">Filter Results</h2>
+            <h2>Filter Results</h2>
             <h4>Show only:</h4>
-            <div class="checkbox">
+            <div class="modelfilter">
               <label><input type="checkbox">  board games</label>
             </div>
-            <div class="checkbox">
+            <div class="modelfilter">
               <label><input type="checkbox">  genres</label>
             </div>
-            <div class="checkbox">
+            <div class="modelfilter">
               <label><input type="checkbox">  publishers</label>
             </div>
-            <div class="padding"></div>
           </div>
           <div class="col-md-9">
-            <h3>Search Results for "{{input_string}}"</h3>
+            <h2>Search Results for "{{input_string}}"</h2>
             <hr>
               <form class="input-group" action ="/search" method="POST">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search games, genres, publishers" name="search" style="width:300px">
@@ -36,12 +34,12 @@
             <div class="row">
               <div class="col-sm-6">
                 <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="sort_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sorting</button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <button class="btn btn-link" title="list" >normal</button>
-    <button class="btn btn-link" title="list" >alphabetical</button>
-    </div>
-</div>
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="sort_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sorting</button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <button class="btn btn-link" title="list" >normal</button>
+                    <button class="btn btn-link" title="list" >alphabetical</button>
+                  </div>
+                </div>
               </div>
               <div class="table-responsive">
               <table class="table table-hover">
@@ -49,7 +47,7 @@
                 {% for g in exactmatches['boardgames'] %}
                 <form action="/game" method = "POST">
                 <tr style = "max-height:20%">
-                    <td class="name text-center"><button type="submit" class="btn btn-link" title="main" name="gamename" id="gamename" value='{{g["Name"]}}'><h3>{{g['Name']}}</h3></button></td>
+                    <td class="name text-center"><button type="submit" class="btn btn-link" name="gamename" id="gamename" value='{{g["Name"]}}'><h4>{{g['Name']}}</h4></button></td>
                   <td class="image" style="width: 25%"><img src='{{g["Image_URL"]}}' alt="" style="max-width: 100%"></td>
                   <td class="keywords"><strong>Keywords Matched:</strong><br>"{{input_string}}"</td>
                   <td class="text-right"><strong>Board Game</strong></td>
@@ -57,6 +55,7 @@
                 </form>
                 {% endfor %}
                 {% for g in exactmatches['genres'] %}
+                <form action="/genre" method = "POST">
                 <tr style = "max-height:20%">
                     <td class="name text-center"><button type="submit" class="btn btn-link" title="main" name="genrename" id="genrename" value='{{g["Name"]}}'><h3>{{g['Name']}}</h3></button></td>
                   <td class="image" style="width: 25%"><img src='{{g["Image_URL"]}}' alt="" style="max-width: 100%"></td>
@@ -66,6 +65,7 @@
                 </form>
                 {% endfor %}
                 {% for p in exactmatches['publishers'] %}
+                <form action="/publisher" method = "POST">
                 <tr style = "max-height:20%">
                     <td class="name text-center"><button type="submit" class="btn btn-link" title="main" name="publishername" id="publishername" value='{{p["Publisher"]}}'><h3>{{p['Publisher']}}</h3></button></td>
                   <td class="image" style="width: 25%"><img src='{{p["Image_URL"]}}' alt="" style="max-width: 100%"></td>
@@ -76,6 +76,7 @@
                 {% endfor %}
                 {% for w in partialmatches.keys() %}
                 {% for g in partialmatches[w]['boardgames'] %}
+                <form action="/game" method = "POST">
                 <tr style = "max-height:20%">
                     <td class="name text-center"><button type="submit" class="btn btn-link" name="gamename" value='{{g["Name"]}}'><h3>{{g['Name']}}</h3></button></td>
                   <td class="image" style="width: 25%"><img src='{{g["Image_URL"]}}' alt="" style="max-width: 100%"></td>
@@ -85,6 +86,7 @@
                 </form>
                 {% endfor %}
                 {% for g in partialmatches[w]['genres'] %}
+                <form action="/genre" method = "POST">
                 <tr style = "max-height:20%">
                     <td class="name text-center"><button type="submit" class="btn btn-link" name="genrename" value='{{g["Name"]}}'><h3>{{g['Name']}}</h3></button></td>
                   <td class="image" style="width: 25%"><img src='{{g["Image_URL"]}}' alt="" style="max-width: 100%"></td>
@@ -94,6 +96,7 @@
                 </form>
                 {% endfor %}
                 {% for p in partialmatches[w]['publishers'] %}
+                <form action="/publisher" method = "POST">
                 <tr style = "max-height:20%">
                     <td class="name text-center"><button type="submit" class="btn btn-link" name="publishername" value='{{p["Name"]}}'><h3>{{p['Name']}}</h3></button></td>
                   <td class="image" style="width: 25%"><img src='{{p["Image_URL"]}}' alt="" style="max-width: 100%"></td>
