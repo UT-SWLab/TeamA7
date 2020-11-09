@@ -113,9 +113,9 @@ def genres(page, sort_type):
 def publishers(page, sort_type):
     global publish_objects
     if sort_type == "alphabetical":
-        publish_obj = publish_objects.find().sort("Publisher")
+        publish_obj = publish_objects.find().sort("Name")
     elif sort_type == "inverse":
-        publish_obj = publish_objects.find().sort("Publisher", -1)
+        publish_obj = publish_objects.find().sort("Name", -1)
     else:
         publish_obj = publish_objects.find()
     max_pages = (publish_obj.collection.count() // 12) + 1
@@ -151,7 +151,7 @@ def PubRouting():
 def PubPage(publisherlink):
     global pubnamerequest
     global publish_objects
-    publisher = publish_objects.find({'Publisher': pubnamerequest}).next()
+    publisher = publish_objects.find({'Name': pubnamerequest}).next()
     return render_template("Publisher_Template.html", publisher=publisher, publishername=pubnamerequest)
 
 ############ ROUTE TO GAME INSTANCE PAGES ############
