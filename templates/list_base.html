@@ -80,6 +80,26 @@
     {% if sort_type != 'inverse' %}<button class="btn btn-link" title="list2" onclick="window.location.href = {{page_route}} + 'inverse/' + {{page}}">inverse alphabetical</button>{% endif %}
 
     </div>
+
+    <div class="dropdown">
+<button class="btn btn-secondary dropdown-toggle" type="button"
+id="sampleDropdownMenu" data-toggle="dropdown">
+Dropdown
+</button>
+<div class="dropdown-menu">
+<button class="dropdown-item" type="button">
+ <input type="checkbox">2-4 Players
+ </button>
+<button class="dropdown-item" type="button">
+ <input type="checkbox">Game Times < 1hr
+</button>
+<button class="dropdown-item" type="button">
+  <input type="checkbox">Game Time < 2hrs
+</button>
+</div>
+</div>
+
+
 </div>
 <h5></h5>
 <nav aria-label="Page nav" style="margin-left:20px;">
@@ -99,5 +119,10 @@
       {% endif %}
   </ul>
 </nav>
-{% block body %}{% endblock %}
+
+if empty =True {Display error message page}
+
+else : {% block body %}
+
+        {% endblock %}
 {% endblock %}
