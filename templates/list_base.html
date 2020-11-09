@@ -42,6 +42,19 @@
             font-family: Cambria;
             text-align: left;
             text-anchor: start;
+            color: #bf6402;
+        }
+        [title="list2"]{
+            color: black;
+            font-size: large;
+            font-family: Cambria;
+            text-align: left;
+            text-anchor: start;
+        }
+        [title="list_button"]{
+            color: #3e5d85;
+            border-radius: 8px;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.18);
         }
 
     </style>
@@ -49,13 +62,23 @@
 
 {% block bodywithmargin %}
     <h1 style = "font-size:30px; padding-top:100px; padding-bottom: 25px; padding-left: 30px;">{% block pagetitle %}{% endblock %} Page {{ page }}</h1>
-    <button onclick="listView()">List</button>
-    <button onclick="gridView()">Grid</button>
-<div class="dropdown">
+<div style="margin-left:60px;">
+    <h3>
+        View Style:
+        <button title="list_button" onclick="listView()">List</button>
+
+        <button title="list_button" onclick="gridView()">Grid</button>
+    </h3>
+</div>
+
+<h5></h5>
+<div class="dropdown" style="margin-left:60px;">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="sort_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sorting</button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    {% if sort_type != 'normal' %}<button class="btn btn-link" title="list" onclick="window.location.href = {{page_route}} + 'normal/' + {{page}}">normal</button>{% endif %}
-    {% if sort_type != 'alphabetical' %}<button class="btn btn-link" title="list" onclick="window.location.href = {{page_route}} + 'alphabetical/' + {{page}}">alphabetical</button>{% endif %}
+    {% if sort_type != 'normal' %}<button class="btn btn-link" title="list2" onclick="window.location.href = {{page_route}} + 'normal/' + {{page}}">normal</button>{% endif %}
+    {% if sort_type != 'alphabetical' %}<button class="btn btn-link" title="list2" onclick="window.location.href = {{page_route}} + 'alphabetical/' + {{page}}">alphabetical</button>{% endif %}
+    {% if sort_type != 'inverse' %}<button class="btn btn-link" title="list2" onclick="window.location.href = {{page_route}} + 'inverse/' + {{page}}">inverse alphabetical</button>{% endif %}
+
     </div>
 
     <div class="dropdown">
@@ -79,7 +102,7 @@ Dropdown
 
 </div>
 <h5></h5>
-<nav aria-label="Page nav">
+<nav aria-label="Page nav" style="margin-left:20px;">
   <ul class="pagination">
       {% if page != 1 %}
     <li class="page-item"><a class="page-link" href="{{ page-1 }}">Previous</a></li>

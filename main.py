@@ -84,6 +84,8 @@ def games(page, sort_type):
         global boardgameobjects
         if sort_type == "alphabetical":
             gameobjects = boardgameobjects.find().sort("Name")
+        elif sort_type == "inverse":
+            gameobjects = boardgameobjects.find().sort("Name", -1)
         else:
             gameobjects = boardgameobjects.find()
         max_pages = (gameobjects.collection.count()//12) + 1
@@ -97,9 +99,12 @@ def genres(page, sort_type):
     global genre_objects
     if sort_type == "alphabetical":
         genre_obj = genre_objects.find().sort("Name")
+    elif sort_type == "inverse":
+        genre_obj = genre_objects.find().sort("Name", -1)
     else:
-        genre_obj= genre_objects.find()
-        max_pages = (genre_obj.collection.count() // 12) + 1
+        genre_obj = genre_objects.find()
+
+    max_pages = (genre_obj.collection.count() // 12) + 1
     return render_template('Genres_List.html', genres=genre_obj, page=page, max_pages=max_pages,
                                sort_type=sort_type, page_route='/boardgamegenres/')
 
@@ -109,6 +114,8 @@ def publishers(page, sort_type):
     global publish_objects
     if sort_type == "alphabetical":
         publish_obj = publish_objects.find().sort("Publisher")
+    elif sort_type == "inverse":
+        publish_obj = publish_objects.find().sort("Publisher", -1)
     else:
         publish_obj = publish_objects.find()
     max_pages = (publish_obj.collection.count() // 12) + 1
