@@ -19,6 +19,34 @@
             $('.publisherrow').hide();
           }
         });
+        $('.showgenres').click(function(){
+          if($(this).prop("checked")==true){
+            $('.genrerow').show();
+          }
+          else if($(this).prop("checked")==false){
+            $('.genrerow').hide();
+          }
+          if($(".showgames").prop("checked")==false){
+            $('.gamerow').hide();
+          }
+          if($(".showpublishers").prop("checked")==false){
+            $('.publisherrow').hide();
+          }
+        });
+        $('.showpublishers').click(function(){
+          if($(this).prop("checked")==true){
+            $('.publisherrow').show();
+          }
+          else if($(this).prop("checked")==false){
+            $('.publisherrow').hide();
+          }
+          if($(".showgames").prop("checked")==false){
+            $('.gamerow').hide();
+          }
+          if($(".showgenres").prop("checked")==false){
+            $('.genrerow').hide();
+          }
+        });
       });
     </script>
 {% endblock %}
