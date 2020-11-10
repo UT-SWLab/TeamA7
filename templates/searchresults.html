@@ -8,9 +8,11 @@
         $('.showgames').click(function(){
           if($(this).prop("checked")==true){
             $('.gamerow').show();
+            $('.gamefilters').show();
           }
           else if($(this).prop("checked")==false){
             $('.gamerow').hide();
+            $('.gamefilters').hide();
           }
           if($(".showgenres").prop("checked")==false){
             $('.genrerow').hide();
@@ -47,6 +49,13 @@
             $('.genrerow').hide();
           }
         });
+        $('.minplayersfilter').click(function(){
+          if($(this).prop("checked")==true){
+            alert($('#min_minplayers').val());
+          }
+          else if($(this).prop("checked")==false){
+          }
+        });
       });
     </script>
 {% endblock %}
@@ -68,6 +77,14 @@
             </div>
             <div class="modelfilter">
               <label><input type="checkbox" class = "showpublishers">  publishers</label>
+            </div>
+            <div class="gamefilters">
+            <h5>Filters for Board Games:</h5>
+            <div class ="gamefilter">
+              <label for="min_minplayers">Minimum Number of Players: <span>1</span></label>
+              <input type="range" id="min_minplayers" min="1" max="10">
+              <label><input type= "checkbox" class="minplayersfilter"> Apply filter</label>
+            </div>
             </div>
           </div>
           <div class="col-md-9">
@@ -94,8 +111,8 @@
                 {% for g in exactmatches['boardgames'] %}
                 <form action="/game" method = "POST">
                 <tr class = 'gamerow' style = "max-height:20%">
-                  <td class="name text-center"><button type="submit" class="btn btn-link" name="gamename" id="gamename" value='{{g["Name"]}}'><h4>{{g['Name']}}</h4></button></td>
-                  <td class="image" style="width: 25%"><img src='{{g["Image_URL"]}}' alt="" style="max-width: 100%"></td>
+                  <td class="name text-center"><button type="submit" class="btn btn-link" name="gamename" id="gamename" value='{{g["Name"]}}'><strong>{{g['Name']}}</strong></button></td>
+                  <td class="image" style="width: 20%"><img src='{{g["Image_URL"]}}' alt="" style="max-width: 100%"></td>
                   <td class="keywords"><strong>Keywords Matched:</strong><br>"{{input_string}}"</td>
                   <td class="text-right"><strong>Board Game</strong></td>
                 </tr>
@@ -104,8 +121,8 @@
                 {% for g in exactmatches['genres'] %}
                 <form action="/genre" method = "POST">
                 <tr class = 'genrerow' style = "max-height:20%">
-                  <td class="name text-center"><button type="submit" class="btn btn-link" title="main" name="genrename" id="genrename" value='{{g["Name"]}}'><h3>{{g['Name']}}</h3></button></td>
-                  <td class="image" style="width: 25%"><img src='{{g["Image_URL"]}}' alt="" style="max-width: 100%"></td>
+                  <td class="name text-center"><button type="submit" class="btn btn-link" title="main" name="genrename" id="genrename" value='{{g["Name"]}}'><strong>{{g['Name']}}</strong></button></td>
+                  <td class="image" style="width: 20%"><img src='{{g["Image_URL"]}}' alt="" style="max-width: 100%"></td>
                   <td class="keywords"><strong>Keywords Matched:</strong><br>"{{input_string}}"</td>
                   <td class="text-right"><strong>Genre</strong></td>
                 </tr>
@@ -114,8 +131,8 @@
                 {% for p in exactmatches['publishers'] %}
                 <form action="/publisher" method = "POST">
                 <tr class = 'publisherrow' style = "max-height:20%">
-                    <td class="name text-center"><button type="submit" class="btn btn-link" title="main" name="publishername" id="publishername" value='{{p["Publisher"]}}'><h3>{{p['Publisher']}}</h3></button></td>
-                  <td class="image" style="width: 25%"><img src='{{p["Image_URL"]}}' alt="" style="max-width: 100%"></td>
+                  <td class="name text-center"><button type="submit" class="btn btn-link" title="main" name="publishername" id="publishername" value='{{p["Name"]}}'><strong>{{p['Name']}}</strong></button></td>
+                  <td class="image" style="width: 20%"><img src='{{p["Image_URL"]}}' alt="" style="max-width: 100%"></td>
                   <td class="keywords"><strong>Keywords Matched:</strong><br>"{{input_string}}"</td>
                   <td class="text-right"><strong>Publisher</strong></td>
                 </tr>
@@ -125,8 +142,8 @@
                 {% for g in partialmatches[w]['boardgames'] %}
                 <form action="/game" method = "POST">
                 <tr class = "gamerow" style = "max-height:20%">
-                    <td class="name text-center"><button type="submit" class="btn btn-link" name="gamename" value='{{g["Name"]}}'><h3>{{g['Name']}}</h3></button></td>
-                  <td class="image" style="width: 25%"><img src='{{g["Image_URL"]}}' alt="" style="max-width: 100%"></td>
+                    <td class="name text-center"><button type="submit" class="btn btn-link" name="gamename" value='{{g["Name"]}}'><strong>{{g['Name']}}</strong></button></td>
+                  <td class="image" style="width: 20%"><img src='{{g["Image_URL"]}}' alt="" style="max-width: 100%"></td>
                   <td class="keywords"><strong>Keywords Matched:</strong><br>"{{w}}"</td>
                   <td class="text-right"><strong>Board Game</strong></td>
                 </tr>
@@ -135,8 +152,8 @@
                 {% for g in partialmatches[w]['genres'] %}
                 <form action="/genre" method = "POST">
                 <tr class = "genrerow" style = "max-height:20%">
-                    <td class="name text-center"><button type="submit" class="btn btn-link" name="genrename" value='{{g["Name"]}}'><h3>{{g['Name']}}</h3></button></td>
-                  <td class="image" style="width: 25%"><img src='{{g["Image_URL"]}}' alt="" style="max-width: 100%"></td>
+                    <td class="name text-center"><button type="submit" class="btn btn-link" name="genrename" value='{{g["Name"]}}'><strong>{{g['Name']}}</strong></button></td>
+                  <td class="image" style="width: 20%"><img src='{{g["Image_URL"]}}' alt="" style="max-width: 100%"></td>
                   <td class="keywords"><strong>Keywords Matched:</strong><br>"{{w}}"</td>
                   <td class="text-right"><strong>Genre</strong></td>
                 </tr>
@@ -145,8 +162,8 @@
                 {% for p in partialmatches[w]['publishers'] %}
                 <form action="/publisher" method = "POST">
                 <tr class = 'publisherrow' style = "max-height:20%">
-                    <td class="name text-center"><button type="submit" class="btn btn-link" name="publishername" value='{{p["Name"]}}'><h3>{{p['Name']}}</h3></button></td>
-                  <td class="image" style="width: 25%"><img src='{{p["Image_URL"]}}' alt="" style="max-width: 100%"></td>
+                    <td class="name text-center"><button type="submit" class="btn btn-link" name="publishername" value='{{p["Name"]}}'><strong>{{p['Name']}}</strong></button></td>
+                  <td class="image" style="width: 20%"><img src='{{p["Image_URL"]}}' alt="" style="max-width: 100%"></td>
                   <td class="keywords"><strong>Keywords Matched:</strong><br>"{{w}}"</td>
                   <td class="text-right"><strong>Publisher</strong></td>
                 </tr>
