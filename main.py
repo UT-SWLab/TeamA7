@@ -33,13 +33,16 @@ def searchdb(input, models):
     exactmatches = {} # not case sensitive, array of all exact matches
     partialmatches = {} # not case sensitive, dict of all partial matches with key the word they're matched to
     if models['boardgames']:
-        namematches = list(boardgameobjects.find({"Name": { "$regex": ".*"+input+".*", '$options': 'i'}}))
-        descriptionmatches = list(boardgameobjects.find({"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}}))
+        matches = list(boardgameobjects.find({"Name": { "$regex": ".*"+input+".*", '$options': 'i'}})) #game name matches
+        descriptionmatches = list(boardgameobjects.find({"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}})) #game description matches
+        publishermatches = list(boardgameobjects.find({"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}})) #game by publisher
         for d in descriptionmatches:
-            if d not in namematches:
-                namematches.append(d)
-        #exactmatches['boardgames'] = list(boardgameobjects.find({"Name": { "$regex": ".*"+input+".*", '$options': 'i'}}))
-        exactmatches['boardgames'] = namematches
+            if d not in matches:
+                matches.append(d)
+        for p in publishermatches:
+            if p not in matches:
+                matches.append(p)
+        exactmatches['boardgames'] = matches
     if models['genres']:
         exactmatches['genres'] = list(genre_objects.find({"Name": { "$regex": ".*"+input+".*", '$options': 'i'}}))
     if models['publishers']:

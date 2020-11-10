@@ -131,7 +131,7 @@
                 {% for p in exactmatches['publishers'] %}
                 <form action="/publisher" method = "POST">
                 <tr class = 'publisherrow' style = "max-height:20%">
-                  <td class="name text-center"><button type="submit" class="btn btn-link" title="main" name="publishername" id="publishername" value='{{p["Publisher"]}}'><strong>{{p['Publisher']}}</strong></button></td>
+                  <td class="name text-center"><button type="submit" class="btn btn-link" title="main" name="publishername" id="publishername" value='{{p["Name"]}}'><strong>{{p['Name']}}</strong></button></td>
                   <td class="image" style="width: 20%"><img src='{{p["Image_URL"]}}' alt="" style="max-width: 100%"></td>
                   <td class="keywords"><strong>Keywords Matched:</strong><br>"{{input_string}}"</td>
                   <td class="text-right"><strong>Publisher</strong></td>
