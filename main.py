@@ -33,11 +33,11 @@ def searchdb(input, models):
     exactmatches = {} # not case sensitive, array of all exact matches
     partialmatches = {} # not case sensitive, dict of all partial matches with key the word they're matched to
     if models['boardgames']:
-        exactmatches['boardgames'] = list(boardgameobjects.find({"Name": { "$regex": "^"+input+"$", '$options': 'i'}}))
+        exactmatches['boardgames'] = list(boardgameobjects.find({"Name": { "$regex": ".*"+input+".*", '$options': 'i'}}))
     if models['genres']:
-        exactmatches['genres'] = list(genre_objects.find({"Name": { "$regex": "^"+input+"$", '$options': 'i'}}))
+        exactmatches['genres'] = list(genre_objects.find({"Name": { "$regex": ".*"+input+".*", '$options': 'i'}}))
     if models['publishers']:
-        exactmatches['publishers'] = list(publish_objects.find({"Name": { "$regex": "^"+input+"$", '$options': 'i'}}))
+        exactmatches['publishers'] = list(publish_objects.find({"Name": { "$regex": ".*"+input+".*", '$options': 'i'}}))
     partialwords = input.split()
     for word in partialwords:
         partialmatches[word] = {}
