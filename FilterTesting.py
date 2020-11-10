@@ -39,15 +39,18 @@ def less_than_2hrs_Filter():
     for doc1 in main.boardgameobjects.find({"Max_Playtime": {"$lt": time}}):
         print(doc1)
 
-def less_than_1hr_Filter():
+def less_than_1hr_Filter(cur, filteredCollection):
     time = 61
-    for doc1 in main.boardgameobjects.find({"Max_Playtime": {"$lt": time}}):
-        print(doc1)
-def year_1940_1970_Filter():
+    for match in cur.find({"Max_Playtime": {"$lt": time}}):
+            filteredCollection.insert_one(match)
+    return filteredCollection.find()
+
+def year_1940_1970_Filter(cur, filteredCollection):
     date0 = 1939
     date1 = 1971
-    for doc1 in main.boardgameobjects.find({"Year_Published": {"$gt": date0, "$lt": date1}}):
-        print(doc1)
+    for match in cur.find({"Year_Published": {"$gt": date0, "$lt": date1}}):
+        filteredCollection.insert_one(match)
+    return filteredCollection.find()
 
 def year_1971_2001_Filter():
     date0 = 1970
