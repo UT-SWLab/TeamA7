@@ -94,6 +94,32 @@ for game in client["BGDB"]["boardgamecollection"].find():
     client["BGDB"]["boardgamecollection"].update_one({'Name': game['Name']}, {"$set" : {"genres": genresforgame}})
 
 
+##############################TO PARSE OUT THE HTML TAGS THAT NEED PARSING (NOT ALL DO)#####################################
+
+for game in boardgamecollection.find():
+    description = game["Description"]
+    description = description.replace("<b>", "")
+    description = description.replace("</b>", "")
+    description = description.replace("<i>", "")
+    description = description.replace("</i>", "")
+    description = description.replace("<strong>", "")
+    description = description.replace("</strong>", "")
+    description = description.replace("<div>", "")
+    description = description.replace("</div>", "")
+    description = description.replace("<p>", "")
+    description = description.replace("</p>", " ")
+    description = description.replace("<em>", "")
+    description = description.replace("</em>", "")
+    description = description.replace("<ul>", "")
+    description = description.replace("</ul>", "")
+    description = description.replace("<li>", "")
+    description = description.replace("</li>", " ")
+    description = description.replace("&quot;", '"')
+    description = description.replace("<h4>", "")
+    description = description.replace("</h4>", " ")
+    boardgamecollection.update_one({'Name': game['Name']}, {"$set" : {"Description": description}})
+
+
 ##############################################CLEAR COLLECTION###########################################################
 
 #If for some reason you need to delete the collection entirely, comment out everything in this file besides the code below, then run.

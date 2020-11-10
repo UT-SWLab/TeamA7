@@ -1,4 +1,4 @@
-#This code updates all publishers in the publishers collection. If the collection is empty, it will populate it with our 71 publishers. 
+#This code updates all publishers in the publishers collection. If the collection is empty, it will populate it with our 70 publishers. 
 #If this code is run while the collection already has all of our publishers in it, it will just update the publishers, and shouldn't cause any duplicates.
 #If you need to clear the entire collection, see the code at the very bottom of the file.
 #Let me (Allegra) know if you have any questions before you try to run this.
@@ -113,7 +113,7 @@ listOfDicts = [{"Name": "Stronghold Games",
 
                {"Name": "GMT Games", "Description": "GMT Games is a publisher of strategy games, wargames, and eurogames since 1990, headquartered in Hanford, CA ","Games": [],"Genres": [] },
 
-               {"Name": "Z-Man Games  Inc.", "Description": " At Z-Man Games, we create innovative games that become modern essentials. Since 1999, our studio has published a variety of critically acclaimed titles from casual to complex, cooperative to competitive, small bag to big box—and everything in between. We combine our keen eye for design, attention to aesthetics, and top-notch components to create the best games for every gamer. As an industry leader, we strive to support and grow the tabletop gaming community through novel gaming experiences. Check out our bestselling titles like Pandemic, Love Letter, Citadels, and Carcassonne, or participate in the first cooperative tournament in tabletop gaming, Pandemic Survival. No matter your gaming style, there’s a game in our catalog to fit your kind of fun.","Games": [],"Genres": [] },
+               {"Name": "Z-Man Games, Inc.", "Description": "At Z-Man Games, we create innovative games that become modern essentials. Since 1999, our studio has published a variety of critically acclaimed titles from casual to complex, cooperative to competitive, small bag to big box—and everything in between. We combine our keen eye for design, attention to aesthetics, and top-notch components to create the best games for every gamer. As an industry leader, we strive to support and grow the tabletop gaming community through novel gaming experiences. Check out our bestselling titles like Pandemic, Love Letter, Citadels, and Carcassonne, or participate in the first cooperative tournament in tabletop gaming, Pandemic Survival. No matter your gaming style, there’s a game in our catalog to fit your kind of fun.","Games": [],"Genres": [] },
 
                {"Name": "Libellud", "Description": "No information available ","Games": [],"Genres": [] },
 
@@ -140,8 +140,6 @@ listOfDicts = [{"Name": "Stronghold Games",
                {"Name": "Karma Games", "Description": "Karma Games was founded by Juma Al-JouJou in Berlin/Germany and publishes strategy board games. ","Games": [],"Genres": [] },
 
                {"Name": "White Wizard Games", "Description": "White Wizard Games LLC, is a company created by Magic: The Gathering Hall of Famers Darwin Kastle and Rob Dougherty (developer and co-founder of Ascension: Deckbuilding Game). The company is based out of Massachusetts. ","Games": [],"Genres": [] },
-
-               {"Name": "Z-Man Games", "Description": " At Z-Man Games, we create innovative games that become modern essentials. Since 1999, our studio has published a variety of critically acclaimed titles from casual to complex, cooperative to competitive, small bag to big box—and everything in between. We combine our keen eye for design, attention to aesthetics, and top-notch components to create the best games for every gamer. As an industry leader, we strive to support and grow the tabletop gaming community through novel gaming experiences. Check out our bestselling titles like Pandemic, Love Letter, Citadels, and Carcassonne, or participate in the first cooperative tournament in tabletop gaming, Pandemic Survival. No matter your gaming style, there’s a game in our catalog to fit your kind of fun. ","Games": [],"Genres": [] },
 
                {"Name": "Blue Orange Games", "Description": "At Blue Orange Games, we believe the simple pleasure that comes from sharing good times with friends and family around a great game to be very precious. Creating, publishing and promoting quality games is our way of sharing and furthering that belief. We would like to thank all the retailers and players around the world who support our games and make the pleasures of play an everyday reality. In June 2013, French publisher Jactalea announced a partnership with U.S. publisher Blue Orange Games and consequently a name change from Jactalea to Blue Orange, with BGG adding the parenthetical (EU) to distinguish one company from the other since Blue Orange's Timothee Leroy notes that while some games will be released by both publishers, other titles will be released by only the U.S. or the European division of Blue Orange. ","Games": [],"Genres": [] },
 
@@ -195,7 +193,7 @@ for genre in genrecollection.find():
 for publisher in publishercollection.find():
     name = publisher["Name"]
     searchname = publisher['Name'].replace(" ", "+") + "+board+game+publisher+logo"
-    requeststring = "https://www.googleapis.com/customsearch/v1?key=AIzaSyCxFCh2XeiGTNT7kjDN2fhfB_J3W0ByabY&cx=4366fe0d278a82053&num=1&searchType=image&q=" + searchname
+    requeststring = "https://www.googleapis.com/customsearch/v1?key=AIzaSyCxFCh2XeiGTNT7kjDN2fhfB_J3W0ByabY&cx=4366fe0d278a82053&num=1&searchType=image&imgSize=medium&q=" + searchname
     resp = requests.get(requeststring)
     if resp.status_code != 200:
         # This means something went wrong.
