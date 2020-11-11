@@ -5,6 +5,7 @@ from bson.objectid import ObjectId
 from mongoengine import *
 import requests
 import re
+import FilterTesting
 
 client = MongoClient("mongodb+srv://teama7:ee461lteama7@mongodbcluster.bs58o.gcp.mongodb.net/BGDB?retryWrites=true&w=majority")
 db = client["BGDB"]
@@ -33,30 +34,20 @@ def searchdb(input, models):
     exactmatches = {} # not case sensitive, array of all exact matches
     partialmatches = {} # not case sensitive, dict of all partial matches with key the word they're matched to
     if models['boardgames']:
-        matches = list(boardgameobjects.find({"Name": { "$regex": ".*"+input+".*", '$options': 'i'}})) #game name matches
-        descriptionmatches = list(boardgameobjects.find({"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}})) #game description matches
-        publishermatches = list(boardgameobjects.find({"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}})) #game by publisher
-        for d in descriptionmatches:
-            if d not in matches:
-                matches.append(d)
-        for p in publishermatches:
-            if p not in matches:
-                matches.append(p)
-        exactmatches['boardgames'] = matches
+        exactmatches['boardgames'] = list(boardgameobjects.find({"Name": { "$regex": "^"+input+"$", '$options': 'i'}}))
     if models['genres']:
-        exactmatches['genres'] = list(genre_objects.find({"Name": { "$regex": ".*"+input+".*", '$options': 'i'}}))
+        exactmatches['genres'] = list(genre_objects.find({"Name": { "$regex": "^"+input+"$", '$options': 'i'}}))
     if models['publishers']:
-        exactmatches['publishers'] = list(publish_objects.find({"Name": { "$regex": ".*"+input+".*", '$options': 'i'}}))
+        exactmatches['publishers'] = list(publish_objects.find({"Name": { "$regex": "^"+input+"$", '$options': 'i'}}))
     partialwords = input.split()
-    if len(partialwords)>1:
-        for word in partialwords:
-            partialmatches[word] = {}
-            if models['boardgames']:
-                partialmatches[word]['boardgames'] = (list(boardgameobjects.find({"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}})))
-            if models['genres']:
-                partialmatches[word]['genres'] = (list(genre_objects.find({"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}})))
-            if models['publishers']:
-                partialmatches[word]['publishers'] = list(publish_objects.find({"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}}))
+    for word in partialwords:
+        partialmatches[word] = {}
+        if models['boardgames']:
+            partialmatches[word]['boardgames'] = (list(boardgameobjects.find({"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}})))
+        if models['genres']:
+            partialmatches[word]['genres'] = (list(genre_objects.find({"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}})))
+        if models['publishers']:
+            partialmatches[word]['publishers'] = list(publish_objects.find({"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}}))
     return exactmatches,partialmatches
 def PublisherNames():
     #Function now returns tupple of list to so game and publisher are tied for publisher page elements.
@@ -89,18 +80,31 @@ def about():
 ############# LIST PAGES #####################
 
 
-@app.route('/boardgames/<string:sort_type>/<int:page>')
-def games(page, sort_type):
-        global boardgameobjects
-        if sort_type == "alphabetical":
-            gameobjects = boardgameobjects.find().sort("Name")
-        elif sort_type == "inverse":
-            gameobjects = boardgameobjects.find().sort("Name", -1)
-        else:
-            gameobjects = boardgameobjects.find()
-        max_pages = (gameobjects.collection.count()//12) + 1
-        return render_template('Board_Games_List.html', gameobjects=gameobjects, page=page, max_pages=max_pages,
-                               sort_type=sort_type, page_route='/boardgames/')
+@app.route('/boardgames/<string:sort_type>/<int:page>/<string:filters>')
+#
+def games(page, sort_type, filters):
+    global boardgameobjects
+    gameobjects = boardgameobjects.find()
+    filters = "nofilters"
+    filteredCollection = db["testingStuff"]
+    filteredCollection.drop()  # drop entire collection
+    filteredCollection = db["testingStuff"]
+
+    if filters == "year_1940_1970":
+        gameobjects = FilterTesting.year_1940_1970_Filter(boardgameobjects, filteredCollection)
+    #HERE BUILD filters String and just concatentat with a letter make sure to not do special character.
+
+    if sort_type == "alphabetical":
+        gameobjects = boardgameobjects.find().sort("Name")
+    elif sort_type == "inverse":
+        gameobjects = boardgameobjects.find().sort("Name", -1)
+
+    #else:
+    #gameobjects = boardgameobjects.find()
+
+    max_pages = (gameobjects.collection.count()//12) + 1
+    return render_template('Board_Games_List.html', gameobjects=gameobjects, page=page, max_pages=max_pages,
+                           sort_type=sort_type, page_route='/boardgames/', filters=filters)
 
 
 
