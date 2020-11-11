@@ -35,7 +35,7 @@ def searchdb(input, models):
     if models['boardgames']:
         matches = list(boardgameobjects.find({"Name": { "$regex": ".*"+input+".*", '$options': 'i'}})) #game name matches
         descriptionmatches = list(boardgameobjects.find({"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}})) #game description matches
-        publishermatches = list(boardgameobjects.find({"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}})) #game by publisher
+        publishermatches = list(boardgameobjects.find({"Publisher": {"$regex": ".*" + input + ".*", '$options': 'i'}})) #game by publisher
         for d in descriptionmatches:
             if d not in matches:
                 matches.append(d)
@@ -44,9 +44,19 @@ def searchdb(input, models):
                 matches.append(p)
         exactmatches['boardgames'] = matches
     if models['genres']:
-        exactmatches['genres'] = list(genre_objects.find({"Name": { "$regex": ".*"+input+".*", '$options': 'i'}}))
+        matches = list(genre_objects.find({"Name": { "$regex": ".*"+input+".*", '$options': 'i'}}))
+        descriptionmatches = list(genre_objects.find({"Description": { "$regex": ".*"+input+".*", '$options': 'i'}}))
+        for d in descriptionmatches:
+            if d not in matches:
+                matches.append(d)
+        exactmatches['genres'] = matches
     if models['publishers']:
-        exactmatches['publishers'] = list(publish_objects.find({"Name": { "$regex": ".*"+input+".*", '$options': 'i'}}))
+        matches = list(publish_objects.find({"Name": { "$regex": ".*"+input+".*", '$options': 'i'}}))
+        descriptionmatches = list(publish_objects.find({"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}}))
+        for d in descriptionmatches:
+            if d not in matches:
+                matches.append(d)
+        exactmatches['publishers'] = matches
     partialwords = input.split()
     if len(partialwords)>1:
         for word in partialwords:
