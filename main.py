@@ -44,17 +44,12 @@ def searchdb(input, models):
             {"Name": { "$regex": ".*"+input+".*", '$options': 'i'}},
             {"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}}
         ]}))
-        descriptionmatches = list(genre_objects.find({"Description": { "$regex": ".*"+input+".*", '$options': 'i'}}))
-        for d in descriptionmatches:
-            if d not in matches:
-                matches.append(d)
         exactmatches['genres'] = matches
     if models['publishers']:
-        matches = list(publish_objects.find({"Name": { "$regex": ".*"+input+".*", '$options': 'i'}}))
-        descriptionmatches = list(publish_objects.find({"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}}))
-        for d in descriptionmatches:
-            if d not in matches:
-                matches.append(d)
+        matches = list(publish_objects.find({"$or":[
+            {"Name": { "$regex": ".*"+input+".*", '$options': 'i'}},
+            {"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}}
+        ]}))
         exactmatches['publishers'] = matches
     partialwords = input.split()
     if len(partialwords)>1:
@@ -62,24 +57,36 @@ def searchdb(input, models):
             partialmatches[word] = {}
             if models['boardgames']:
                 final = []
-                matches = list(boardgameobjects.find({"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}}))  # game name matches
-                descriptionmatches = list(boardgameobjects.find({"Description": {"$regex": ".*" + word + ".*", '$options': 'i'}}))  # game description matches
-                publishermatches = list(boardgameobjects.find({"Publisher": {"$regex": ".*" + word + ".*", '$options': 'i'}}))  # game by publisher
-                for d in descriptionmatches:
-                    if d not in matches:
-                        matches.append(d)
-                for p in publishermatches:
-                    if p not in matches:
-                        matches.append(p)
+                matches = list(boardgameobjects.find({"$or":[
+                    {"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}},
+                    {"Description": {"$regex": ".*" + word + ".*", '$options': 'i'}},
+                    {"Publisher": {"$regex": ".*" + word + ".*", '$options': 'i'}}
+                ]}))
                 for m in matches:
                     if m not in exactmatches['boardgames']:
                         final.append(m)
                 partialmatches[word]['boardgames'] = list(final)
             if models['genres']:
-                partialmatches[word]['genres'] = (list(genre_objects.find({"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}})))
+                final = []
+                matches = list(genre_objects.find({"$or":[
+                    {"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}},
+                    {"Description": {"$regex": ".*" + word + ".*", '$options': 'i'}},
+                ]}))
+                for m in matches:
+                    if m not in exactmatches['genres']:
+                        final.append(m)
+                partialmatches[word]['genres'] = list(final)
             if models['publishers']:
-                partialmatches[word]['publishers'] = list(publish_objects.find({"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}}))
-    return exactmatches,partialmatches
+                final = []
+                matches = list(publish_objects.find({"$or":[
+                    {"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}},
+                    {"Description": {"$regex": ".*" + word + ".*", '$options': 'i'}},
+                ]}))
+                for m in matches:
+                    if m not in exactmatches['publishers']:
+                        final.append(m)
+                partialmatches[word]['publishers'] = list(final)
+                return exactmatches,partialmatches
 def PublisherNames():
     #Function now returns tupple of list to so game and publisher are tied for publisher page elements.
     bgc = boardgameobjects.find()
