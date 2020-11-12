@@ -62,6 +62,11 @@
 
 {% block bodywithmargin %}
     <h1 style = "font-size:30px; padding-top:100px; padding-bottom: 25px; padding-left: 30px;">{% block pagetitle %}{% endblock %} Page {{ page }}</h1>
+    <form class="form-inline" action ="/search" method="POST" style="margin: 1%">
+        <input type = "hidden" name="modeltype" value='{% block model_type %}{% endblock %}' style="width:0%">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search games" name="search" style="width: 60%">
+        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+    </form>
 <div style="margin-left:60px;">
     <h3>
         View Style:

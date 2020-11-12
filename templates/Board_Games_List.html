@@ -3,8 +3,9 @@
 {% block title %}Board Game List{% endblock %}
 {% block pagetitle %}Board Games{% endblock %}
 {% block objectlist %}{{gameobjects}}{% endblock %}
-
+{% block model_type %}boardgames{% endblock %}
 {% block body %}
+
     <div class="row">
         {% for i in range((page-1)*12, ((page-1)*12)++12) %}
             {% if i < gameobjects.collection.count() %}

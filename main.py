@@ -65,7 +65,7 @@ def searchdb(input, models):
                 for m in matches:
                     if m not in exactmatches['boardgames']:
                         final.append(m)
-                partialmatches[word]['boardgames'] = list(final)
+                partialmatches[word]['boardgames'] = final
             if models['genres']:
                 final = []
                 matches = list(genre_objects.find({"$or":[
@@ -75,7 +75,7 @@ def searchdb(input, models):
                 for m in matches:
                     if m not in exactmatches['genres']:
                         final.append(m)
-                partialmatches[word]['genres'] = list(final)
+                partialmatches[word]['genres'] = final
             if models['publishers']:
                 final = []
                 matches = list(publish_objects.find({"$or":[
@@ -85,8 +85,8 @@ def searchdb(input, models):
                 for m in matches:
                     if m not in exactmatches['publishers']:
                         final.append(m)
-                partialmatches[word]['publishers'] = list(final)
-                return exactmatches,partialmatches
+                partialmatches[word]['publishers'] = final
+    return exactmatches,partialmatches
 def PublisherNames():
     #Function now returns tupple of list to so game and publisher are tied for publisher page elements.
     bgc = boardgameobjects.find()
@@ -223,7 +223,11 @@ def GamePage(gamelink):
 @app.route('/search', methods=['POST'])
 def search():
     input_string = request.form['search']
-    models = {'boardgames':True,'genres':True,'publishers':True}
+    models = {'boardgames':False,'genres':False,'publishers':False}
+    if "modeltype" in request.form:
+        models[request.form["modeltype"]] = True;
+    else:
+        models = {'boardgames': True, 'genres': True, 'publishers': True}
     exactmatches, partialmatches = searchdb(input_string, models)
     return render_template("searchresults.html", input_string=input_string, exactmatches=exactmatches, partialmatches=partialmatches)
 if __name__ == "__main__":
