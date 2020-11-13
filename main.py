@@ -128,7 +128,6 @@ def about():
 ############# LIST PAGES #####################
 
 @app.route('/boardgames/<string:sort_type>/<int:page>/<string:filters>')
-#
 def games(page, sort_type, filters):
     global boardgameobjects
     gameobjects = boardgameobjects.find()
@@ -137,8 +136,9 @@ def games(page, sort_type, filters):
     filteredCollection.drop()  # drop entire collection
     filteredCollection = db["testingStuff"]
 
-    if filters == "year_1940_1970":
-        gameobjects = FilterTesting.year_1940_1970_Filter(boardgameobjects, filteredCollection)
+    #if filters == "year_1940_1970":
+        #gameobjects = FilterTesting.year_1940_1970_Filter(boardgameobjects, filteredCollection)
+
     #HERE BUILD filters String and just concatentat with a letter make sure to not do special character.
 
     if sort_type == "alphabetical":
@@ -151,12 +151,12 @@ def games(page, sort_type, filters):
 
     max_pages = (gameobjects.collection.count()//12) + 1
     return render_template('Board_Games_List.html', gameobjects=gameobjects, page=page, max_pages=max_pages,
-                           sort_type=sort_type, page_route='/boardgames/', filters=filters)
+                           sort_type=sort_type, page_route='boardgames', filters=filters)
 
 
 
-@app.route('/boardgamegenres/<string:sort_type>/<int:page>')
-def genres(page, sort_type):
+@app.route('/boardgamegenres/<string:sort_type>/<int:page>/<string:filters>')
+def genres(page, sort_type, filters):
     global genre_objects
     if sort_type == "alphabetical":
         genre_obj = genre_objects.find().sort("Name")
@@ -167,11 +167,11 @@ def genres(page, sort_type):
 
     max_pages = (genre_obj.collection.count() // 12) + 1
     return render_template('Genres_List.html', genres=genre_obj, page=page, max_pages=max_pages,
-                               sort_type=sort_type, page_route='/boardgamegenres/')
+                               sort_type=sort_type, page_route='boardgamegenres', filters=filters)
 
 
-@app.route('/boardgamepublishers/<string:sort_type>/<int:page>')
-def publishers(page, sort_type):
+@app.route('/boardgamepublishers/<string:sort_type>/<int:page>/<string:filters>')
+def publishers(page, sort_type, filters):
     global publish_objects
     if sort_type == "alphabetical":
         publish_obj = publish_objects.find().sort("Name")
@@ -181,7 +181,7 @@ def publishers(page, sort_type):
         publish_obj = publish_objects.find()
     max_pages = (publish_obj.collection.count() // 12) + 1
     return render_template('Publishers_List.html', publishers=publish_obj, page=page, max_pages=max_pages,
-                           sort_type=sort_type, page_route='/boardgamepublishers/')
+                           sort_type=sort_type, page_route='boardgamepublishers', filters=filters)
 
 ############ ROUTE TO GENRE INSTANCE PAGES ############
 @app.route('/genre', methods=['POST'])

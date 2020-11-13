@@ -3,16 +3,8 @@
 {% block head %}
     <title>Publishers</title>
     <style>
-
-        #genrename{
-            color: black;
-            font-size: smaller;
-            font-family: Cambria;
-            text-align: left;
-            text-anchor: start;
-        }
-        #gamename{
-            color: black;
+        [title="entry"]{
+            color: #bf6402;
             font-size: smaller;
             font-family: Cambria;
             text-align: left;
@@ -33,14 +25,14 @@
                     <form action='/game' method="POST">
                         <h4>Games by Publisher:
                         {% for game in publisher["Games"] %}
-                            <button type= "submit" class="btn btn-link" name = "gamename" id="gamename" value='{{ game }}'>{{ game }}</button>
+                            <button type= "submit" class="btn btn-link" title="entry" name = "gamename" id="gamename" value='{{ game }}'>{{ game }}</button>
                         {% endfor %}
                         </h4>
                     </form>
                     <form action='/genre' method="POST">
                         <h4>Genres Covered by Publisher:
                         {% for genre in publisher["Genres"] %}
-                            <button type= "submit" class="btn btn-link" name = "genrename" id="genrename" value='{{ genre }}'>{{ genre }}</button>
+                            <button type= "submit" class="btn btn-link" title="entry" name = "genrename" id="genrename" value='{{ genre }}'>{{ genre }}</button>
                         {% endfor %}
                         </h4>
                     </form>

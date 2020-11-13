@@ -3,16 +3,8 @@
 {% block head %}
     <title>Board Games</title>
     <style>
-
-        #publishername{
-            color: black;
-            font-size: smaller;
-            font-family: Cambria;
-            text-align: left;
-            text-anchor: start;
-        }
-        #genrename{
-            color: black;
+        [title="entry"]{
+            color: #bf6402;
             font-size: smaller;
             font-family: Cambria;
             text-align: left;
@@ -27,7 +19,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-4" style="width: 100%">
-                    <img src='{{ game["Image_URL"] }}' style="max-width: 100%; justify-content: center">
+                    <img src='{{ game["Image_URL"] }}' style="max-width:100%;width: 500px;object-fit: cover;">
           <br>
         <br>
         <h5>Players: {{ game['Min_Players'] }}-{{ game['Max_Players'] }}</h5>
@@ -39,14 +31,14 @@
              <h5>Year Published: {{ game['Year_Published'] }}</h5>
         <form action="/publisher" method="POST">
             <h4>Publisher:
-                <button type="submit" class="btn btn-link" name= "publishername" id="publishername" value='{{game["Publisher"]}}'>{{ game['Publisher'] }}</button>
+                <button type="submit" class="btn btn-link" title="entry" name= "publishername" id="publishername" value='{{game["Publisher"]}}'>{{ game['Publisher'] }}</button>
             </h4>
         </form>
 
         <form action="/genre" method="POST">
             <h4>Genres:
                 {% for genre in game["genres"] %}
-                    <button type="submit" class="btn btn-link" name= "genrename" id="genrename" value='{{ genre }}'>{{ genre }}</button>
+                    <button type="submit" class="btn btn-link" title="entry" name= "genrename" id="genrename" value='{{ genre }}'>{{ genre }}</button>
                 {% endfor %}
             </h4>
         </form>

@@ -12,7 +12,7 @@
                     <form action='/publisher' method="POST">
                         <button type= "submit" class="btn btn-link" title="main" name = "publishername" id="publishername" value='{{ publisher["Name"] }}'>{{ publisher["Name"] }}</button>
                         <br>
-                        <button type= "submit" class="btn btn-link" name ="publishername" value= '{{ publisher["Name"] }}'><img style="max-width:100%;width: 300px;object-fit: cover;" src='{{publisher["Image_URL"]}}' alt='{{ publisher["Name"] }}'></button>
+                        <button type= "submit" class="btn btn-link" name ="publishername" value= '{{ publisher["Name"] }}'><img style="max-width:100%;width: 500px;object-fit: cover;" src='{{publisher["Image_URL"]}}' alt='{{ publisher["Name"] }}'></button>
                     </form>
                     <form action= '/game' method="POST">
                         <div class="dropdown">
