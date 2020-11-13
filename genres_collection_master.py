@@ -41,6 +41,50 @@ for game in boardgamecollection.find():
 			genrecollection.insert_one(newgenre)
 
 
+################################TO CALCULATE AVERAGE PLAYERS, PLAYTIME, AND PRICE######################################
+
+for genre in genrecollection.find():
+
+	totalminplayers = 0
+	totalmaxplayers = 0
+	totalplaytime = 0
+	gamecount = 0
+	totalprice = 0
+	gameswithpricecount = 0
+
+	for gamename in genre["Games"]:
+		game = boardgamecollection.find_one({"Name": gamename})
+		totalminplayers += game["Min_Players"]
+		totalmaxplayers += game["Max_Players"]
+		gameaverageplaytime = game["Min_Playtime"]
+		gameaverageplaytime += game["Max_Playtime"]
+		gameaverageplaytime = gameaverageplaytime/2
+		totalplaytime += gameaverageplaytime
+		gamecount += 1
+		if float(game["Current_Price"]) != 0:
+			totalprice += float(game["Current_Price"])
+			gameswithpricecount += 1
+
+	print(genre["Name"])
+	print("gamecount = " + str(gamecount))
+	print("totalminplayers = " + str(totalminplayers))
+	print("totalmaxplayers = " + str(totalmaxplayers))
+	print("totalplaytime = " + str(totalplaytime))
+	print("gameswithpricecount = " + str(gameswithpricecount))
+	averageminplayers = totalminplayers / gamecount
+	averagemaxplayers = totalmaxplayers / gamecount
+	averageplaytime = totalplaytime / gamecount
+	if(gameswithpricecount != 0):
+		averageprice = totalprice / gameswithpricecount
+		genrecollection.update_one({'Name': genre['Name']}, {"$set" : {"Average_Price": round(averageprice, 2)}})
+	else:
+		averageprice = "Not Available"
+		genrecollection.update_one({'Name': genre['Name']}, {"$set" : {"Average_Price": averageprice}})
+
+	genrecollection.update_one({'Name': genre['Name']}, {"$set" : {"Average_Min_Players": round(averageminplayers)}})
+	genrecollection.update_one({'Name': genre['Name']}, {"$set" : {"Average_Max_Players": round(averagemaxplayers)}})
+	genrecollection.update_one({'Name': genre['Name']}, {"$set" : {"Average_Playtime": round(averageplaytime)}})
+
 
 #####################################TO FIND IMAGES TO USE ON THE GENRE INSTANCE PAGES############################################
 
@@ -61,7 +105,6 @@ for genre in genrecollection.find():
         formattedresults = results[0]
         image_url = formattedresults['link']
         genrecollection.update_one({'Name': name}, { "$set" : {"Image_URL": image_url}})
-
 
 
 ######################################################CLEAR COLLECTION#############################################################

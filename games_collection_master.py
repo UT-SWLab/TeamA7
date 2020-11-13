@@ -39,7 +39,16 @@ for game in resp.json()['games']:
     	"Year_Published": game['year_published'],
     	"Min_Age": game['min_age'],
     	"Image_URL": game['image_url'],
-    	"BGA_Link": game['url']
+    	"BGA_Link": game['url'],
+        "Current_Price": game['price'],
+        "Suggested_Retail_Price": game['msrp'],
+        "Discount": game['discount'],
+        "Designers": game['designers'],
+        "Developers": game['developers'],
+        "Artists": game['artists'],
+        "BGA_Num_User_Ratings": game['num_user_ratings'],
+        "BGA_Average_User_Rating": game['average_user_rating'],
+        "Rules_URL": game['rules_url']
     }
 
     # insert the new boardgame into the board game collection or update the existing board game by replacing the information
@@ -68,7 +77,16 @@ for game in resp2.json()['games']:
         "Year_Published": game['year_published'],
         "Min_Age": game['min_age'],
         "Image_URL": game['image_url'],
-        "BGA_Link": game['url']
+        "BGA_Link": game['url'],
+        "Current_Price": game['price'],
+        "Suggested_Retail_Price": game['msrp'],
+        "Discount": game['discount'],
+        "Designers": game['designers'],
+        "Developers": game['developers'],
+        "Artists": game['artists'],
+        "BGA_Num_User_Ratings": game['num_user_ratings'],
+        "BGA_Average_User_Rating": game['average_user_rating'],
+        "Rules_URL": game['rules_url']
     }
 
     # insert the new boardgame into the board game collection or update the existing board game by replacing the information

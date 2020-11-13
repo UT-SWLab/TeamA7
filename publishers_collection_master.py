@@ -43,7 +43,7 @@ listOfDicts = [{"Name": "Stronghold Games",
 
                {"Name": "Gamewright", "Description": "Based in Newton, Massachussetts, Gamewright was founded in 1994 by four parents whose kids wanted great games. From the start, our mission has remained clear: Create the highest quality family games with outstanding play-value. Guided by themes and experiences that transcend age and salted with a bit of irreverence, our games are designed to foster laughter, learning, friendship and fun. Over the years, our family has grown to over 50 games, 150 awards, and countless happy players. The thousands of letters we receive from kids, parents, grandparents, and teachers tell us our hearts are in the right place. Thank you for inviting us into your home and for playing with Gamewright! ","Games": [],"Genres": [] },
                     #LLC
-               {"Name": "Dark Tier Studios", "Description": "Independent game publisher in Grand Rapids, MI specializing in Board Games, Card Games and Roleplaying Games. ","Games": [],"Genres": [] },
+               {"Name": "Darktier Studios", "Description": "Independent game publisher in Grand Rapids, MI specializing in Board Games, Card Games and Roleplaying Games. ","Games": [],"Genres": [] },
 
                {"Name": "Asmodee", "Description": "Asmodee: Entertaining everyone.Asmodee, we're always on the hunt for the best games you can play. Whether you're looking for a fun game for the family, an engaging conflict between friends, or a controversial and exciting face-off, Asmodee has something for you. From best-selling family games and hilarious party games to gorgeous hobby games, Asmodee and its partners set the standard for production and gameplay.Asmodee publishes many of its own games as well as distributing games for many different publishers in different countries. Many of our games have won prestigious awards, such as Dixit (Spiel des Jahres 2010), 7 Wonders (Kennerspiel des Jahres 2011) and many others popular games like Dice Town, Formula D, and Cyclades. Based in Guyancourt, France.","Games": [],"Genres": [] },
                # MOI
@@ -184,6 +184,51 @@ for genre in genrecollection.find():
 		publishercollection.update_one({'Name': publisher}, {"$addToSet" : {"Genres": genre['Name']}})
 
 
+################################TO CALCULATE AVERAGE PLAYERS, PLAYTIME, AND PRICE######################################
+
+for publisher in publishercollection.find():
+
+	totalminplayers = 0
+	totalmaxplayers = 0
+	totalplaytime = 0
+	gamecount = 0
+	totalprice = 0
+	gameswithpricecount = 0
+
+	for gamename in publisher["Games"]:
+		game = boardgamecollection.find_one({"Name": gamename})
+		totalminplayers += game["Min_Players"]
+		totalmaxplayers += game["Max_Players"]
+		gameaverageplaytime = game["Min_Playtime"]
+		gameaverageplaytime += game["Max_Playtime"]
+		gameaverageplaytime = gameaverageplaytime/2
+		totalplaytime += gameaverageplaytime
+		gamecount += 1
+		if float(game["Current_Price"]) != 0:
+			totalprice += float(game["Current_Price"])
+			gameswithpricecount += 1
+
+	print(publisher["Name"])
+	print("gamecount = " + str(gamecount))
+	print("totalminplayers = " + str(totalminplayers))
+	print("totalmaxplayers = " + str(totalmaxplayers))
+	print("totalplaytime = " + str(totalplaytime))
+	print("gameswithpricecount = " + str(gameswithpricecount))
+	averageminplayers = totalminplayers / gamecount
+	averagemaxplayers = totalmaxplayers / gamecount
+	averageplaytime = totalplaytime / gamecount
+	if(gameswithpricecount != 0):
+		averageprice = totalprice / gameswithpricecount
+		publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Price": round(averageprice, 2)}})
+	else:
+		averageprice = "Not Available"
+		publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Price": averageprice}})
+
+	publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Min_Players": round(averageminplayers)}})
+	publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Max_Players": round(averagemaxplayers)}})
+	publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Playtime": round(averageplaytime)}})
+
+
 #####################################TO FIND IMAGES TO USE ON THE PUBLISHER INSTANCE PAGES############################################
 
 #API request from Google Images
@@ -203,7 +248,6 @@ for publisher in publishercollection.find():
         formattedresults = results[0]
         image_url = formattedresults['link']
         publishercollection.update_one({'Name': name}, { "$set" : {"Image_URL": image_url}})
-
 
 
 ######################################################CLEAR COLLECTION#############################################################
