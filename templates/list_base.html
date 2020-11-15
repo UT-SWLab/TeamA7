@@ -85,6 +85,20 @@
 
     </div>
 </div>
+
+<!--Pass through live filters list to list_base for easy for loop to check what buttons are still clickable-->
+
+<div class="dropdown" style="margin-left:60px;">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="filters" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filters</button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+   {% for filter in LiveFilters %}
+    {% if filters != 'year_1940_1970' %}<button class="btn btn-link" title="list2" onclick="window.location.href = link('{{page_route}}', '{{sort_type}}', '{{page}}', 'year_1940_1970')">year_1940_1970</button>{% endif %}
+{% endfor %}
+    {% if sort_type != 'inverse' %}<button class="btn btn-link" title="list2" onclick="window.location.href = link('{{page_route}}', 'inverse', '{{page}}', '{{filters}}')">fake inverse alphabetical</button>{% endif %}
+    </div>
+</div>
+
+
 <h5></h5>
 <nav aria-label="Page nav" style="margin-left:20px;">
   <ul class="pagination">

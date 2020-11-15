@@ -5,6 +5,7 @@ from bson.objectid import ObjectId
 from mongoengine import *
 import requests
 import re
+import FilterTesting
 
 client = MongoClient(
     "mongodb+srv://teama7:ee461lteama7@mongodbcluster.bs58o.gcp.mongodb.net/BGDB?retryWrites=true&w=majority")
@@ -18,6 +19,10 @@ pubnamerequest = ''
 genre_name_request = ''
 pubpagerequest = {}
 genre_page_request = {}
+
+saveSort = 'normal'
+
+LiveFilters = []
 app = Flask(__name__)
 
 
@@ -136,32 +141,43 @@ def about():
 
 
 ############# LIST PAGES #####################
-
 @app.route('/boardgames/<string:sort_type>/<int:page>/<string:filters>')
 def games(page, sort_type, filters):
     global boardgameobjects
-    gameobjects = boardgameobjects.find()
-    filters = "nofilters"
+    global saveSort
+
     filteredCollection = db["testingStuff"]
     filteredCollection.drop()  # drop entire collection
     filteredCollection = db["testingStuff"]
 
-    # if filters == "year_1940_1970":
-    # gameobjects = FilterTesting.year_1940_1970_Filter(boardgameobjects, filteredCollection)
 
-    # HERE BUILD filters String and just concatentat with a letter make sure to not do special character.
+    #CheckFilters(filters) #Checks all filters and builds string. Returns collection that has been filtered by every live filter
+
+    if filters == "year_1940_1970":
+        filteredCollection = year_1940_1970_Filter(boardgameobjects, filteredCollection)
+        global LiveFilters
+        LiveFilters.append("year_1940_1970")
+    else:
+        filters = "nofilters"
+        filteredCollection = noFilter(boardgameobjects, filteredCollection)
+
+
 
     if sort_type == "alphabetical":
-        gameobjects = boardgameobjects.find().sort("Name")
-    elif sort_type == "inverse":
-        gameobjects = boardgameobjects.find().sort("Name", -1)
+        gameobjects = filteredCollection.find().sort("Name")
+        saveSort = sort_type
 
-    # else:
-    # gameobjects = boardgameobjects.find()
+    elif sort_type == "inverse":
+        gameobjects = filteredCollection.find().sort("Name", -1)
+        saveSort = sort_type
+
+    else:
+        # Case where no sorting is done, Give Cursor to list_Base Page
+        gameobjects = filteredCollection.find()
 
     max_pages = (gameobjects.collection.count() // 12) + 1
     return render_template('Board_Games_List.html', gameobjects=gameobjects, page=page, max_pages=max_pages,
-                           sort_type=sort_type, page_route='boardgames', filters=filters)
+                           sort_type=sort_type, page_route='boardgames', filters=filters, LiveFilters=LiveFilters)
 
 
 @app.route('/boardgamegenres/<string:sort_type>/<int:page>/<string:filters>')
@@ -259,6 +275,34 @@ def search():
     return render_template("searchresults.html", input_string=input_string, exactmatches=exactmatches,
                            partialmatches=partialmatches)
 
+
+####################FILTERS#####################
+
+def year_1940_1970_Filter(cur, filteredCollection):
+    date0 = 1939
+    date1 = 1971
+    for match in cur.find({"Year_Published": {"$gt": date0, "$lt": date1}}):
+        filteredCollection.insert_one(match)
+    return filteredCollection
+
+
+def noFilter(cur, filteredCollection):
+    for match in cur.find():
+        filteredCollection.insert_one(match)
+    return filteredCollection
+
+
+def CheckFilters(filters,filteredCollection):
+    #Takes in string filter from module rerouting.
+    FiltersList= ["year_1940_1970", "nofilters"]
+    for possibleFilter in FiltersList:
+        if substring in filters:
+            filters.append(possibleFilter)
+            global LiveFilters
+            LiveFilters.append(possibleFilter)
+            filteredCollection = year_1940_1970_Filter(boardgameobjects, filteredCollection)
+            #HERE NEED TO TIE FUNCTION TO FILTER SPECFIC
+    return filteredCollection
 
 if __name__ == "__main__":
     app.run(debug=True)
