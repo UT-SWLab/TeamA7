@@ -5,6 +5,11 @@
     <script>
         var elements = document.getElementsByClassName("column");
         var i;
+
+        var filter = {{ filters|tojson }};
+        alert(filter);
+        console.log(filter);
+
         function listView() {
             for (i = 0; i < elements.length; i++) {
                 elements[i].style.width = "100%";
@@ -24,12 +29,24 @@
             return '/' + page_route + '/' + sort + '/' + page + '/' + filter;
         }
 
-      function  buildFilterString(filter , newfilter ){
+      function  buildFilterString(newfilter){
             alert('Hit buildfilter');
             filter =  filter.concat(newfilter);
             alert(filter);
             return filter;
         }
+
+        function getFilter(){
+            alert('hit getfilter on checkbox 4')
+            return filter;
+        }
+
+
+       function setfilterbase(filterbase){
+            filter = filterbase;
+            alert('inside setfilterbase');
+            alert(filter);
+       }
 
 function myFunction() {
   // Get the checkbox
@@ -103,6 +120,10 @@ function myFunction() {
 
 <h5></h5>
 
+<script>
+
+ </script>
+
 <div class="dropdown" style="margin-left:60px;">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="sort_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sorting</button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -121,34 +142,32 @@ function myFunction() {
           aria-haspopup="true" aria-expanded="false">Filters</button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
+    <a class="dropdown-item" href="#">
       <!-- Default unchecked -->
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox1" onclick="buildFilterString('{{filters}}','less_than_2hrs_Filter')" >
-        <label class="custom-control-label" for="checkbox1">year_1940_1970</label>
+        <input type="checkbox" class="custom-control-input" id="checkbox1" onclick="buildFilterString('four_or_more_players')" >
+        <label class="custom-control-label" for="checkbox1">four_or_more_players</label>
       </div>
+        </a>
+
 
     <a class="dropdown-item" href="#">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox2" checked onclick="buildFilterString('{{filters}}','less_than_2hrs_Filter')">
+        <input type="checkbox" class="custom-control-input" id="checkbox2"  onclick="buildFilterString('less_than_2hrs')">
         <label class="custom-control-label" for="checkbox2">less_than_2hrs</label>
       </div>
     </a>
     <a class="dropdown-item" href="#">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox3" onclick="buildFilterString('{{filters}}','two_to_four_plauers')" >
+        <input type="checkbox" class="custom-control-input" id="checkbox3" onclick="buildFilterString('two_to_four_players')" >
         <label class="custom-control-label" for="checkbox3">two_to_four_players</label>
       </div>
     </a>
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="#">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox4" checked>
-        <label class="custom-control-label" for="checkbox4">Check me</label>
-      </div>
-    </a>
+
+
     <a class="dropdown-item" href="#">
   <div class="custom-control custom-checkbox">
-      <button class="btn btn-link" title="list2" onclick="window.location.href = link('{{page_route}}', 'normal', '{{page}}', '{{filters}}')">Run Filter</button>
+      <button class="btn btn-link" title="list2" onclick="window.location.href = link('{{page_route}}', 'normal', '{{page}}', getFilter() )">Run Filter</button>
   </div>
 </a>
 </div>

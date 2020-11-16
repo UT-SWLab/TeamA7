@@ -23,6 +23,7 @@ genre_page_request = {}
 saveSort = 'normal'
 
 LiveFilters = []
+
 app = Flask(__name__)
 
 
@@ -145,24 +146,12 @@ def about():
 def games(page, sort_type, filters):
     global boardgameobjects
     global saveSort
-
+    print("This is the new filter from url " + filters)
     filteredCollection = db["testingStuff"]
     filteredCollection.drop()  # drop entire collection
     filteredCollection = db["testingStuff"]
 
-
-    #CheckFilters(filters) #Checks all filters and builds string. Returns collection that has been filtered by every live filter
-
-    if filters == "year_1940_1970":
-        filteredCollection = year_1940_1970_Filter(boardgameobjects, filteredCollection)
-        global LiveFilters
-        LiveFilters.append("year_1940_1970")
-
-
-    if filters == "nofilters":
-        filters = "nofilters"
-        filteredCollection = noFilter(boardgameobjects, filteredCollection)
-
+    CheckSubstringMatches(filters, filteredCollection)
 
 
     if sort_type == "alphabetical":
@@ -179,7 +168,7 @@ def games(page, sort_type, filters):
 
     max_pages = (gameobjects.collection.count() // 12) + 1
     return render_template('Board_Games_List.html', gameobjects=gameobjects, page=page, max_pages=max_pages,
-                           sort_type=sort_type, page_route='boardgames', filters=filters, LiveFilters=LiveFilters)
+                           sort_type=sort_type, page_route='boardgames', filters=filters)
 
 
 @app.route('/boardgamegenres/<string:sort_type>/<int:page>/<string:filters>')
@@ -287,28 +276,35 @@ def year_1940_1970_Filter(cur, filteredCollection):
         filteredCollection.insert_one(match)
     return filteredCollection
 
-
-def MultipleFilters(db):
-    db.customers.find({"$ and": [{"$or": [{"Country": "Germany"},{"Country": "France"}]} ,{VIP: true}]})
-
-
 def noFilter(cur, filteredCollection):
     for match in cur.find():
         filteredCollection.insert_one(match)
     return filteredCollection
 
 
-def CheckFilters(filters,filteredCollection):
-    #Takes in string filter from module rerouting.
-    FiltersList= ["year_1940_1970", "nofilters"]
-    for possibleFilter in FiltersList:
-        if substring in filters:
-            filters.append(possibleFilter)
-            global LiveFilters
-            LiveFilters.append(possibleFilter)
-            filteredCollection = year_1940_1970_Filter(boardgameobjects, filteredCollection)
-            #HERE NEED TO TIE FUNCTION TO FILTER SPECFIC
-    return filteredCollection
+def CheckSubstringMatches(filters, filteredCollection):
+    Allfilters= ['four_or_more_players', 'two_to_four_players', 'less_than_2hrs']
+    fullstring = filters
+    FoundFilters = list()
+    for specificFilter in Allfilters:
+        substring = specificFilter
+        if fullstring.find(substring) != -1:
+            print("Found: " + substring)
+            FoundFilters.append(substring)
+        else:
+            print(substring + ": Not found")
+            FoundFilters.append("FilterNotFound")
+    ApplyFoundFilters(FoundFilters)
+
+def ApplyFoundFilters(FoundFliters):
+    for filter in FoundFliters:
+        i = 1+2
+    return i
+
+
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
