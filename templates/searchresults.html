@@ -4,54 +4,60 @@
     <title>Search Results for "{{input_string}}"</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+      var filteredresults;
+      var current_page;
+      var page_count;
       $(document).ready(function(){
+        //setting up pagination
+        filteredresults= $('tr');
+        current_page = 1;
+        page_count = Math.ceil($('tr').length/9);
+        var pages = '';
+        for (let p = 1; p <= page_count; p++){
+          pages += '<li class="page-item"><button class="btn btn-info" onclick="pagechange('+p+');">'+p+'</button></li>';
+        }
+        $('.pagination').find('li[name="prev"]').after(pages);
+        $('tr').slice(9, $('tr').length).hide();
+
         $('.gamefilters').hide();
-        $('.showgames').click(function(){
-          if($(this).prop("checked")==true){
+        $('.showgames,.showgenres,.showpublishers').click(function(){
+          if($('.showgames').prop("checked")==true){
             $('.gamerow').show();
             $('.gamefilters').show();
           }
-          else if($(this).prop("checked")==false){
+          else{
             $('.gamerow').hide();
             $('.gamefilters').hide();
           }
-          if($(".showgenres").prop("checked")==false){
-            $('.genrerow').hide();
-          }
-          if($(".showpublishers").prop("checked")==false){
-            $('.publisherrow').hide();
-          }
-        });
-        $('.showgenres').click(function(){
-          if($(this).prop("checked")==true){
+          if($('.showgenres').prop("checked")==true){
             $('.genrerow').show();
           }
-          else if($(this).prop("checked")==false){
+          else{
             $('.genrerow').hide();
           }
-          if($(".showgames").prop("checked")==false){
-            $('.gamerow').hide();
-          }
-          if($(".showpublishers").prop("checked")==false){
-            $('.publisherrow').hide();
-          }
-        });
-        $('.showpublishers').click(function(){
-          if($(this).prop("checked")==true){
+          if($('.showpublishers').prop("checked")==true){
             $('.publisherrow').show();
           }
-          else if($(this).prop("checked")==false){
+          else{
             $('.publisherrow').hide();
           }
-          if($(".showgames").prop("checked")==false){
-            $('.gamerow').hide();
-          }
-          if($(".showgenres").prop("checked")==false){
-            $('.genrerow').hide();
-          }
+          filteredresults = $('tr:visible');
+          paginationupdate();
+          pagechange(1);
+
         });
         $('#min_minplayers').change(function(){
           $('#minplayerlimit').text($('#min_minplayers').val());
+          if($('.minplayersfilter').prop("checked")==true){
+              $('.gamerow').each(function() {
+                if (parseInt($(this).find('.gminplayers').text()) < parseInt($('#minplayerlimit').text())) {
+                  $(this).hide();
+                }
+                else{
+                  $(this).show();
+                }
+              });
+          }
         });
         $('.minplayersfilter').click(function(){
           if($(this).prop("checked")==true){
@@ -67,10 +73,46 @@
           }
         });
       });
+      function paginationupdate(){
+        alert(filteredresults.length)
+        page_count = Math.ceil(filteredresults.length/9);
+        $('.pagination').children().remove();
+        $('.pagination').append('<li class="page-item" name = "prev"><button class="btn btn-info" onclick="prevpage();">Previous</button></li>');
+        for (let p = 1; p <= page_count; p++){
+          $('.pagination').append('<li class="page-item"><button class="btn btn-info" onclick="pagechange('+p+');">'+p+'</button></li>');
+        }
+        $('.pagination').append('<li class="page-item" name = "next"><button class="btn btn-info" onclick="nextpage();">Next</button></li>\'');
+      }
+      function nextpage() {
+        if (current_page<page_count){
+            filteredresults.slice(0,(current_page)*9).hide();
+            filteredresults.slice((current_page)*9,(current_page)*9+Math.min((filteredresults.length-current_page*9)%10,9)).show();
+            filteredresults.slice((current_page+1)*9,filteredresults.length).hide();
+            current_page +=1;
+        }
+      }
+      function prevpage(){
+        if (current_page>1){
+          current_page-=1;
+          filteredresults.slice((current_page-1)*9, (current_page-1)*9+9).show();
+          filteredresults.slice(0,(current_page-1)*9).hide();
+          filteredresults.slice((current_page-1)*9+9,filteredresults.length).hide();
+          }
+      }
+      function pagechange(p){
+        //page number is passed in
+        filteredresults.slice(0,(p-1)*9).hide();
+        filteredresults.slice((p-1)*9,p*9).show();
+        filteredresults.slice((p)*9,filteredresults.length).hide();
+        current_page = p;
+      }
     </script>
   <style>
     .keywords{
       width: 10%;
+    }
+    tr{
+      max-height: 10%;
     }
     td.name{
       width: 50%;
@@ -115,19 +157,17 @@
             <h2>Search Results for "{{input_string}}"</h2>
             <hr>
               <form class="input-group" action ="/search" method="POST">
+                <input type = "hidden" name="modeltype" value='all' style="width:0%">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search games, genres, publishers" name="search" style="width:300px">
                 <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
               </form>
             <div class="padding"></div>
             <div class="row">
-              <div class="col-sm-6">
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="sort_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sorting</button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <button class="btn btn-link" title="list" >normal</button>
-                    <button class="btn btn-link" title="list" >alphabetical</button>
-                  </div>
-                </div>
+              <div class="col-sm-6" style = "padding: 1% 0%">
+                <ul class="pagination">
+                  <li class="page-item" name = 'prev'><button class="btn btn-info" onclick="prevpage();">Previous</button></li>
+                  <li class="page-item" name = 'next'><button class="btn btn-info" onclick="nextpage();">Next</button></li>
+                </ul>
               </div>
               <div class="table-responsive">
               <table class="table table-hover">
