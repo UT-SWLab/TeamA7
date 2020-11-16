@@ -29,7 +29,7 @@ def four_or_more_players_Filter():
     num = 3
     for doc1 in main.boardgameobjects.find({"Min_Players": {"$gt": num}}):
         print(doc1)
-def two_to_four_plauers_Filter():
+def two_to_four_players_Filter():
     num = 4
     for doc1 in main.boardgameobjects.find({"Min_Players": {"$lt": num}}):
         print(doc1)
@@ -64,7 +64,9 @@ def year_2001_Present_Filter():
     for doc1 in main.boardgameobjects.find({"Year_Published": {"$gt": date0, "$lt": date1}}):
         print(doc1)
 
-
+def MultipleFilters(db):
+    word ="lalal"
+    main.boardgameobjects.find({"$ and": [{"$or": [{"Country": "Germany"},{"Country": "France"}]} ,{VIP: true}]})
 
 if __name__ == "__main__":
     year_2001_Present_Filter()

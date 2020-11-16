@@ -157,7 +157,9 @@ def games(page, sort_type, filters):
         filteredCollection = year_1940_1970_Filter(boardgameobjects, filteredCollection)
         global LiveFilters
         LiveFilters.append("year_1940_1970")
-    else:
+
+
+    if filters == "nofilters":
         filters = "nofilters"
         filteredCollection = noFilter(boardgameobjects, filteredCollection)
 
@@ -284,6 +286,10 @@ def year_1940_1970_Filter(cur, filteredCollection):
     for match in cur.find({"Year_Published": {"$gt": date0, "$lt": date1}}):
         filteredCollection.insert_one(match)
     return filteredCollection
+
+
+def MultipleFilters(db):
+    db.customers.find({"$ and": [{"$or": [{"Country": "Germany"},{"Country": "France"}]} ,{VIP: true}]})
 
 
 def noFilter(cur, filteredCollection):

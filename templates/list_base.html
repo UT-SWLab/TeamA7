@@ -23,6 +23,32 @@
         function link(page_route, sort, page, filter){
             return '/' + page_route + '/' + sort + '/' + page + '/' + filter;
         }
+
+      function  buildFilterString(filter , newfilter ){
+            alert('Hit buildfilter');
+            filter =  filter.concat(newfilter);
+            alert(filter);
+            return filter;
+        }
+
+function myFunction() {
+  // Get the checkbox
+  var checkBox1 = document.getElementById("checkbox1");
+  var checkBox2 = document.getElementById("checkbox2");
+  var checkBox3 = document.getElementById("checkbox3");
+
+  // If the checkbox is checked, display the output text
+  if (checkBox1.checked == true){ alert('box is checeked'); }
+  if (checkBox2.checked == true){alert('box is checeked'); }
+  if (checkBox3.checked == true){ alert('box is checeked'); }
+
+  }
+
+  function Testfunc(){ alert('hit test funct'); }
+
+
+
+
     </script>
     <style>
         .row{
@@ -76,27 +102,61 @@
 </div>
 
 <h5></h5>
+
 <div class="dropdown" style="margin-left:60px;">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="sort_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sorting</button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
     {% if sort_type != 'normal' %}<button class="btn btn-link" title="list2" onclick="window.location.href = link('{{page_route}}', 'normal', '{{page}}', '{{filters}}')">normal</button>{% endif %}
     {% if sort_type != 'alphabetical' %}<button class="btn btn-link" title="list2" onclick="window.location.href = link('{{page_route}}', 'alphabetical', '{{page}}', '{{filters}}')">alphabetical</button>{% endif %}
-    {% if sort_type != 'inverse' %}<button class="btn btn-link" title="list2" onclick="window.location.href = link('{{page_route}}', 'inverse', '{{page}}', '{{filters}}')">inverse alphabetical</button>{% endif %}
+    <button class="btn btn-link" title="list2" onclick="myfuncTest()">myfuncTest</button>
 
+        {% if sort_type != 'inverse' %}<button class="btn btn-link" title="list2" onclick="window.location.href = link('{{page_route}}', 'inverse', '{{page}}', '{{filters}}')">inverse alphabetical</button>{% endif %}
     </div>
 </div>
 
-<!--Pass through live filters list to list_base for easy for loop to check what buttons are still clickable-->
 
 <div class="dropdown" style="margin-left:60px;">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="filters" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filters</button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-   {% for filter in LiveFilters %}
-    {% if filters != 'year_1940_1970' %}<button class="btn btn-link" title="list2" onclick="window.location.href = link('{{page_route}}', '{{sort_type}}', '{{page}}', 'year_1940_1970')">year_1940_1970</button>{% endif %}
-{% endfor %}
-    {% if sort_type != 'inverse' %}<button class="btn btn-link" title="list2" onclick="window.location.href = link('{{page_route}}', 'inverse', '{{page}}', '{{filters}}')">fake inverse alphabetical</button>{% endif %}
+  <!-- Basic dropdown -->
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">Filters</button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+      <!-- Default unchecked -->
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="checkbox1" onclick="buildFilterString('{{filters}}','less_than_2hrs_Filter')" >
+        <label class="custom-control-label" for="checkbox1">year_1940_1970</label>
+      </div>
+
+    <a class="dropdown-item" href="#">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="checkbox2" checked onclick="buildFilterString('{{filters}}','less_than_2hrs_Filter')">
+        <label class="custom-control-label" for="checkbox2">less_than_2hrs</label>
+      </div>
+    </a>
+    <a class="dropdown-item" href="#">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="checkbox3" onclick="buildFilterString('{{filters}}','two_to_four_plauers')" >
+        <label class="custom-control-label" for="checkbox3">two_to_four_players</label>
+      </div>
+    </a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="#">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="checkbox4" checked>
+        <label class="custom-control-label" for="checkbox4">Check me</label>
+      </div>
+    </a>
+    <a class="dropdown-item" href="#">
+  <div class="custom-control custom-checkbox">
+      <button class="btn btn-link" title="list2" onclick="window.location.href = link('{{page_route}}', 'normal', '{{page}}', '{{filters}}')">Run Filter</button>
+  </div>
+</a>
+</div>
+  <!-- Basic dropdown -->
     </div>
 </div>
+
+
 
 
 <h5></h5>
