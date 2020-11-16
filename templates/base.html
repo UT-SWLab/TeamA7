@@ -31,10 +31,12 @@
                 <li class="nav-item"><a class ="nav-link" id = "genresnav" href="/boardgamegenres/normal/1/nofilters">Board Game Genres</a></li>
                 <li class="nav-item"><a class ="nav-link" id = "publishersnav" href="/boardgamepublishers/normal/1/nofilters">Board Game Publishers</a></li>
             </ul>
+
              <form class="form-inline" action ="/search" method="POST">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search games, genres, publishers" name="search" style="width:300px">
+                 <input type = "hidden" name="modeltype" value='{% block model_type %}{% endblock %}' style="width:0%">
+                <input class="form-control mr-sm-2" type="text" placeholder="{% block searchplaceholder %}Search games, genres, publishers{% endblock %}" name="search" style="width:300px">
                 <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-    </form>
+             </form>
          </div>
     </nav>
 
