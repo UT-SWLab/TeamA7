@@ -7,7 +7,7 @@
         var i;
 
         var filter = {{ filters|tojson }};
-        alert(filter);
+        //alert(filter);
         console.log(filter);
 
         function listView() {
@@ -30,22 +30,22 @@
         }
 
       function  buildFilterString(newfilter){
-            alert('Hit buildfilter');
+            //alert('Hit buildfilter');
             filter =  filter.concat(newfilter);
-            alert(filter);
+            //alert(filter);
             return filter;
         }
 
         function getFilter(){
-            alert('hit getfilter on checkbox 4')
+            //alert('hit getfilter on checkbox 4')
             return filter;
         }
 
 
        function setfilterbase(filterbase){
             filter = filterbase;
-            alert('inside setfilterbase');
-            alert(filter);
+            //alert('inside setfilterbase');
+            //alert(filter);
        }
 
 function myFunction() {
@@ -164,6 +164,26 @@ function myFunction() {
       </div>
     </a>
 
+    <a class="dropdown-item" href="#">
+  <div class="custom-control custom-checkbox">
+    <input type="checkbox" class="custom-control-input" id="checkbox4" onclick="buildFilterString('year_1940_1970')" >
+    <label class="custom-control-label" for="checkbox4">year_1940_1970</label>
+  </div>
+</a>
+
+ <a class="dropdown-item" href="#">
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="checkbox5" onclick="buildFilterString('less_than_1hrs')" >
+<label class="custom-control-label" for="checkbox5">less_than_1hrs</label>
+</div>
+</a>
+
+      <a class="dropdown-item" href="#">
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="checkbox6" onclick="buildFilterString('half_hour_or_less')" >
+<label class="custom-control-label" for="checkbox6">half_hour_or_less</label>
+</div>
+</a>
 
     <a class="dropdown-item" href="#">
   <div class="custom-control custom-checkbox">

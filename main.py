@@ -147,13 +147,10 @@ def games(page, sort_type, filters):
     global boardgameobjects
     global saveSort
     print("This is the new filter from url " + filters)
-    filteredCollection = db["testingStuff"]
-    filteredCollection.drop()  # drop entire collection
-    filteredCollection = db["testingStuff"]
 
-    CheckSubstringMatches(filters, filteredCollection)
+    filteredCollection = CheckSubstringMatches(filters, boardgameobjects)
 
-
+    # Apply ordering to filtered collection.
     if sort_type == "alphabetical":
         gameobjects = filteredCollection.find().sort("Name")
         saveSort = sort_type
@@ -269,21 +266,75 @@ def search():
 
 ####################FILTERS#####################
 
-def year_1940_1970_Filter(cur, filteredCollection):
-    date0 = 1939
-    date1 = 1971
-    for match in cur.find({"Year_Published": {"$gt": date0, "$lt": date1}}):
-        filteredCollection.insert_one(match)
-    return filteredCollection
-
 def noFilter(cur, filteredCollection):
     for match in cur.find():
         filteredCollection.insert_one(match)
     return filteredCollection
 
 
-def CheckSubstringMatches(filters, filteredCollection):
-    Allfilters= ['four_or_more_players', 'two_to_four_players', 'less_than_2hrs']
+def four_or_more_players_Filter(filteredCollection):
+    num = 3
+    smallerCollection = db["smallerCollection"]
+    smallerCollection.drop()
+    smallerCollection = db["smallerCollection"]
+    for match in filteredCollection.find({"Min_Players": {"$gt": num}}):
+        smallerCollection.insert_one(match)
+    return smallerCollection
+
+
+def two_to_four_players_Filter(filteredCollection):
+    num = 4
+    smallerCollection = db["smallerCollection"]
+    smallerCollection.drop()
+    smallerCollection = db["smallerCollection"]
+    for match in filteredCollection.find({"Min_Players": {"$lt": num}}):
+        smallerCollection.insert_one(match)
+    return smallerCollection
+
+
+def less_than_2hrs_Filter(filteredCollection):
+    time = 121
+    smallerCollection = db["smallerCollection"]
+    smallerCollection.drop()
+    smallerCollection = db["smallerCollection"]
+    for match in filteredCollection.find({"Max_Playtime": {"$lt": time}}):
+        smallerCollection.insert_one(match)
+    return smallerCollection
+
+
+def less_than_1hrs_Filter(filteredCollection):
+    time = 61
+    smallerCollection = db["smallerCollection"]
+    smallerCollection.drop()
+    smallerCollection = db["smallerCollection"]
+    for match in filteredCollection.find({"Max_Playtime": {"$lt": time}}):
+        smallerCollection.insert_one(match)
+    return smallerCollection
+def half_hour_or_less_Filter(filteredCollection):
+    time = 30
+    smallerCollection = db["smallerCollection"]
+    smallerCollection.drop()
+    smallerCollection = db["smallerCollection"]
+    for match in filteredCollection.find({"Max_Playtime": {"$lte": time}}):
+        smallerCollection.insert_one(match)
+    return smallerCollection
+
+
+def year_1940_1970_Filter(filteredCollection):
+    date0 = 1939
+    date1 = 1971
+    smallerCollection = db["smallerCollection"]
+    smallerCollection.drop()
+    smallerCollection = db["smallerCollection"]
+    for match in filteredCollection.find({"Year_Published": {"$gt": date0, "$lt": date1}}):
+        smallerCollection.insert_one(match)
+    return smallerCollection
+
+'''
+'''
+
+def CheckSubstringMatches(filters, NonFilteredCollection):
+    Allfilters = ['four_or_more_players', 'two_to_four_players', 'less_than_2hrs', 'year_1940_1970', 'less_than_1hrs', 'half_hour_or_less']
     fullstring = filters
     FoundFilters = list()
     for specificFilter in Allfilters:
@@ -293,17 +344,41 @@ def CheckSubstringMatches(filters, filteredCollection):
             FoundFilters.append(substring)
         else:
             print(substring + ": Not found")
-            FoundFilters.append("FilterNotFound")
-    ApplyFoundFilters(FoundFilters)
+    return ApplyFoundFilters(FoundFilters, NonFilteredCollection)  # This function returns filtered collection
 
-def ApplyFoundFilters(FoundFliters):
+
+def ApplyFoundFilters(FoundFliters, NonFilteredCollection):
+    # NonFilteredCollection is boardgame collections. This is used as a super collection.
+    filteredCollection = db["FinalFiltered"]
+    filteredCollection.drop()  # drop entire collection
+    filteredCollection = db["FinalFiltered"]
+
+    if len(FoundFliters) == 0:
+        # if no filters then just leave.
+        return NonFilteredCollection
+    NonFilteredCollection.aggregate([{"$out": "FinalFiltered"}])  # Starting off, testingStuff has all games
+
     for filter in FoundFliters:
-        i = 1+2
-    return i
+        if filter == 'year_1940_1970':
+            filteredCollection = year_1940_1970_Filter(filteredCollection)
 
 
+        if filter == 'less_than_1hrs':
+            filteredCollection = less_than_1hrs_Filter (filteredCollection)
 
+        if (filter == 'less_than_2hrs'):
+            filteredCollection = less_than_2hrs_Filter(filteredCollection)
+        if (filter == 'two_to_four_players'):
+            filteredCollection = two_to_four_players_Filter(filteredCollection)
 
+        if (filter == 'four_or_more_players'):
+            filteredCollection = four_or_more_players_Filter(filteredCollection)
+
+        if (filter == 'half_hour_or_less'):
+            print("hit half hour")
+            filteredCollection = half_hour_or_less_Filter(filteredCollection)
+
+    return filteredCollection  # This collection should be totally filtered
 
 
 if __name__ == "__main__":
