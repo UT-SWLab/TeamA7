@@ -4,6 +4,9 @@
 {% block pagetitle %}Board Games{% endblock %}
 {% block objectlist %}{{gameobjects}}{% endblock %}
 {% block model_type %}boardgames{% endblock %}
+
+{% block searchplaceholder %}Search games{% endblock %}
+
 {% block body %}
 
     <div class="row">
@@ -17,10 +20,12 @@
                     <button type="submit" class="btn btn-link" name="gamename" value= '{{g["Name"]}}'><img style="max-width:100%;width: 300px;object-fit: cover;" src='{{g["Image_URL"]}}' alt='{{g["Name"]}}'></button>
                 </form>
                 <form action="/publisher" method="POST">
-                    <button type="submit" class="btn btn-link" title="list" name="publishername" id="publishername" value='{{ g["Publisher"] }}'>Publisher: {{ g['Publisher'] }}</button>
+                    <a>Publisher:
+                        <button type="submit" class="btn btn-link" title="list" name="publishername" id="publishername" value='{{ g["Publisher"] }}'>{{ g['Publisher'] }}</button>
+                    </a>
                 </form>
                 <form action="/genre" method="POST">
-                    <div class="dropdown">
+<!--                    <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="game_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Genres
                         </button>
@@ -28,7 +33,10 @@
                             {% for genre in g["genres"] %}<button type="submit" class="btn btn-link" title="list" name="genrename" id="genrename" value='{{ genre }}'> {{ genre }}</button>{% endfor %}
                         </div>
                     </div>
-                    <h6></h6>
+                    <h6></h6>-->
+                    <a>Genres:
+                            {% for genre in g["genres"] %}<button type="submit" class="btn btn-link" title="list" name="genrename" id="genrename" value='{{ genre }}'>{{ genre }}</button>{% endfor %}
+                    </a>
                 </form>
                 </div>
                 {% if i>0 and ((i++1)%4==0) %}

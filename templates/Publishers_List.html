@@ -2,7 +2,8 @@
 
 {% block title %}Board Games Publishers List{% endblock %}
 {% block pagetitle %}Publishers{% endblock %}
-
+{% block model_type %}publishers{% endblock %}
+{% block searchplaceholder %}Search publishers{% endblock %}
 {% block body %}
     <div class="row">
     {% for i in range ((page-1)*12, ((page-1)*12)++12) %}
