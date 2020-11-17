@@ -320,6 +320,9 @@ def CheckSubstringMatches(filters, NonFilteredCollection):
             listofFindCommands.append(dicttwo_to_four_players)
         if (filter == 'less_than_1hrs'):
             listofFindCommands.append(dictless_than_1hrs)
+        if (filter == 'four_or_more_players'):
+            listofFindCommands.append(dictfour_or_more_players)
+
     basedictionary = {"$and": listofFindCommands}
     return ApplyFoundFilters(FoundFilters, NonFilteredCollection,
                              basedictionary)  # This function returns filtered collection
