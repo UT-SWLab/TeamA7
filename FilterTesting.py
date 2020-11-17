@@ -64,13 +64,15 @@ def four_or_more_players_Filter():
 
 def two_to_four_players_Filter():
     num = 4
+
+
     for doc1 in main.boardgameobjects.find({"Min_Players": {"$lt": num}}):
         print(doc1)
 
 
 def less_than_2hrs_Filter():
     time = 121
-    for doc1 in main.boardgameobjects.find({"Max_Playtime": {"$lt": time}}):
+    for doc1 in main.boardgameobjects.find({"Max_Playtime": {"$lt": time}} ):
         print(doc1)
 
 
@@ -84,14 +86,13 @@ def MultipleFilters():
         print(i)
     # main.boardgameobjects.find({"$ and": [{"$or": [{"Country": "Germany"},{"Country": "France"}]} ,{VIP: true}]})
 
-''''
+
 def testingAggregate():
     date0 = 1939
     date1 = 1971
     filteredCollection = main.boardgameobjects.aggregate(
         [{"$project": {"Year_Published": {"$filter": { input: "$list", "cond": {"$gt": date0, "$lt": date1}}}}}])
-    for doc in filteredCollection.find():
-        print(doc)
-'''
+
+
 if __name__ == "__main__":
     testingAggregate()
