@@ -266,6 +266,7 @@ def GamePage(gamelink):
 @app.route('/search', methods=['POST'])
 def search():
     input_string = request.form['search']
+    type = ''
     models = {'boardgames': False, 'genres': False, 'publishers': False}
     if "modeltype" in request.form:
         type = request.form["modeltype"]
@@ -274,7 +275,7 @@ def search():
             models = {'boardgames': True, 'genres': True, 'publishers': True}
     exactmatches, partialmatches = searchdb(input_string, models)
     return render_template("searchresults.html", input_string=input_string, exactmatches=exactmatches,
-                           partialmatches=partialmatches)
+                           partialmatches=partialmatches, modeltype = type)
 
 
 ####################FILTERS#####################
