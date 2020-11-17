@@ -3,6 +3,9 @@
 {% block searchplaceholder %}Search games{% endblock %}
 {% block head %}
     <title>Board Games</title>
+    <script>
+
+    </script>
     <style>
         [title="entry"]{
             color: #bf6402;
@@ -49,7 +52,14 @@
         <hr>
         <h5>Description:</h5>
           <p>{{ game['Description'].replace("<br />", '').replace("<p>", '').replace("</p>", '').replace("<em>", '').replace("</em>", '') }}</p>
+          <br>
+          <br>
+        <div>
+            <h5>Related Games</h5>
+        </div>
       </div>
+
+
     </div>
   </div>
 </div>
