@@ -19,25 +19,19 @@
                     <br>
                     <button type="submit" class="btn btn-link" name="gamename" value= '{{g["Name"]}}'><img style="max-width:100%;width: 300px;object-fit: cover;" src='{{g["Image_URL"]}}' alt='{{g["Name"]}}'></button>
                 </form>
-                <form action="/publisher" method="POST">
-                    <a>Publisher:
-                        <button type="submit" class="btn btn-link" title="list" name="publishername" id="publishername" value='{{ g["Publisher"] }}'>{{ g['Publisher'] }}</button>
-                    </a>
-                </form>
-                <form action="/genre" method="POST">
-<!--                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="game_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Genres
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            {% for genre in g["genres"] %}<button type="submit" class="btn btn-link" title="list" name="genrename" id="genrename" value='{{ genre }}'> {{ genre }}</button>{% endfor %}
-                        </div>
-                    </div>
-                    <h6></h6>-->
-                    <a>Genres:
-                            {% for genre in g["genres"] %}<button type="submit" class="btn btn-link" title="list" name="genrename" id="genrename" value='{{ genre }}'>{{ genre }}</button>{% endfor %}
-                    </a>
-                </form>
+                <a title="list">Players: {{ g["Min_Players"] }}-{{ g["Max_Players"] }}</a>
+                <br>
+                <a title="list">Playtime: {{ g['Min_Playtime'] }}-{{ g['Max_Playtime'] }} minutes</a>
+<!--                <form action="/publisher" method="POST">-->
+<!--                    <a>Publisher:-->
+<!--                        <button type="submit" class="btn btn-link" title="list" name="publishername" id="publishername" value='{{ g["Publisher"] }}'>{{ g['Publisher'] }}</button>-->
+<!--                    </a>-->
+<!--                </form>-->
+<!--                <form action="/genre" method="POST">-->
+<!--                    <a>Genres:-->
+<!--                            {% for genre in g["genres"] %}<button type="submit" class="btn btn-link" title="list" name="genrename" id="genrename" value='{{ genre }}'>{{ genre }}</button>{% endfor %}-->
+<!--                    </a>-->
+<!--                </form>-->
                 </div>
                 {% if i>0 and ((i++1)%4==0) %}
                     </div><div class="row">

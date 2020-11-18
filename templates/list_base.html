@@ -73,7 +73,7 @@ function myFunction() {
         }
         [title="main"]{
             justify-content: center;
-            color: black;
+            color: #3e5d85;
             font-size: larger;
             font-family: Cambria;
             text-align: center;
@@ -81,7 +81,7 @@ function myFunction() {
         }
         [title="list"]{
             color: #bf6402;
-            font-size: small;
+            font-size: medium;
             font-family: Cambria;
             text-align: left;
             text-anchor: start;
@@ -200,7 +200,7 @@ function myFunction() {
 
 
 <h5></h5>
-<nav aria-label="Page nav" style="margin-left:20px;">
+<nav aria-label="Page nav" style="margin-left: 60px;">
   <ul class="pagination">
       {% if page != 1 %}
     <li class="page-item"><a class="page-link" onclick="window.location.href = link({{page_route}}, 'normal', {{page-1}}, {{filters}})">Previous</a></li>
