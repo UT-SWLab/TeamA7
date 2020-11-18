@@ -147,7 +147,6 @@ def about():
 def games(page, sort_type, filters):
     global boardgameobjects
     global saveSort
-    print("This is the new filter from url " + filters)
 
     filteredCollection = CheckSubstringMatches(filters, boardgameobjects)
 
@@ -172,12 +171,15 @@ def games(page, sort_type, filters):
 @app.route('/boardgamegenres/<string:sort_type>/<int:page>/<string:filters>')
 def genres(page, sort_type, filters):
     global genre_objects
+
+    filteredCollection = CheckSubstringMatches(filters, genre_objects)
+
     if sort_type == "alphabetical":
-        genre_obj = genre_objects.find().sort("Name")
+        genre_obj = filteredCollection.find().sort("Name")
     elif sort_type == "inverse":
-        genre_obj = genre_objects.find().sort("Name", -1)
+        genre_obj = filteredCollection.find().sort("Name", -1)
     else:
-        genre_obj = genre_objects.find()
+        genre_obj = filteredCollection.find()
 
     max_pages = (genre_obj.collection.count() // 12) + 1
     return render_template('Genres_List.html', genres=genre_obj, page=page, max_pages=max_pages,
@@ -187,12 +189,16 @@ def genres(page, sort_type, filters):
 @app.route('/boardgamepublishers/<string:sort_type>/<int:page>/<string:filters>')
 def publishers(page, sort_type, filters):
     global publish_objects
+
+    filteredCollection = CheckSubstringMatches(filters, publish_objects)
+
+
     if sort_type == "alphabetical":
-        publish_obj = publish_objects.find().sort("Name")
+        publish_obj = filteredCollection.find().sort("Name")
     elif sort_type == "inverse":
-        publish_obj = publish_objects.find().sort("Name", -1)
+        publish_obj = filteredCollection.find().sort("Name", -1)
     else:
-        publish_obj = publish_objects.find()
+        publish_obj = filteredCollection.find()
     max_pages = (publish_obj.collection.count() // 12) + 1
     return render_template('Publishers_List.html', publishers=publish_obj, page=page, max_pages=max_pages,
                            sort_type=sort_type, page_route='boardgamepublishers', filters=filters)
