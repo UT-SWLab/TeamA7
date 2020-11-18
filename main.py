@@ -146,18 +146,15 @@ def about():
 @app.route('/boardgames/<string:sort_type>/<int:page>/<string:filters>')
 def games(page, sort_type, filters):
     global boardgameobjects
-    global saveSort
 
     filteredCollection = CheckSubstringMatches(filters, boardgameobjects)
 
     # Apply ordering to filtered collection.
     if sort_type == "alphabetical":
         gameobjects = filteredCollection.find().sort("Name")
-        saveSort = sort_type
 
     elif sort_type == "inverse":
         gameobjects = filteredCollection.find().sort("Name", -1)
-        saveSort = sort_type
 
     else:
         # Case where no sorting is done, Give Cursor to list_Base Page
