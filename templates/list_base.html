@@ -120,6 +120,7 @@
     </style>
 {% endblock %}
 
+
 {% block bodywithmargin %}
     <h1 style = "font-size:30px; padding-top:100px; padding-bottom: 25px; padding-left: 30px;">{% block pagetitle %}{% endblock %} Page {{ page }}</h1>
 <div style="margin-left:60px;">
@@ -131,13 +132,19 @@
     </h3>
 </div>
 
-<h5></h5>
+
 
 <script>
 
-
+function TooManyFilters() {
+  alert("Filters were to specific, please use less filters, or rest all the filters.");
+}
 
  </script>
+
+
+<h5></h5>
+
 
 <div class="dropdown" style="margin-left:60px;">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="sort_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sorting</button>
@@ -148,7 +155,7 @@
     </div>
 </div>
 
-
+  {% if page_route == 'boardgames' %}
 <div class="dropdown" style="margin-left:60px;">
   <!-- Basic dropdown -->
   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
@@ -203,8 +210,74 @@
   </div>
 </a>
 
+      <a class="dropdown-item" href="#">
+  <div class="custom-control custom-checkbox">
+      <button class="btn btn-link" title="list2" onclick=" window.location.href = link('{{page_route}}', '{{sort_type}}', '{{page}}', 'nofilters' )">Clear All Filters</button>
+  </div>
+</a>
+</div>
+  <!-- Basic dropdown -->
+    </div>
+</div>
+
+    {% endif %}
 
 
+
+  {% if page_route == 'boardgamegenres' %}
+<div class="dropdown" style="margin-left:60px;">
+  <!-- Basic dropdown -->
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">Filters</button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+    <a class="dropdown-item" href="#">
+      <!-- Default unchecked -->
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="checkbox1Genres"  >
+        <label class="custom-control-label" for="checkbox1">four_or_more_players</label>
+      </div>
+        </a>
+
+    <a class="dropdown-item" href="#">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="checkbox2Genres" >
+        <label class="custom-control-label" for="checkbox2">less_than_2hrs</label>
+      </div>
+    </a>
+    <a class="dropdown-item" href="#">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="checkbox3Genres" >
+        <label class="custom-control-label" for="checkbox3">two_to_four_players</label>
+      </div>
+    </a>
+
+    <a class="dropdown-item" href="#">
+  <div class="custom-control custom-checkbox">
+    <input type="checkbox" class="custom-control-input" id="checkbox4Genres"  >
+    <label class="custom-control-label" for="checkbox4">year_1940_1970</label>
+  </div>
+</a>
+
+ <a class="dropdown-item" href="#">
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="checkbox5Genres" >
+<label class="custom-control-label" for="checkbox5">less_than_1hrs</label>
+</div>
+</a>
+
+      <a class="dropdown-item" href="#">
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="checkbox6Genres" >
+<label class="custom-control-label" for="checkbox6">half_hour_or_less</label>
+</div>
+</a>
+
+    <a class="dropdown-item" href="#">
+  <div class="custom-control custom-checkbox">
+      <button class="btn btn-link" title="list2" onclick="linkandBuildString()">Run Filter</button>
+  </div>
+</a>
 
       <a class="dropdown-item" href="#">
   <div class="custom-control custom-checkbox">
@@ -215,6 +288,26 @@
   <!-- Basic dropdown -->
     </div>
 </div>
+
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -237,5 +330,14 @@
       {% endif %}
   </ul>
 </nav>
+
+
+
+  {% if Empty == 'True' %}
+    <script>
+        TooManyFilters();
+      </script>
+<p style="text-align:center">No Results to show: Too many filters were applied and we found no results. Please reset Filters or use less filters.</p>
+    {% endif %}
 {% block body %}{% endblock %}
 {% endblock %}
