@@ -16,27 +16,21 @@
         if ('{{modeltype}}' == 'boardgames') {
           $('.showgenres,.showpublishers').parent().hide();
           $('.showgames').prop("checked", true);
-          $('.gamefilters').show();
         } else if ('{{modeltype}}' == 'genres') {
           $('.showgames,.showpublishers').parent().hide();
           $('.showgenres').prop("checked", true);
-          $('.gamefilters').hide();
         } else if ('{{modeltype}}' == 'publishers') {
           $('.showgenres,.showgames').parent().hide();
           $('.showpublishers').prop("checked", true);
-          $('.gamefilters').hide();
         } else {
           $('.showpublishers,.showgames,.showgenres').prop("checked", true);
-          $('.gamefilters').show();
         }
         //user has changed what model_types they want to see on the results page
         $('.showgames,.showgenres,.showpublishers').click(function () {
           if ($('.showgames').prop("checked") == true) {
-            $('.gamefilters').show();
-            handlegamefilters(); // this will show game results
+            $('.gamerow').show();
           } else {
             $('.gamerow').hide();
-            $('.gamefilters').hide();
           }
           if ($('.showgenres').prop("checked") == true) {
             $('.genrerow').show();
@@ -49,41 +43,105 @@
             $('.publisherrow').hide();
           }
           filteredresults = $('tr:visible');
+          handlegamefilters();
           paginationupdate();
           pagechange(1);
         });
         $('#age').change(function () {
           $('#ageval').text($('#age').val());
           if($('.gameagefilter').prop("checked")==true) {
+            if ($('.showgames').prop("checked") == true) {
+            $('.gamerow').show();
+          } else {
+            $('.gamerow').hide();
+          }
+          if ($('.showgenres').prop("checked") == true) {
+            $('.genrerow').show();
+          } else {
+            $('.genrerow').hide();
+          }
+          if ($('.showpublishers').prop("checked") == true) {
+            $('.publisherrow').show();
+          } else {
+            $('.publisherrow').hide();
+          }
+          filteredresults = $('tr:visible');
             handlegamefilters();
           }
         });
         $('#players').change(function () {
           $('#playernumber').text($('#players').val());
           if($('.gameplayersfilter').prop("checked")==true) {
+            if ($('.showgames').prop("checked") == true) {
+            $('.gamerow').show();
+          } else {
+            $('.gamerow').hide();
+          }
+          if ($('.showgenres').prop("checked") == true) {
+            $('.genrerow').show();
+          } else {
+            $('.genrerow').hide();
+          }
+          if ($('.showpublishers').prop("checked") == true) {
+            $('.publisherrow').show();
+          } else {
+            $('.publisherrow').hide();
+          }
+          filteredresults = $('tr:visible');
             handlegamefilters();
           }
         });
         $('.gameplayersfilter,.gameagefilter').click(function () {
+          if ($('.showgames').prop("checked") == true) {
+            $('.gamerow').show();
+          } else {
+            $('.gamerow').hide();
+          }
+          if ($('.showgenres').prop("checked") == true) {
+            $('.genrerow').show();
+          } else {
+            $('.genrerow').hide();
+          }
+          if ($('.showpublishers').prop("checked") == true) {
+            $('.publisherrow').show();
+          } else {
+            $('.publisherrow').hide();
+          }
+          filteredresults = $('tr:visible');
           handlegamefilters();
         });
       });
       function handlegamefilters(){
-        $('.gamerow').show();
-        $('.gamerow').each(function(){
+        $(filteredresults).show();
+        $('.gamerow:visible').each(function(){
             if($('.gameplayersfilter').prop("checked")==true){
               if ((parseInt($(this).find('.gminplayers').text()) > $('#players').val()) | (parseInt($(this).find('.gmaxplayers').text()) < $('#players').val())){
                   $(this).hide();
-                }
+              }
             }
             if($('.gameagefilter').prop("checked")==true){
               if (parseInt($(this).find('.gminage').text()) > $('#age').val()){
                   $(this).hide();
+              }
+            }
+        });
+        $('.genrerow:visible').each(function(){
+            if($('.gameplayersfilter').prop("checked")==true){
+              if ((parseInt($(this).find('.genminplayers').text()) > $('#players').val()) | (parseInt($(this).find('.genmaxplayers').text()) < $('#players').val())){
+                  $(this).hide();
                 }
             }
           });
-        filteredresults-=$('.gamerow');
-        filteredresults += $('.gamerow:visible');
+        $('.publisherrow:visible').each(function(){
+            if($('.gameplayersfilter').prop("checked")==true){
+              if ((parseInt($(this).find('.pminplayers').text()) > $('#players').val()) | (parseInt($(this).find('.pmaxplayers').text()) < $('#players').val())){
+                  $(this).hide();
+                }
+            }
+          });
+        filteredresults-=$('.gamerow:hidden');
+        filteredresults-=$('.genrerow:hidden');
+        filteredresults-=$('.publisherrow:hidden');
         sort(sorttype);
       }
       function paginationupdate(){
@@ -176,7 +234,7 @@
       <div class="grid-body">
         <div class="row">
           <div class="col-md-3">
-            <h2>Filter Results</h2>
+            <h2>Filter Search Results</h2>
             <h4>Showing only:</h4>
             <div class="modelfilter">
               <label><input type="checkbox" class="showgames">  board games</label>
@@ -188,7 +246,7 @@
               <label><input type="checkbox" class = "showpublishers">  publishers</label>
             </div>
             <div class="gamefilters">
-            <h5>Filters for Board Games:</h5>
+            <h5>Filter by:</h5>
             <div class ="gamefilter">
               <label for="players">Playable with <span id = "playernumber">5</span> players</label>
               <input type="range" id="players" min="1" max="10">
