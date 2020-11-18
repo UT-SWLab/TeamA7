@@ -16,7 +16,11 @@
                     <button type= "submit" class="btn btn-link" name ="genrename" value= '{{genre["Name"]}}' ><img style="max-width:100%;width: 500px;object-fit: cover;" src='{{genre["Image_URL"]}}' alt='{{genre["Name"]}}'></button>
                 </form>
                 <h6></h6>
-                <form action="/publisher" method="POST">
+                <a title="list">Average Players: {{ genre['Average_Min_Players'] }}-{{ genre['Average_Max_Players'] }}</a>
+                <br>
+                <a title="list">Average Game Price: ${{ genre["Average_Price"] }}</a>
+
+<!--                <form action="/publisher" method="POST">
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="publisher_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Publishers
@@ -42,7 +46,7 @@
                             {% for game in genre["Games"] %}<button type="submit" class="btn btn-link" title="list" name="gamename" id="gamename" value='{{ game }}'> {{ game }}</button>{% endfor %}
                         </div>
                     </div>
-                </form>
+                </form>-->
             </div>
                 {% if i>0 and ((i++1)%4==0) %}
                     </div><div class="row">
