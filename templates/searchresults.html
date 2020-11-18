@@ -1,96 +1,99 @@
 {% extends 'base.html' %}
 {% block head %}
-    <title>Search Results for "{{input_string}}"</title>
+<title>Search Results for "{{input_string}}"</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
       var filteredresults;
       var current_page;
       var page_count;
-      $(document).ready(function(){
+      $(document).ready(function() {
         //setting up pagination
-        filteredresults= $('tr');
+        filteredresults = $('tr');
         paginationupdate();
         pagechange(1);
-        if('{{modeltype}}' == 'boardgames'){
+        //default checking different check boxes depending on the search's model_type
+        if ('{{modeltype}}' == 'boardgames') {
           $('.showgenres,.showpublishers').parent().hide();
           $('.showgames').prop("checked", true);
           $('.gamefilters').show();
-        }
-        else if('{{modeltype}}' == 'genres'){
+        } else if ('{{modeltype}}' == 'genres') {
           $('.showgames,.showpublishers').parent().hide();
           $('.showgenres').prop("checked", true);
           $('.gamefilters').hide();
-        }
-        else if('{{modeltype}}' == 'publishers'){
+        } else if ('{{modeltype}}' == 'publishers') {
           $('.showgenres,.showgames').parent().hide();
           $('.showpublishers').prop("checked", true);
           $('.gamefilters').hide();
-        }
-        else{
+        } else {
           $('.showpublishers,.showgames,.showgenres').prop("checked", true);
           $('.gamefilters').show();
         }
-        $('.showgames,.showgenres,.showpublishers').click(function(){
-          if($('.showgames').prop("checked")==true){
-            $('.gamerow').show();
+        //user has changed what model_types they want to see on the results page
+        $('.showgames,.showgenres,.showpublishers').click(function () {
+          if ($('.showgames').prop("checked") == true) {
             $('.gamefilters').show();
-          }
-          else{
+            handlegamefilters();
+          } else {
             $('.gamerow').hide();
             $('.gamefilters').hide();
           }
-          if($('.showgenres').prop("checked")==true){
+          if ($('.showgenres').prop("checked") == true) {
             $('.genrerow').show();
-          }
-          else{
+          } else {
             $('.genrerow').hide();
           }
-          if($('.showpublishers').prop("checked")==true){
+          if ($('.showpublishers').prop("checked") == true) {
             $('.publisherrow').show();
-          }
-          else{
+          } else {
             $('.publisherrow').hide();
           }
           filteredresults = $('tr:visible');
           paginationupdate();
           pagechange(1);
-
         });
-        $('#min_minplayers').change(function(){
-          $('#minplayerlimit').text($('#min_minplayers').val());
-          if($('.minplayersfilter').prop("checked")==true){
-              $('.gamerow').each(function() {
-                if (parseInt($(this).find('.gminplayers').text()) < parseInt($('#minplayerlimit').text())) {
-                  $(this).hide();
-                }
-                else{
-                  $(this).show();
-                }
-              });
+        $('#age').change(function () {
+          $('#ageval').text($('#age').val());
+          if($('.gameagefilter').prop("checked")==true) {
+            handlegamefilters();
           }
         });
-        $('.minplayersfilter').click(function(){
-          if($(this).prop("checked")==true){
-            //hide all games that can be played with less than the minimum
-            $('.gamerow').each(function(){
-              if (parseInt($(this).find('.gminplayers').text()) < parseInt($('#minplayerlimit').text())) {
-                $(this).hide();
-              }
-            });
+        $('#players').change(function () {
+          $('#playernumber').text($('#players').val());
+          if($('.gameplayersfilter').prop("checked")==true) {
+            handlegamefilters();
           }
-          else if($(this).prop("checked")==false){
-            $('.gamerow').show();
-          }
+        });
+        $('.gameplayersfilter,.gameagefilter').click(function () {
+          handlegamefilters();
         });
       });
+      function handlegamefilters(){
+        $('.gamerow').show();
+        $('.gamerow').each(function(){
+            if($('.gameplayersfilter').prop("checked")==true){
+              if ((parseInt($(this).find('.gminplayers').text()) > $('#players').val()) | (parseInt($(this).find('.gmaxplayers').text()) < $('#players').val())){
+                  $(this).hide();
+                }
+            }
+            if($('.gameagefilter').prop("checked")==true){
+              if (parseInt($(this).find('.gminage').text()) > $('#age').val()){
+                  $(this).hide();
+                }
+            }
+          });
+        filteredresults = $('tr:visible');
+        paginationupdate();
+        pagechange(1);
+      }
       function paginationupdate(){
+        $('#resultcount').text(filteredresults.length);
         page_count = Math.ceil(filteredresults.length/9);
         $('.pagination').children().remove();
         $('.pagination').append('<li class="page-item" name = "prev"><button class="btn btn-info" onclick="prevpage();">Previous</button></li>');
         for (let p = 1; p <= page_count; p++){
           $('.pagination').append('<li class="page-item"><button class="btn btn-info" onclick="pagechange('+p+');">'+p+'</button></li>');
         }
-        $('.pagination').append('<li class="page-item" name = "next"><button class="btn btn-info" onclick="nextpage();">Next</button></li>\'');
+        $('.pagination').append('<li class="page-item" name = "next"><button class="btn btn-info" onclick="nextpage();">Next</button></li>');
       }
       function nextpage() {
         if (current_page<page_count){
@@ -143,7 +146,7 @@
         <div class="row">
           <div class="col-md-3">
             <h2>Filter Results</h2>
-            <h4>Show only:</h4>
+            <h4>Showing only:</h4>
             <div class="modelfilter">
               <label><input type="checkbox" class="showgames">  board games</label>
             </div>
@@ -156,18 +159,28 @@
             <div class="gamefilters">
             <h5>Filters for Board Games:</h5>
             <div class ="gamefilter">
-              <label for="min_minplayers">Minimum Number of Players: <span id = "minplayerlimit">1</span></label>
-              <input type="range" id="min_minplayers" min="1" max="10">
-              <label><input type= "checkbox" class="minplayersfilter"> Apply filter</label>
+              <label for="players">Playable with <span id = "playernumber">1</span> players</label>
+              <input type="range" id="players" min="1" max="10">
+              <label><input type= "checkbox" class="gameplayersfilter"> Apply filter</label>
+            </div>
+              <div class ="gamefilter">
+                <label for="age">Playable for a <span id = "ageval">1</span> year old</label>
+              <input type="range" id="age" min="1" max="18">
+              <label><input type= "checkbox" class="gameagefilter"> Apply filter</label>
             </div>
             </div>
           </div>
           <div class="col-md-9">
-            <h2>Search Results for "{{input_string}}"</h2>
+            <h2><span id="resultcount"></span> Search Results for "{{input_string}}"</h2>
             <hr>
               <form class="input-group" action ="/search" method="POST">
-                <input type = "hidden" name="modeltype" value='all' style="width:0%; visibility: hidden;">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search games, genres, publishers" name="search" style="width:250px">
+                <select class="browser-default custom-select" name="modeltype">
+                  <option selected value='all'>search games, genres, publishers</option>
+                  <option value='boardgames'>board games</option>
+                  <option value='genres'>genres</option>
+                  <option value='publishers'>publishers</option>
+                </select>
+                <input class="form-control mr-sm-2" type="text" placeholder='"go fish"' name="search">
                 <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
               </form>
             <div class="padding"></div>
@@ -182,11 +195,12 @@
               <table class="table table-hover">
                 <tbody>
                 {% for g in exactmatches['boardgames'] %}
-                <tr class = 'gamerow' style = "max-height:20%">
+                <tr class = 'gamerow'>
                   <td class="name text-center" style="width: 50%">
                     <form action="/game" method = "POST"><button type="submit" class="btn btn-link" name="gamename" id="gamename" value='{{g["Name"]}}'><h5>{{g['Name']}}</h5></button></form>
                     <p>Players: <span  class = 'gminplayers'>{{g["Min_Players"]}}</span> to <span  class = 'gmaxplayers'>{{g["Max_Players"]}}</span>
                       <br>Play time: <span  class = 'gminplaytime'>{{g["Min_Playtime"]}}</span> to <span  class = 'gmaxplaytime'>{{g["Max_Playtime"]}}</span> minutes
+                      <br> For players <span class = 'gminage'>{{g["Min_Age"]}}</span> and up
                     </p>
                   </td>
                   <td class="image"><img src='{{g["Image_URL"]}}' alt="" style="max-width: 100%"></td>
@@ -195,22 +209,28 @@
                 </tr>
                 {% endfor %}
                 {% for g in exactmatches['genres'] %}
-                <tr class = 'genrerow' style = "max-height:20%">
+                <tr class = 'genrerow'>
                   <td class="name text-center">
                     <form action="/genre" method = "POST"><button type="submit" class="btn btn-link" title="main" name="genrename" id="genrename" value='{{g["Name"]}}'><strong>{{g['Name']}}</strong></button></form>
+                      <p>Games take on average <span class = 'genplaytime'>{{g["Average_Playtime"]}}</span> minutes
+                        <br>On average <span  class = 'genminplayers'>{{g["Average_Min_Players"]}}</span> to <span  class = 'genmaxplayers'>{{g["Average_Max_Players"]}}</span> players
+                      </p>
                   </td>
-                  <td class="image"><img src='{{g["Image_URL"]}}'></td>
+                  <td class="image"><img src='{{g["Image_URL"]}}' style="max-width: 100%"></td>
                   <td class="keywords"><strong>Keywords Matched:</strong><br>"{{input_string}}"</td>
                   <td class="model text-right"><strong>Genre</strong></td>
                 </tr>
                 </form>
                 {% endfor %}
                 {% for p in exactmatches['publishers'] %}
-                <tr class = 'publisherrow' style = "max-height:20%">
+                <tr class = 'publisherrow'>
                   <td class="name text-center">
                     <form action="/publisher" method = "POST"><button type="submit" class="btn btn-link" title="main" name="publishername" id="publishername" value='{{p["Name"]}}'><strong>{{p['Name']}}</strong></button></form>
+                    <p>Games take on average <span class = 'pplaytime'>{{p["Average_Playtime"]}}</span> minutes
+                        <br>On average <span  class = 'pminplayers'>{{p["Average_Min_Players"]}}</span> to <span  class = 'pmaxplayers'>{{p["Average_Max_Players"]}}</span> players
+                      </p>
                   </td>
-                  <td class="image"><img src='{{p["Image_URL"]}}'></td>
+                  <td class="image"><img src='{{p["Image_URL"]}}' style="max-width: 100%"></td>
                   <td class="keywords"><strong>Keywords Matched:</strong><br>"{{input_string}}"</td>
                   <td class="model text-right"><strong>Publisher</strong></td>
                 </tr>
@@ -219,33 +239,42 @@
                 {% for w in partialmatches.keys() %}
                 {% for g in partialmatches[w]['boardgames'] %}
                 <form action="/game" method = "POST">
-                <tr class = "gamerow" style = "max-height:20%">
+                <tr class = "gamerow">
                     <td class="name text-center"><button type="submit" class="btn btn-link" name="gamename" value='{{g["Name"]}}'><strong>{{g['Name']}}</strong></button><br>
                       <p>Number of Players: <span  class = 'gminplayers'>{{g["Min_Players"]}}</span> to <span  class = 'gmaxplayers'>{{g["Max_Players"]}}</span>
                       <br>Game Playtime: <span  class = 'gminplaytime'>{{g["Min_Playtime"]}}</span> to <span  class = 'gmaxplaytime'>{{g["Max_Playtime"]}} minutes</span>
-                    </p>
+                        <br> For players <span class = 'gminage'>{{g["Min_Age"]}}</span> and up
+                      </p>
                     </td>
-                  <td class="image"><img src='{{g["Image_URL"]}}'></td>
+                  <td class="image"><img src='{{g["Image_URL"]}}' style="max-width: 100%"></td>
                   <td class="keywords"><strong>Keywords Matched:</strong><br>"{{w}}"</td>
                   <td class="model text-right"><strong>Board Game</strong></td>
                 </tr>
                 </form>
                 {% endfor %}
                 {% for g in partialmatches[w]['genres'] %}
-                <form action="/genre" method = "POST">
-                <tr class = "genrerow" style = "max-height:20%">
-                    <td class="name text-center"><button type="submit" class="btn btn-link" name="genrename" value='{{g["Name"]}}'><strong>{{g['Name']}}</strong></button></td>
-                  <td class="image"><img src='{{g["Image_URL"]}}'></td>
+
+                <tr class = "genrerow">
+                    <td class="name text-center">
+                      <form action="/genre" method = "POST"><button type="submit" class="btn btn-link" name="genrename" value='{{g["Name"]}}'><strong>{{g['Name']}}</strong></button></form>
+                      <p>Games take on average <span class = 'genplaytime'>{{g["Average_Playtime"]}}</span> minutes
+                        <br>On average <span  class = 'genminplayers'>{{g["Average_Min_Players"]}}</span> to <span  class = 'genmaxplayers'>{{g["Average_Max_Players"]}}</span> players
+                      </p>
+                    </td>
+                  <td class="image"><img src='{{g["Image_URL"]}}' style="max-width: 100%"></td>
                   <td class="keywords"><strong>Keywords Matched:</strong><br>"{{w}}"</td>
                   <td class="model text-right"><strong>Genre</strong></td>
                 </tr>
-                </form>
                 {% endfor %}
                 {% for p in partialmatches[w]['publishers'] %}
-                <form action="/publisher" method = "POST">
-                <tr class = 'publisherrow' style = "max-height:20%">
-                    <td class="name text-center"><button type="submit" class="btn btn-link" name="publishername" value='{{p["Name"]}}'><strong>{{p['Name']}}</strong></button></td>
-                  <td class="image"><img src='{{p["Image_URL"]}}'></td>
+
+                <tr class = 'publisherrow'>
+                  <td class="name text-center"><form action="/publisher" method = "POST"><button type="submit" class="btn btn-link" name="publishername" value='{{p["Name"]}}'><strong>{{p['Name']}}</strong></button></form>
+                    <p>Games take on average <span class = 'pplaytime'>{{p["Average_Playtime"]}}</span> minutes
+                        <br>On average <span  class = 'pminplayers'>{{p["Average_Min_Players"]}}</span> to <span  class = 'pmaxplayers'>{{p["Average_Max_Players"]}}</span> players
+                      </p>
+                  </td>
+                  <td class="image"><img src='{{p["Image_URL"]}}' style="max-width: 100%"></td>
                   <td class="keywords"><strong>Keywords Matched:</strong><br>"{{w}}"</td>
                   <td class="model text-right"><strong>Publisher</strong></td>
                 </tr>
