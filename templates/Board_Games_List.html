@@ -12,16 +12,21 @@
     <div class="row">
         {% for i in range((page-1)*12, ((page-1)*12)++12) %}
             {% if i < gameobjects.collection.count() %}
-            {% set g = gameobjects[i] %}
+            {% set game = gameobjects[i] %}
             <div class="column" style="width:25%; height: 100%; justify-content: center;padding: 0% 1%">
                 <form action= '/game' method="POST">
-                    <button type="submit" class="btn btn-link" title="main" name="gamename" id="gamename" value= '{{g["Name"]}}' >{{g['Name']}}</button>
+                    <button type="submit" class="btn btn-link" title="main" name="gamename" id="gamename" value= '{{game["Name"]}}' >{{game['Name']}}</button>
                     <br>
-                    <button type="submit" class="btn btn-link" name="gamename" value= '{{g["Name"]}}'><img style="max-width:100%;width: 300px;object-fit: cover;" src='{{g["Image_URL"]}}' alt='{{g["Name"]}}'></button>
+                    <button type="submit" class="btn btn-link" name="gamename" value= '{{game["Name"]}}'><img style="max-width:100%;width: 300px;object-fit: cover;" src='{{game["Image_URL"]}}' alt='{{game["Name"]}}'></button>
                 </form>
-                <a title="list">Players: {{ g["Min_Players"] }}-{{ g["Max_Players"] }}</a>
-                <br>
-                <a title="list">Playtime: {{ g['Min_Playtime'] }}-{{ g['Max_Playtime'] }} minutes</a>
+                <div title="list">
+                    <a>Players: {{ game["Min_Players"] }}-{{ game["Max_Players"] }}</a>
+                    <br>
+                    <a>Playtime: {{ game['Min_Playtime'] }}-{{ game['Max_Playtime'] }} minutes</a>
+                    <br>
+                    <a>Price: {{ game['Current_Price'] }}</a>
+                </div>
+
 <!--                <form action="/publisher" method="POST">-->
 <!--                    <a>Publisher:-->
 <!--                        <button type="submit" class="btn btn-link" title="list" name="publishername" id="publishername" value='{{ g["Publisher"] }}'>{{ g['Publisher'] }}</button>-->

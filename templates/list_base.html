@@ -89,6 +89,20 @@
         .row{
             width: 100%; justify-content: center; padding: 5% 5%; max-height: 50%;
         }
+        .list{
+            color: #bf6402;
+            font-size: medium;
+            font-family: Cambria;
+            text-align: left;
+            text-anchor: start;
+        }
+        .list2{
+            color: black;
+            font-size: large;
+            font-family: Cambria;
+            text-align: left;
+            text-anchor: start;
+        }
         [title="main"]{
             justify-content: center;
             color: #3e5d85;
@@ -142,9 +156,9 @@
 <div class="dropdown" style="margin-left:60px;">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="sort_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sorting</button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    {% if sort_type != 'normal' %}<button class="btn btn-link" title="list2" onclick="window.location.href = link('{{page_route}}', 'normal', '{{page}}', '{{filters}}')">normal</button>{% endif %}
-    {% if sort_type != 'alphabetical' %}<button class="btn btn-link" title="list2" onclick="window.location.href = link('{{page_route}}', 'alphabetical', '{{page}}', '{{filters}}')">alphabetical</button>{% endif %}
-        {% if sort_type != 'inverse' %}<button class="btn btn-link" title="list2" onclick="window.location.href = link('{{page_route}}', 'inverse', '{{page}}', '{{filters}}')">inverse alphabetical</button>{% endif %}
+    {% if sort_type != 'normal' %}<button class="btn btn-link list2" onclick="window.location.href = link('{{page_route}}', 'normal', '{{page}}', '{{filters}}')">normal</button>{% endif %}
+    {% if sort_type != 'alphabetical' %}<button class="btn btn-link list2" onclick="window.location.href = link('{{page_route}}', 'alphabetical', '{{page}}', '{{filters}}')">alphabetical</button>{% endif %}
+        {% if sort_type != 'inverse' %}<button class="btn btn-link list2" onclick="window.location.href = link('{{page_route}}', 'inverse', '{{page}}', '{{filters}}')">inverse alphabetical</button>{% endif %}
     </div>
 </div>
 
@@ -223,7 +237,7 @@
 <nav aria-label="Page nav" style="margin-left: 60px;">
   <ul class="pagination">
       {% if page != 1 %}
-    <li class="page-item"><a class="page-link" onclick="window.location.href = link({{page_route}}, '{{sort_type}}', {{page-1}}, {{filters}})">Previous</a></li>
+    <li class="page-item"><a class="page-link" onclick="window.location.href = link('{{page_route}}', '{{sort_type}}', '{{page-1}}, '{{filters}}')">Previous</a></li>
       {% endif %}
       {% for i in range(1, max_pages+1) %}
         {% if i == page %}

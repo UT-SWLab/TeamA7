@@ -160,7 +160,7 @@ def games(page, sort_type, filters):
         # Case where no sorting is done, Give Cursor to list_Base Page
         gameobjects = filteredCollection.find()
 
-    max_pages = (gameobjects.collection.count() // 12) + 1
+    max_pages = ((gameobjects.collection.count() - 1) // 12) + 1
     return render_template('Board_Games_List.html', gameobjects=gameobjects, page=page, max_pages=max_pages,
                            sort_type=sort_type, page_route='boardgames', filters=filters)
 
@@ -178,7 +178,7 @@ def genres(page, sort_type, filters):
     else:
         genre_obj = filteredCollection.find()
 
-    max_pages = (genre_obj.collection.count() // 12) + 1
+    max_pages = ((genre_obj.collection.count() - 1) // 12) + 1
     return render_template('Genres_List.html', genres=genre_obj, page=page, max_pages=max_pages,
                            sort_type=sort_type, page_route='boardgamegenres', filters=filters)
 
@@ -196,7 +196,7 @@ def publishers(page, sort_type, filters):
         publish_obj = filteredCollection.find().sort("Name", -1)
     else:
         publish_obj = filteredCollection.find()
-    max_pages = (publish_obj.collection.count() // 12) + 1
+    max_pages = ((publish_obj.collection.count() - 1) // 12) + 1
     return render_template('Publishers_List.html', publishers=publish_obj, page=page, max_pages=max_pages,
                            sort_type=sort_type, page_route='boardgamepublishers', filters=filters)
 
