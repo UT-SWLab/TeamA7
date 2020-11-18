@@ -6,6 +6,7 @@
       var filteredresults;
       var current_page;
       var page_count;
+      var sorttype;
       $(document).ready(function() {
         //setting up pagination
         filteredresults = $('tr');
@@ -32,7 +33,7 @@
         $('.showgames,.showgenres,.showpublishers').click(function () {
           if ($('.showgames').prop("checked") == true) {
             $('.gamefilters').show();
-            handlegamefilters();
+            handlegamefilters(); // this will show game results
           } else {
             $('.gamerow').hide();
             $('.gamefilters').hide();
@@ -81,9 +82,9 @@
                 }
             }
           });
-        filteredresults = $('tr:visible');
-        paginationupdate();
-        pagechange(1);
+        filteredresults-=$('.gamerow');
+        filteredresults += $('.gamerow:visible');
+        sort(sorttype);
       }
       function paginationupdate(){
         $('#resultcount').text(filteredresults.length);
@@ -117,6 +118,36 @@
         filteredresults.slice((p-1)*9,p*9).show();
         filteredresults.slice((p)*9,filteredresults.length).hide();
         current_page = p;
+      }
+      function sort(type){
+        sorttype = type;
+        if(type == 'A-Z'){
+          filteredresults.sort(function(a,b){
+            return $('td:first',a).find('strong').text().localeCompare($('td:first',b).find('strong').text());
+          }).appendTo($('tbody'));
+        }
+        else if(type == 'Z-A'){
+          filteredresults.sort(function(a,b){
+            return $('td:first',b).find('strong').text().localeCompare($('td:first',a).find('strong').text());
+          }).appendTo($('tbody'));
+        }
+        else if(type == "board games, genres, publishers"){
+          filteredresults.sort(function(a,b){
+            return $('td:last', a).find('strong').text().localeCompare($('td:last',b).find('strong').text());
+          }).appendTo($('tbody'));
+        }
+        else if(type == "publishers, genres, board games"){
+          filteredresults.sort(function(a,b){
+            return $('td:last', b).find('strong').text().localeCompare($('td:last',a).find('strong').text());
+          }).appendTo($('tbody'));
+        }
+        else if(type == "minimum number of players"){
+          filteredresults.sort(function(a,b){
+            return $('td:last', b).find('gminplayers').text().localeCompare($('td:last',a).find('gminplayers').text());
+          }).appendTo($('tbody'));
+        }
+        paginationupdate();
+        pagechange(1);
       }
     </script>
   <style>
@@ -159,12 +190,12 @@
             <div class="gamefilters">
             <h5>Filters for Board Games:</h5>
             <div class ="gamefilter">
-              <label for="players">Playable with <span id = "playernumber">1</span> players</label>
+              <label for="players">Playable with <span id = "playernumber">5</span> players</label>
               <input type="range" id="players" min="1" max="10">
               <label><input type= "checkbox" class="gameplayersfilter"> Apply filter</label>
             </div>
               <div class ="gamefilter">
-                <label for="age">Playable for a <span id = "ageval">1</span> year old</label>
+                <label for="age">Playable for a <span id = "ageval">9</span> year old</label>
               <input type="range" id="age" min="1" max="18">
               <label><input type= "checkbox" class="gameagefilter"> Apply filter</label>
             </div>
@@ -175,21 +206,30 @@
             <hr>
               <form class="input-group" action ="/search" method="POST">
                 <select class="browser-default custom-select" name="modeltype">
-                  <option selected value='all'>search games, genres, publishers</option>
+                  <option selected value='all'>all games, genres, and publishers</option>
                   <option value='boardgames'>board games</option>
                   <option value='genres'>genres</option>
                   <option value='publishers'>publishers</option>
                 </select>
                 <input class="form-control mr-sm-2" type="text" placeholder='"go fish"' name="search">
-                <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+                <button class="btn btn-outline-info my-sm-0" type="submit">Search</button>
               </form>
-            <div class="padding"></div>
-            <div class="row">
-              <div class="col" style = "padding: 1% 0%">
-                <ul class="pagination" style="overflow: auto">
-                  <li class="page-item" name = 'prev'><button class="btn btn-info" onclick="prevpage();">Previous</button></li>
-                  <li class="page-item" name = 'next'><button class="btn btn-info" onclick="nextpage();">Next</button></li>
-                </ul>
+            <div style="padding: 1% 0%; text-align: right">
+              <div class="dropdown">
+                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sort Options</button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <button class="dropdown-item" onclick="sort('A-Z');">A-Z</button>
+                  <button class="dropdown-item" onclick="sort('Z-A');">Z-A</button>
+                  <button class="dropdown-item" onclick="sort('board games, genres, publishers');">games, genres, publishers</button>
+                  <button class="dropdown-item" onclick="sort('publishers, genres, games');">publishers, genres, games</button>
+                  <button class="dropdown-item" onclick="sort('minimum number of players');">minimum number of players</button>
+
+                </div>
+              </div>
+            </div>
+            <div class="row" style = "padding: 3% 0%; text-align: right">
+              <div class="col" style="text-align: right">
+                <ul class="pagination" style="overflow: auto; text-align: right"></ul>
               </div>
               <div class="table-responsive">
               <table class="table table-hover">
@@ -197,7 +237,7 @@
                 {% for g in exactmatches['boardgames'] %}
                 <tr class = 'gamerow'>
                   <td class="name text-center" style="width: 50%">
-                    <form action="/game" method = "POST"><button type="submit" class="btn btn-link" name="gamename" id="gamename" value='{{g["Name"]}}'><h5>{{g['Name']}}</h5></button></form>
+                    <form action="/game" method = "POST"><button type="submit" class="btn btn-link" name="gamename" id="gamename" value='{{g["Name"]}}'><strong>{{g['Name']}}</strong></button></form>
                     <p>Players: <span  class = 'gminplayers'>{{g["Min_Players"]}}</span> to <span  class = 'gmaxplayers'>{{g["Max_Players"]}}</span>
                       <br>Play time: <span  class = 'gminplaytime'>{{g["Min_Playtime"]}}</span> to <span  class = 'gmaxplaytime'>{{g["Max_Playtime"]}}</span> minutes
                       <br> For players <span class = 'gminage'>{{g["Min_Age"]}}</span> and up
