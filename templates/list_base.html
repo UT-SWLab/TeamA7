@@ -28,19 +28,19 @@
         }
 
        function getFilter(){
-            alert('hit getfilter')
+           // alert('hit getfilter')
             return filter;
         }
 
 
        function setfilterbase(filterbase){
             filter = filterbase;
-            alert('inside setfilterbase');
+           // alert('inside setfilterbase');
             //alert(filter);
        }
 
     function  buildFilterString(newfilter){
-            alert('Hit buildfilter');
+            //alert('Hit buildfilter');
             filter =  filter.concat(newfilter);
             //alert(filter);
         }
@@ -55,12 +55,12 @@
   var checkBox6 = document.getElementById("checkbox6");
 
   // If the checkbox is checked, display the output text
-  if (checkBox1.checked == true){ alert('box is 1');       buildFilterString('four_or_more_players');}
-  if (checkBox2.checked == true){alert('box is 2');        buildFilterString('less_than_2hrs');}
-  if (checkBox3.checked == true){ alert('box is 3');       buildFilterString('two_to_four_players'); }
-  if (checkBox4.checked == true){ alert('box is 4');       buildFilterString('year_1940_1970');}
-  if (checkBox5.checked == true){ alert('box is 5');       buildFilterString('less_than_1hrs');}
-  if (checkBox6.checked == true){ alert('box is 6');       buildFilterString('half_hour_or_less'); }
+  if (checkBox1.checked == true){       buildFilterString('four_or_more_players');}
+  if (checkBox2.checked == true){       buildFilterString('less_than_2hrs');}
+  if (checkBox3.checked == true){      buildFilterString('two_to_four_players'); }
+  if (checkBox4.checked == true){       buildFilterString('year_1940_1970');}
+  if (checkBox5.checked == true){      buildFilterString('less_than_1hrs');}
+  if (checkBox6.checked == true){      buildFilterString('half_hour_or_less'); }
 
   }
 
