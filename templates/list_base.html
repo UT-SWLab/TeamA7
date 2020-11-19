@@ -3,6 +3,8 @@
 {% block head %}
     <title>{% block title %}{% endblock %}</title>
     <script>
+
+
         var elements = document.getElementsByClassName("column");
         var i;
 
@@ -54,14 +56,21 @@
   var checkBox5 = document.getElementById("checkbox5");
   var checkBox6 = document.getElementById("checkbox6");
 
+
+  var checkBox7 = document.getElementById("checkbox7");
+  var checkBox8 =  document.getElementById("checkbox8");
+
   // If the checkbox is checked, display the output text
   if (checkBox1.checked == true){       buildFilterString('four_or_more_players');}
   if (checkBox2.checked == true){       buildFilterString('less_than_2hrs');}
-  if (checkBox3.checked == true){      buildFilterString('two_to_four_players'); }
+  if (checkBox3.checked == true){       buildFilterString('two_to_four_players'); }
   if (checkBox4.checked == true){       buildFilterString('year_1940_1970');}
-  if (checkBox5.checked == true){      buildFilterString('less_than_1hrs');}
-  if (checkBox6.checked == true){      buildFilterString('half_hour_or_less'); }
+  if (checkBox5.checked == true){       buildFilterString('less_than_1hrs');}
+  if (checkBox6.checked == true){       buildFilterString('half_hour_or_less'); }
 
+
+  if (checkBox7.checked == true){       buildFilterString('Average_Game_Price_Less_than_50');}
+  if (checkBox8.checked == true){       buildFilterString('Average_Game_Price_Less_than_25');}
   }
 
         function link(page_route, sort, page, filter){
@@ -83,7 +92,17 @@
     function Testfunc(){ alert('hit test funct'); }
 
 
+     function TurnOffGameFilter() {
+        document.getElementById("FiltersForGames").style.display = "none";
+            }
 
+               function TurnOffGenreFilter() {
+        document.getElementById("FiltersForGenres").style.display = "none";
+            }
+
+            function TurnOffPublisherFilter() {
+        document.getElementById("FiltersForPublisher").style.display = "none";
+            }
     </script>
     <style>
         .row{
@@ -161,13 +180,15 @@
 </div>
 
 
+
+
 <div class="dropdown" style="margin-left:60px;">
   <!-- Basic dropdown -->
   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">Filters</button>
+          aria-haspopup="true" aria-expanded="false" id = "FiltersForGames" >Filters for Games</button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-    <a class="dropdown-item" href="#">
+     <a class="dropdown-item" href="#">
       <!-- Default unchecked -->
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="checkbox1"  >
@@ -217,6 +238,77 @@
 
 
 
+      <a class="dropdown-item" href="#">
+  <div class="custom-control custom-checkbox">
+      <button class="btn btn-link" title="list2" onclick=" window.location.href = link('{{page_route}}', '{{sort_type}}', '{{page}}', 'nofilters' )">Clear All Filters</button>
+  </div>
+</a>
+</div>
+  <!-- Basic dropdown -->
+    </div>
+</div>
+
+
+<div class="dropdown" style="margin-left:60px;">
+  <!-- Basic dropdown -->
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false" id = "FiltersForGenres">Filters for Genres</button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+    <a class="dropdown-item" href="#">
+      <!-- Default unchecked -->
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="checkbox7"  >
+        <label class="custom-control-label" for="checkbox7">Average_Game_Price_Less_than_50</label>
+      </div>
+        </a>
+
+    <a class="dropdown-item" href="#">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="checkbox8" >
+        <label class="custom-control-label" for="checkbox8">Average_Game_Price_Less_than_25</label>
+      </div>
+    </a>
+
+    <a class="dropdown-item" href="#">
+  <div class="custom-control custom-checkbox">
+      <button class="btn btn-link" title="list2" onclick="linkandBuildString()">Run Filter</button>
+  </div>
+</a>
+      <a class="dropdown-item" href="#">
+  <div class="custom-control custom-checkbox">
+      <button class="btn btn-link" title="list2" onclick=" window.location.href = link('{{page_route}}', '{{sort_type}}', '{{page}}', 'nofilters' )">Clear All Filters</button>
+  </div>
+</a>
+</div>
+  <!-- Basic dropdown -->
+    </div>
+</div>
+
+
+<div class="dropdown" style="margin-left:60px;">
+  <!-- Basic dropdown -->
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false" id = "FiltersForPublisher" >Filters for Publishers</button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+     <a class="dropdown-item" href="#">
+      <!-- Default unchecked -->
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="checkbox9"  >
+        <label class="custom-control-label" for="checkbox9">Dummy Listing</label>
+      </div>
+        </a>
+
+    <a class="dropdown-item" href="#">
+
+    <a class="dropdown-item" href="#">
+  <div class="custom-control custom-checkbox">
+      <button class="btn btn-link" title="list2" onclick="linkandBuildString()"> Dummy Run Filter</button>
+  </div>
+</a>
+
+
 
       <a class="dropdown-item" href="#">
   <div class="custom-control custom-checkbox">
@@ -227,6 +319,38 @@
   <!-- Basic dropdown -->
     </div>
 </div>
+
+
+{% if Empty == 'True' %}
+<script>
+TooManyFilters();
+</script>
+<p style="text-align:center">No Results to show: Too many filters were applied and we found no results. Please reset Filters or use less filters.</p>
+{% endif %}
+
+{% if page_route == 'boardgamegenres' %}
+<script>
+
+TurnOffGameFilter();
+TurnOffPublisherFilter();
+</script>
+{% endif %}
+
+{% if page_route == 'boardgames' %}
+<script>
+TurnOffPublisherFilter();
+TurnOffGenreFilter();
+</script>
+{% endif %}
+
+{% if page_route == 'boardgamepublishers' %}
+<script>
+TurnOffGameFilter();
+TurnOffGenreFilter();
+</script>
+{% endif %}
+
+
 
 
 

@@ -317,7 +317,7 @@ def two_to_four_players_Filter(filteredCollection):
 
 def CheckSubstringMatches(filters, NonFilteredCollection):
     Allfilters = ['four_or_more_players', 'two_to_four_players', 'less_than_2hrs', 'year_1940_1970', 'less_than_1hrs',
-                  'half_hour_or_less', 'Average_Players_greater_than_4_players', 'Average_Game_Price_Less_than_25',
+                  'half_hour_or_less', 'Average_Players_4_players_or_less', 'Average_Game_Price_Less_than_25',
                   'Average_Game_Price_Less_than_50 ']
     fullstring = filters
     print("This is the Fullstring : " + fullstring)
@@ -332,9 +332,8 @@ def CheckSubstringMatches(filters, NonFilteredCollection):
 
     ################FIILTERS FOR GENRES#####################
 
-    dictAverage_Players_greater_than_4_players = {"Average_Min_Players": {"$gt": 4}}
-    dictAverage_Game_Price_Less_than_25 = {"Average_Price": {"$lt": 25}}
-    dictAverage_Game_Price_Less_than_50 = {"Average_Price": {"$gt": 25}}
+    dictAverage_Game_Price_Less_than_25 = {"Average_Price": {"$lt": "25.00"}}
+    dictAverage_Game_Price_Less_than_50 = {"Average_Price": {"$gt": "50.00"}}
 
     ################FILTERS FOR PUBLISHERS#####################
 
@@ -362,7 +361,13 @@ def CheckSubstringMatches(filters, NonFilteredCollection):
         if (filter == 'four_or_more_players'):
             listofFindCommands.append(dictfour_or_more_players)
         if (filter == 'Average_Players_greater_than_4_players'):
-            listofFindCommands.append(dictAverage_Players_greater_than_4_players)
+            listofFindCommands.append(dictAverage_Players_4_players_or_less)
+        if (filter == 'Average_Game_Price_Less_than_25'):
+            listofFindCommands.append(dictAverage_Game_Price_Less_than_25)
+        if (filter == 'Average_Game_Price_Less_than_50'):
+            listofFindCommands.append(dictAverage_Game_Price_Less_than_50)
+
+
 
     basedictionary = {"$and": listofFindCommands}
     return ApplyFoundFilters(FoundFilters, NonFilteredCollection,
@@ -379,8 +384,10 @@ def ApplyFoundFilters(FoundFliters, NonFilteredCollection, basedictionary):
         # if no filters then just leave.
         return NonFilteredCollection
     # .find({"$and": [filters]})
+
     cur = NonFilteredCollection.find(basedictionary)
     for element in cur:
+        print(element)
         filteredCollection.insert_one(element)
 
     return filteredCollection  # This collection should be totally filtered
