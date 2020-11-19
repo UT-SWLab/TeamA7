@@ -179,13 +179,13 @@ def genres(page, sort_type, filters):
         genre_obj = filteredCollection.find().sort("Name", -1)
     else:
         genre_obj = filteredCollection.find()
-    Empty ='False'
+    Empty = 'False'
     if (filteredCollection.count() == 0):
         Empty = 'True'
     print(Empty)
     max_pages = (genre_obj.collection.count() // 12) + 1
     return render_template('Genres_List.html', genres=genre_obj, page=page, max_pages=max_pages,
-                           sort_type=sort_type, page_route='boardgamegenres', filters=filters , Empty =Empty)
+                           sort_type=sort_type, page_route='boardgamegenres', filters=filters, Empty=Empty)
 
 
 @app.route('/boardgamepublishers/<string:sort_type>/<int:page>/<string:filters>')
@@ -193,7 +193,6 @@ def publishers(page, sort_type, filters):
     global publish_objects
 
     filteredCollection = CheckSubstringMatches(filters, publish_objects)
-
 
     if sort_type == "alphabetical":
         publish_obj = filteredCollection.find().sort("Name")
@@ -299,8 +298,10 @@ def two_to_four_players_Filter(filteredCollection):
 
 def CheckSubstringMatches(filters, NonFilteredCollection):
     Allfilters = ['four_or_more_players', 'two_to_four_players', 'less_than_2hrs', 'year_1940_1970', 'less_than_1hrs',
-                  'half_hour_or_less','Average Players greater than 4 players', 'Average Game Price Less than 25', 'Average Game Price Less than 50 ']
+                  'half_hour_or_less', 'Average_Players_greater_than_4_players', 'Average_Game_Price_Less_than_25',
+                  'Average_Game_Price_Less_than_50 ']
     fullstring = filters
+    print("This is the Fullstring : " + fullstring)
     FoundFilters = list()
 
     dictYear1940_1970 = {"Year_Published": {"$gt": 1939, "$lt": 1971}}
@@ -312,11 +313,9 @@ def CheckSubstringMatches(filters, NonFilteredCollection):
 
     ################FIILTERS FOR GENRES#####################
 
-
-
-    dictAverage_Players_greater_than_4_players = {"Average_Min_Players" : {"$gt": 4}}
-    dictAverage_Game_Price_Less_than_25 = {"Average_Price" : {"$lt" : 25}}
-    dictAverage_Game_Price_Less_than_50  = {"Average_Price" : {"$gt" : 25}}
+    dictAverage_Players_greater_than_4_players = {"Average_Min_Players": {"$gt": 4}}
+    dictAverage_Game_Price_Less_than_25 = {"Average_Price": {"$lt": 25}}
+    dictAverage_Game_Price_Less_than_50 = {"Average_Price": {"$gt": 25}}
 
     ################FILTERS FOR PUBLISHERS#####################
 
@@ -343,6 +342,8 @@ def CheckSubstringMatches(filters, NonFilteredCollection):
             listofFindCommands.append(dictless_than_1hrs)
         if (filter == 'four_or_more_players'):
             listofFindCommands.append(dictfour_or_more_players)
+        if (filter == 'Average_Players_greater_than_4_players'):
+            listofFindCommands.append(dictAverage_Players_greater_than_4_players)
 
     basedictionary = {"$and": listofFindCommands}
     return ApplyFoundFilters(FoundFilters, NonFilteredCollection,
@@ -362,7 +363,6 @@ def ApplyFoundFilters(FoundFliters, NonFilteredCollection, basedictionary):
     cur = NonFilteredCollection.find(basedictionary)
     for element in cur:
         filteredCollection.insert_one(element)
-
 
     return filteredCollection  # This collection should be totally filtered
 
