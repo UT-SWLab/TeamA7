@@ -62,6 +62,10 @@
   var checkBox9 = document.getElementById("checkbox9");
   var checkBox10 =  document.getElementById("checkbox10");
 
+  var checkBoxGenres_less_than_15 =  document.getElementById("checkboxlessthan15");
+
+
+
 
   // If the checkbox is checked, display the output text
   if (checkBox1.checked == true){       buildFilterString('four_or_more_players');}
@@ -77,6 +81,10 @@
 
  if (checkBox9.checked == true){       buildFilterString('Average_Game_Price_Less_than_30');}
  if (checkBox10.checked == true){       buildFilterString('Average_Game_Price_Less_than_20');}
+
+ if (checkBoxGenres_less_than_15.checked == true){   buildFilterString('Average_Game_Price_Less_than_15');}
+
+
 
   }
 
@@ -279,6 +287,13 @@
       </div>
     </a>
 
+       <a class="dropdown-item" href="#">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="checkboxlessthan15" >
+        <label class="custom-control-label" for="checkboxlessthan15">Average_Game_Price_Less_than_15</label>
+      </div>
+    </a>
+
     <a class="dropdown-item" href="#">
   <div class="custom-control custom-checkbox">
       <button class="btn btn-link" title="list2" onclick="linkandBuildString()">Run Filter</button>
@@ -369,8 +384,6 @@ TooManyFilters();
 </script>
 <p style="text-align:center">No Results to show: Too many filters were applied and we found no results. Please reset Filters or use less filters.</p>
 {% endif %}
-
-
 
 <h5></h5>
 <nav aria-label="Page nav" style="margin-left: 60px;">

@@ -372,7 +372,7 @@ def two_to_four_players_Filter(filteredCollection):
 def CheckSubstringMatches(filters, NonFilteredCollection):
     Allfilters = ['four_or_more_players', 'two_to_four_players', 'less_than_2hrs', 'year_1940_1970', 'less_than_1hrs',
                   'half_hour_or_less', 'Average_Game_Price_Less_than_25',
-                  'Average_Game_Price_Less_than_50 ', 'Average_Game_Price_Less_than_20', 'Average_Game_Price_Less_than_30']
+                  'Average_Game_Price_Less_than_50 ', 'Average_Game_Price_Less_than_20', 'Average_Game_Price_Less_than_30', 'Average_Game_Price_Less_than_15']
     fullstring = filters
     print("This is the Fullstring : " + fullstring)
     FoundFilters = list()
@@ -386,12 +386,14 @@ def CheckSubstringMatches(filters, NonFilteredCollection):
 
     ################FIILTERS FOR GENRES#####################
 
-    dictAverage_Game_Price_Less_than_50 = {"Average_Price": {"lt": "50.00"}}
+    dictAverage_Game_Price_Less_than_50 = {"Average_Price": {"$lt": "50.00"}}
     dictAverage_Game_Price_Less_than_25 = {"Average_Price": {"$lt": "25.00"}}
+    dictAverage_Game_Price_Less_than_15 = {"Average_Price": {"$lt": "15.00"}}
 
+    ################FILTERS FOR PUBLISHERS#####################
     dictAverage_Game_Price_Less_than_30 = {"Average_Price": {"$lt": 30}}
     dictAverage_Game_Price_Less_than_20 = {"Average_Price": {"$lt": 20}}
-    ################FILTERS FOR PUBLISHERS#####################
+
 
     for specificFilter in Allfilters:
         substring = specificFilter
@@ -425,6 +427,9 @@ def CheckSubstringMatches(filters, NonFilteredCollection):
             listofFindCommands.append(dictAverage_Game_Price_Less_than_20)
         if (filter == 'Average_Game_Price_Less_than_30'):
             listofFindCommands.append(dictAverage_Game_Price_Less_than_30)
+
+        if (filter == 'Average_Game_Price_Less_than_15'):
+            listofFindCommands.append(dictAverage_Game_Price_Less_than_15)
 
 
     basedictionary = {"$and": listofFindCommands}
