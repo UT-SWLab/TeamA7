@@ -59,6 +59,9 @@
 
   var checkBox7 = document.getElementById("checkbox7");
   var checkBox8 =  document.getElementById("checkbox8");
+  var checkBox9 = document.getElementById("checkbox9");
+  var checkBox10 =  document.getElementById("checkbox10");
+
 
   // If the checkbox is checked, display the output text
   if (checkBox1.checked == true){       buildFilterString('four_or_more_players');}
@@ -71,6 +74,10 @@
 
   if (checkBox7.checked == true){       buildFilterString('Average_Game_Price_Less_than_50');}
   if (checkBox8.checked == true){       buildFilterString('Average_Game_Price_Less_than_25');}
+
+ if (checkBox9.checked == true){       buildFilterString('Average_Game_Price_Less_than_30');}
+ if (checkBox10.checked == true){       buildFilterString('Average_Game_Price_Less_than_20');}
+
   }
 
         function link(page_route, sort, page, filter){
@@ -83,7 +90,9 @@
 
     function linkandBuildString(){
       PeekCheckBoxBuildString(); //This will look at what is checked and build the string accordingly
-      window.location.href = link('{{page_route}}', '{{sort_type}}', '{{page}}', getFilter() );
+      window.location.href = link('{{page_route}}', '{{sort_type}}', '1', getFilter() );
+      //need to hard code to page 1, to not get empty page on restrictive filters.
+      //We always go to page 1 on any filters application.
       //have to call link after PeeckCheckBoxBuildString so that getFilter gets the filter based on checkedboxes.
 
 
@@ -292,11 +301,19 @@
           aria-haspopup="true" aria-expanded="false" id = "FiltersForPublisher" >Filters for Publishers</button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-     <a class="dropdown-item" href="#">
+    <a class="dropdown-item" href="#">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="checkbox9" >
+        <label class="custom-control-label" for="checkbox9">Average_Game_Price_Less_than_30</label>
+      </div>
+    </a>
+
+
+    <a class="dropdown-item" href="#">
       <!-- Default unchecked -->
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox9"  >
-        <label class="custom-control-label" for="checkbox9">Dummy Listing</label>
+        <input type="checkbox" class="custom-control-input" id="checkbox10"  >
+        <label class="custom-control-label" for="checkbox10">Average_Game_Price_Less_than_20</label>
       </div>
         </a>
 
@@ -304,7 +321,7 @@
 
     <a class="dropdown-item" href="#">
   <div class="custom-control custom-checkbox">
-      <button class="btn btn-link" title="list2" onclick="linkandBuildString()"> Dummy Run Filter</button>
+      <button class="btn btn-link" title="list2" onclick="linkandBuildString()">Run Filter</button>
   </div>
 </a>
 
@@ -321,12 +338,7 @@
 </div>
 
 
-{% if Empty == 'True' %}
-<script>
-TooManyFilters();
-</script>
-<p style="text-align:center">No Results to show: Too many filters were applied and we found no results. Please reset Filters or use less filters.</p>
-{% endif %}
+
 
 {% if page_route == 'boardgamegenres' %}
 <script>
@@ -351,7 +363,12 @@ TurnOffGenreFilter();
 {% endif %}
 
 
-
+{% if Empty == 'True' %}
+<script>
+TooManyFilters();
+</script>
+<p style="text-align:center">No Results to show: Too many filters were applied and we found no results. Please reset Filters or use less filters.</p>
+{% endif %}
 
 
 
