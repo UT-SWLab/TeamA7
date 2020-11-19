@@ -12,6 +12,8 @@
         filteredresults = $('tr');
         paginationupdate();
         pagechange(1);
+        $('.searchfilters').hide();
+        $('input[name="fields"]').val('all');
         //default checking different check boxes depending on the search's model_type
         if ('{{modeltype}}' == 'boardgames') {
           $('.showgenres,.showpublishers').parent().hide();
@@ -25,6 +27,66 @@
         } else {
           $('.showpublishers,.showgames,.showgenres').prop("checked", true);
         }
+        //user toggled advance search, show options
+        $('#searchtoggle,#modelselect').change( function(){
+          $('')
+          if($('#searchtoggle').prop("checked")==true){
+            $('.searchfilters').show();
+            $('.searchfilters').find('input').prop("checked", false);
+            if($('#modelselect option:selected').val() == "boardgames"){
+              $('.search-filter-notgame').hide();
+              $('.search-filter-notgenre').show();
+              $('.search-filter-notpublisher').show();
+              $('#pubfields').text('board games');
+              $('#genfields').text('board games');
+            }
+            else if($('#modelselect option:selected').val() == "genres"){
+              $('.search-filter-notgenre').hide();
+              $('.search-filter-notgame').show();
+              $('.search-filter-notpublisher').show();
+              $('#pubfields').text('genres');
+              $('#gamfields').text('genres');
+            }
+            else if($('#modelselect option:selected').val() == "publishers"){
+              $('.search-filter-notpublisher').hide();
+              $('.search-filter-notgame').show();
+              $('.search-filter-notgenre').show();
+              $('#genfields').text('publishers');
+              $('#gamfields').text('publishers');
+            }
+            else{
+              $('.search-filter-notgame').show();
+              $('.search-filter-notgenre').show();
+              $('.search-filter-notpublisher').show();
+              $('#genfields').text('games and publishers');
+              $('#gamfields').text('genres and publishers');
+              $('#pubfields').text('games and genres');
+            }
+          }
+          else{
+            $('.searchfilters').hide();
+            $('input[name="fields"]').val('all');
+          }
+        })
+        $('#searchbypublisherfield,#searchbygamefield,#searchdescriptions,#searchnames, #searchbygenrefield').click(function(){
+          var fields = []
+          if($('#searchnames').prop("checked")== true){
+            fields.push('Name');
+          }
+          if($('#searchdescriptions').prop("checked")== true){
+            fields.push('Description');
+          }
+          if($('#searchbygamefield').prop("checked")== true){
+            fields.push('Games');
+          }
+          if($('#searchbygenrefield').prop("checked")== true){
+            fields.push('genres');
+          }
+          if($('#searchbypublisherfield').prop("checked")== true){
+            fields.push('Publisher');
+          }
+          $('input[name="fields"]').val(fields);
+        });
         //user has changed what model_types they want to see on the results page
         $('.showgames,.showgenres,.showpublishers').click(function () {
           if ($('.showgames').prop("checked") == true)
@@ -261,17 +323,44 @@
           <div class="col-md-9">
             <h2><span id="resultcount"></span> Search Results for "{{input_string}}"</h2>
             <hr>
-              <form class="input-group" action ="/search" method="POST">
-                <select class="browser-default custom-select" name="modeltype">
+            <form class="input-group" action ="/search" method="POST">
+                <select class="browser-default custom-select" name="modeltype" id = "modelselect">
                   <option selected value='all'>all games, genres, and publishers</option>
                   <option value='boardgames'>board games</option>
                   <option value='genres'>genres</option>
                   <option value='publishers'>publishers</option>
                 </select>
-                <input class="form-control mr-sm-2" type="text" placeholder='"go fish"' name="search">
+                <input class="form-control mr-sm-2" type="text" placeholder='' name="search">
                 <button class="btn btn-outline-info my-sm-0" type="submit">Search</button>
+              <input type="hidden" name = "fields" value = "all" style="display: none">
               </form>
-            <div style="padding: 1% 0%; text-align: right">
+                <div class = "searchfilterstoggle">
+                  <input type="checkbox" id="searchtoggle">
+                  <label class="form-check-label" for="searchtoggle">Advanced Search</label>
+                </div>
+                <div class = "searchfilters">
+                  <div class = "search-filter-all">
+                  <input type="checkbox" id="searchnames">
+                  <label class="form-check-label" for="searchnames">Search Titles and Names</label>
+                </div>
+                <div class="search-filter-all">
+                  <input type="checkbox" id="searchdescriptions">
+                <label class="form-check-label" for="searchdescriptions">Search Descriptions</label>
+                </div>
+                  <div class = "search-filter-notpublisher">
+                  <input type="checkbox" id="searchbypublisherfield">
+                    <label class="form-check-label" for="searchbypublisherfield">Search <span id="pubfields">games and genres</span> with this publisher</label>
+                  </div>
+                  <div class = "search-filter-notgenre">
+                    <input type="checkbox" id="searchbygenrefield">
+                <label class="form-check-label" for="searchbygenrefield">Search <span id="genfields">games and publishers</span> with this genre</label>
+                  </div>
+                  <div class = "search-filter-notgame">
+                    <input type="checkbox" id="searchbygamefield">
+                <label class="form-check-label" for="searchbygamefield">Search <span id="gamfields">games and publishers</span> with this game</label>
+                  </div>
+              </div>
+            <div style="padding: 5% 1% 0% 0%; text-align: right">
               <div class="dropdown">
                 <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sort Options</button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
