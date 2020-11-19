@@ -27,21 +27,18 @@
         }
         //user has changed what model_types they want to see on the results page
         $('.showgames,.showgenres,.showpublishers').click(function () {
-          if ($('.showgames').prop("checked") == true) {
+          if ($('.showgames').prop("checked") == true)
             $('.gamerow').show();
-          } else {
+           else
             $('.gamerow').hide();
-          }
-          if ($('.showgenres').prop("checked") == true) {
+          if ($('.showgenres').prop("checked") == true)
             $('.genrerow').show();
-          } else {
+          else
             $('.genrerow').hide();
-          }
-          if ($('.showpublishers').prop("checked") == true) {
+          if ($('.showpublishers').prop("checked") == true)
             $('.publisherrow').show();
-          } else {
+          else
             $('.publisherrow').hide();
-          }
           filteredresults = $('tr:visible');
           handlegamefilters();
           paginationupdate();
@@ -66,7 +63,7 @@
             $('.publisherrow').hide();
           }
           filteredresults = $('tr:visible');
-            handlegamefilters();
+          handlegamefilters();
           }
         });
         $('#players').change(function () {
@@ -112,8 +109,9 @@
         });
       });
       function handlegamefilters(){
-        $(filteredresults).show();
-        $('.gamerow:visible').each(function(){
+        //for each filtered result
+        filteredresults.each( function() {
+          if($(this).attr("class")=="gamerow"){
             if($('.gameplayersfilter').prop("checked")==true){
               if ((parseInt($(this).find('.gminplayers').text()) > $('#players').val()) | (parseInt($(this).find('.gmaxplayers').text()) < $('#players').val())){
                   $(this).hide();
@@ -124,25 +122,26 @@
                   $(this).hide();
               }
             }
-        });
-        $('.genrerow:visible').each(function(){
+          }
+          else if($(this).attr("class")=="genrerow"){
             if($('.gameplayersfilter').prop("checked")==true){
               if ((parseInt($(this).find('.genminplayers').text()) > $('#players').val()) | (parseInt($(this).find('.genmaxplayers').text()) < $('#players').val())){
                   $(this).hide();
-                }
+              }
             }
-          });
-        $('.publisherrow:visible').each(function(){
+          }
+          if($(this).attr("class")=="publisherrow"){
             if($('.gameplayersfilter').prop("checked")==true){
               if ((parseInt($(this).find('.pminplayers').text()) > $('#players').val()) | (parseInt($(this).find('.pmaxplayers').text()) < $('#players').val())){
                   $(this).hide();
-                }
+              }
             }
-          });
-        filteredresults-=$('.gamerow:hidden');
-        filteredresults-=$('.genrerow:hidden');
-        filteredresults-=$('.publisherrow:hidden');
+          }
+        });
+        filteredresults= $('tr:visible');
         sort(sorttype);
+        paginationupdate();
+        pagechange(1);
       }
       function paginationupdate(){
         $('#resultcount').text(filteredresults.length);
@@ -287,7 +286,9 @@
             </div>
             <div class="row" style = "padding: 3% 0%; text-align: right">
               <div class="col" style="text-align: right">
-                <ul class="pagination" style="overflow: auto; text-align: right"></ul>
+                <ul class="pagination" style="overflow: auto; text-align: right">
+                  <li>Problem if you see this</li>
+                </ul>
               </div>
               <div class="table-responsive">
               <table class="table table-hover">
