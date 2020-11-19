@@ -156,6 +156,12 @@ def games(page, sort_type, filters):
     elif sort_type == "inverse":
         gameobjects = filteredCollection.find().sort("Name", -1)
 
+    elif sort_type == "min-playtime":
+        gameobjects = filteredCollection.find().sort("Min_Playtime")
+
+    elif sort_type == "min-players":
+        gameobjects = filteredCollection.find().sort("Min_Players")
+
     else:
         # Case where no sorting is done, Give Cursor to list_Base Page
         gameobjects = filteredCollection.find()
@@ -177,6 +183,12 @@ def genres(page, sort_type, filters):
         genre_obj = filteredCollection.find().sort("Name")
     elif sort_type == "inverse":
         genre_obj = filteredCollection.find().sort("Name", -1)
+
+    elif sort_type == "min-playtime":
+        genre_obj = filteredCollection.find().sort("Average_Min_Playtime")
+
+    elif sort_type == "min-players":
+        genre_obj = filteredCollection.find().sort("Average_Min_Players")
     else:
         genre_obj = filteredCollection.find()
     Empty = 'False'
@@ -198,6 +210,13 @@ def publishers(page, sort_type, filters):
         publish_obj = filteredCollection.find().sort("Name")
     elif sort_type == "inverse":
         publish_obj = filteredCollection.find().sort("Name", -1)
+
+    elif sort_type == "min-playtime":
+        publish_obj = filteredCollection.find().sort("Average_Min_Playtime")
+
+    elif sort_type == "min-players":
+        publish_obj = filteredCollection.find().sort("Average_Min_Players")
+
     else:
         publish_obj = filteredCollection.find()
 

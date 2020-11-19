@@ -76,7 +76,7 @@ for genre in genrecollection.find():
 	averageplaytime = totalplaytime / gamecount
 	if(gameswithpricecount != 0):
 		averageprice = totalprice / gameswithpricecount
-		genrecollection.update_one({'Name': genre['Name']}, {"$set" : {"Average_Price": round(averageprice, 2)}})
+		genrecollection.update_one({'Name': genre['Name']}, {"$set" : {"Average_Price": "%.2f" % averageprice}})
 	else:
 		averageprice = "Not Available"
 		genrecollection.update_one({'Name': genre['Name']}, {"$set" : {"Average_Price": averageprice}})
