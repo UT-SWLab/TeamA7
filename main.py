@@ -373,10 +373,13 @@ def CheckSubstringMatches(filters, NonFilteredCollection):
         'Average_Playtime:_30_minutes_or_Less',
         'Average_Playtime:_1_Hour_or_Less',
         'Average_Playtime:_1_Hour_or_More',
+        'Average_Playtime:_30_minutes_or_More',
 
         'Average_Price:_$30_or_More_Publisher',
         'Average_Price:_$30_or_Less_Publisher',
-        'Average_Price:_$15_or_Less_Publisher'
+        'Average_Price:_$15_or_Less_Publisher',
+        'Average_Price:_$30_or_More_Double'
+
     ]
     fullstring = filters
     print("This is the Fullstring : " + fullstring)
@@ -393,6 +396,10 @@ def CheckSubstringMatches(filters, NonFilteredCollection):
 
     # These calls must have a string because DB for Genres stores it as a string not double like publishers collection.
 
+    dict_Average_Price_30_or_More_Double = {"Average_Price": {"$gte": 30.00}}
+    dict_Average_Price_30_or_Less_Publisher = {"Average_Price": {"$lte": 30.00}}
+    dict_Average_Price_15_or_Less_Publisher = {"Average_Price": {"$lte": 15.00}}
+
     dict_Average_Price_30_or_More = {"Average_Price": {"$gte": "30"}}
     dict_Average_Price_30_or_Less = {"Average_Price": {"$lte": "30"}}
     dict_Average_Price_15_or_Less = {"Average_Price": {"$lte": "15"}}
@@ -401,9 +408,9 @@ def CheckSubstringMatches(filters, NonFilteredCollection):
     dict_Average_Playtime_1_Hour_or_Less = {"Average_Playtime": {"$lte": 60}}
     dict_Average_Playtime_1_Hour_or_More = {"Average_Playtime": {"$gte": 60}}
 
-    dict_Average_Price_30_or_More_Publisher = {"Average_Price": {"$gte": 30}}
-    dict_Average_Price_30_or_Less_Publisher = {"Average_Price": {"$lte": 30}}
-    dict_Average_Price_15_or_Less_Publisher = {"Average_Price": {"$lte": 15}}
+    dict_Average_Playtime_30_minutes_or_More = {"Average_Playtime": {"$gte": 30}}
+
+
 
     for specificFilter in Allfilters:
         substring = specificFilter
@@ -431,8 +438,9 @@ def CheckSubstringMatches(filters, NonFilteredCollection):
         if (filter == 'Players:_4'):
             listofFindCommands.append(dict_Players_4)
         if (filter == 'Players: _5 +'):
-            ###########GENRES CALLS TO DATABASE###################3
             listofFindCommands.append(dict_Players_5)
+        ###########GENRES CALLS TO DATABASE
+
         if (filter == 'Average_Price:_$30_or_More'):
             listofFindCommands.append(dict_Average_Price_30_or_More)
         if (filter == 'Average_Price:_$30_or_Less'):
@@ -440,7 +448,7 @@ def CheckSubstringMatches(filters, NonFilteredCollection):
         if (filter == 'Average_Price:_$15_or_Less'):
             listofFindCommands.append(dict_Average_Price_15_or_Less)
 
-        ###########SHARED GENRES AND PUBLISHER PUBLISHER CALLS TO DATABASE###################
+        ###########SHARED GENRES AND PUBLISHER PUBLISHER CALLS TO DATABASE
         if (filter == 'Average_Playtime:_30_minutes_or_Less'):
             listofFindCommands.append(dict_Average_Playtime_30_minutes_or_Less)
         if (filter == 'Average_Playtime:_1_Hour_or_Less'):
@@ -448,13 +456,17 @@ def CheckSubstringMatches(filters, NonFilteredCollection):
         if (filter == 'Average_Playtime:_1_Hour_or_More'):
             listofFindCommands.append(dict_Average_Playtime_1_Hour_or_More)
 
-        ###########PUBLISHER CALLS TO DATABASE###################
-        if (filter == 'Average_Price:_$30_or_More_Publisher'):
-            listofFindCommands.append(dict_Average_Price_30_or_More_Publisher)
+        if (filter == 'Average_Playtime:_30_minutes_or_More'):
+            listofFindCommands.append(dict_Average_Playtime_30_minutes_or_More)
+
+
+        ###########PUBLISHER CALLS TO DATABASE
+        if (filter == 'Average_Price:_$30_or_More_Double'):
+            listofFindCommands.append(dict_Average_Price_30_or_More)
         if (filter == 'Average_Price:_$30_or_Less_Publisher'):
-            listofFindCommands.append(dict_Average_Price_30_or_Less_Publisher)
+            listofFindCommands.append(dict_Average_Price_30_or_Less)
         if (filter == 'Average_Price:_$15_or_Less_Publisher'):
-            listofFindCommands.append(dict_Average_Price_15_or_Less_Publisher)
+            listofFindCommands.append(dict_Average_Price_15_or_Less)
 
     basedictionary = {"$and": listofFindCommands}
     return ApplyFoundFilters(FoundFilters, NonFilteredCollection,
