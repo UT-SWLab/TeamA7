@@ -218,7 +218,7 @@
       function nextpage() {
         if (current_page<page_count){
             filteredresults.slice(0,(current_page)*9).hide();
-            filteredresults.slice((current_page)*9,(current_page)*9+Math.min((filteredresults.length-current_page*9)%10,9)).show();
+            filteredresults.slice((current_page)*9,(current_page+1)*9).show();
             filteredresults.slice((current_page+1)*9,filteredresults.length).hide();
             current_page +=1;
         }
@@ -256,9 +256,12 @@
           }).appendTo($('tbody'));
         }
         else if(type == "publishers, genres, board games"){
-          filteredresults.sort(function(a,b){
-            return $('td:last', b).find('strong').text().localeCompare($('td:last',a).find('strong').text());
-          }).appendTo($('tbody'));
+          var publishers = filteredresults.find('.model.strong:contains("Publisher")')
+          var genres = filteredresults.find('.model.strong:contains("Genre")')
+          var games = filteredresults.find('.model.strong:contains("Board Game")')
+          games.prependTo($('tbody'));
+          genres.prependTo($('tbody'));
+          publishers.prependTo($('tbody'));
         }
         else if(type == "minimum number of players"){
           filteredresults.sort(function(a,b){
