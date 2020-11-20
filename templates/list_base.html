@@ -2,13 +2,13 @@
 
 {% block head %}
     <title>{% block title %}{% endblock %}</title>
+
+
     <script>
-
-
         var elements = document.getElementsByClassName("column");
         var i;
 
-        var filter = '';
+        var filter = 'nofilters';
 
         //alert(filter);
         console.log(filter);
@@ -80,7 +80,6 @@ if (checkBox4.checked == true){       buildFilterString( 'Players:_2');}
 if (checkBox5.checked == true){       buildFilterString('Players:_3');}
 if (checkBox6.checked == true){       buildFilterString('Players:_4'); }
 if (checkBox7.checked == true){       buildFilterString('Players:_5 +'); }
-
 
 
 if (checkBox8.checked == true){       buildFilterString('Average_Price:_$30_or_More');}
@@ -279,8 +278,6 @@ if (checkBox17.checked == true){        buildFilterString('Average_Playtime:_30_
 
 
 
-
-
 <div class="dropdown" style="margin-left:60px;">
   <!-- Basic dropdown -->
   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
@@ -429,6 +426,8 @@ TooManyFilters();
 </script>
 <p style="text-align:center">No Results to show: Too many filters were applied and we found no results. Please reset Filters or use less filters.</p>
 {% endif %}
+
+
 
 <h5></h5>
 <nav aria-label="Page nav" style="margin-left: 60px;">
