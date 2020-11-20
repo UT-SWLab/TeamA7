@@ -15,6 +15,7 @@ class MyTestCase(unittest.TestCase):
     def test_bad_search(self):
         exact, partial = searchdb('zxcvbnmasdfghjklqwertyuiop', {'boardgames': True, 'genres': True, 'publishers': True}, ['all'])
         self.assertEqual(exact, {'boardgames': [], 'genres': [], 'publishers': []})
+
         self.assertEqual(partial, {})
 
     def test_game_list(self):
@@ -34,6 +35,7 @@ class MyTestCase(unittest.TestCase):
         publisherlist = self.app.get('boardgamepublishers/normal/1/nofilters')
         self.assertEqual(publisherlist.status_code, 200)
         self.assertTrue('Publishers Page 1' in str(publisherlist.data))
+
     def tearDown(self):
         pass
 
