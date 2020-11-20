@@ -46,10 +46,10 @@ def searchdb(input, models, fields):
     if models['boardgames']:
         searchdict = {}
         if list(fields) == ["all"]:
-            searchdict = {"$or" : [{"Name": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-                                   {"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-                                   {"Publisher": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-                                   {"genres": {"$regex": ".*" + input + ".*", '$options': 'i'}}]}
+            searchdict = {"$or": [{"Name": {"$regex": ".*" + input + ".*", '$options': 'i'}},
+                                  {"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}},
+                                  {"Publisher": {"$regex": ".*" + input + ".*", '$options': 'i'}},
+                                  {"genres": {"$regex": ".*" + input + ".*", '$options': 'i'}}]}
         else:
             fieldsearches = []
             for f in fields:
@@ -60,9 +60,9 @@ def searchdb(input, models, fields):
         searchdict = {}
         if list(fields) == ["all"]:
             searchdict = {"$or": [{"Name": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-            {"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-            {"Publishers": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-            {"Games": {"$regex": ".*" + input + ".*", '$options': 'i'}}]}
+                                  {"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}},
+                                  {"Publishers": {"$regex": ".*" + input + ".*", '$options': 'i'}},
+                                  {"Games": {"$regex": ".*" + input + ".*", '$options': 'i'}}]}
         else:
             fieldsearches = []
             for f in fields:
@@ -76,12 +76,12 @@ def searchdb(input, models, fields):
         searchdict = {}
         if list(fields) == ["all"]:
             searchdict = {"$or": [
-            {"Name": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-            {"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-            {"Genres": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-            {"Games": {"$regex": ".*" + input + ".*", '$options': 'i'}}]}
+                {"Name": {"$regex": ".*" + input + ".*", '$options': 'i'}},
+                {"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}},
+                {"Genres": {"$regex": ".*" + input + ".*", '$options': 'i'}},
+                {"Games": {"$regex": ".*" + input + ".*", '$options': 'i'}}]}
         else:
-            fieldsearches= []
+            fieldsearches = []
             for f in fields:
                 if f == "genres":
                     fieldsearches.append({"Genres": {"$regex": ".*" + input + ".*", '$options': 'i'}})
@@ -98,10 +98,10 @@ def searchdb(input, models, fields):
                 searchdict = {}
                 if list(fields) == ["all"]:
                     searchdict = {"$or": [
-                    {"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}},
-                    {"Description": {"$regex": ".*" + word + ".*", '$options': 'i'}},
-                    {"Publisher": {"$regex": ".*" + word + ".*", '$options': 'i'}},
-                    {"genres": {"$regex": ".*" + word + ".*", '$options': 'i'}}]}
+                        {"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}},
+                        {"Description": {"$regex": ".*" + word + ".*", '$options': 'i'}},
+                        {"Publisher": {"$regex": ".*" + word + ".*", '$options': 'i'}},
+                        {"genres": {"$regex": ".*" + word + ".*", '$options': 'i'}}]}
                 else:
                     fieldsearches = list()
                     for f in fields:
@@ -347,8 +347,8 @@ def search():
     print(len(fields))
     print(models)
     exactmatches, partialmatches = searchdb(input_string, models, fields)
-    return render_template("searchresults.html", input_string=input_string, exactmatches=exactmatches, partialmatches=partialmatches, modeltype=type)
-
+    return render_template("searchresults.html", input_string=input_string, exactmatches=exactmatches,
+                           partialmatches=partialmatches, modeltype=type)
 
 
 ####################FILTERS#####################
@@ -370,30 +370,54 @@ def two_to_four_players_Filter(filteredCollection):
 
 
 def CheckSubstringMatches(filters, NonFilteredCollection):
-    Allfilters = ['four_or_more_players', 'two_to_four_players', 'less_than_2hrs', 'year_1940_1970', 'less_than_1hrs',
-                  'half_hour_or_less', 'Average_Game_Price_Less_than_25',
-                  'Average_Game_Price_Less_than_50 ', 'Average_Game_Price_Less_than_20', 'Average_Game_Price_Less_than_30', 'Average_Game_Price_Less_than_15']
+    Allfilters = [
+        '1_Hour_or_More',
+        '1_Hour_or_Less',
+        '30_Minutes_or_Less',
+
+        'Players:_2',
+        'Players:_3',
+        'Players:_4',
+        'Players:_5 +',
+
+        'Average_Price:_$30_or_More',
+        'Average_Price:_$30_or_Less',
+        'Average_Price:_$15_or_Less',
+
+        'Average_Playtime:_30_minutes_or_Less',
+        'Average_Playtime:_1_Hour_or_Less',
+        'Average_Playtime:_1_Hour_or_More',
+
+        'Average_Price:_$30_or_More_Publisher',
+        'Average_Price:_$30_or_Less_Publisher',
+        'Average_Price:_$15_or_Less_Publisher'
+    ]
     fullstring = filters
     print("This is the Fullstring : " + fullstring)
     FoundFilters = list()
 
-    dictYear1940_1970 = {"Year_Published": {"$gt": 1939, "$lt": 1971}}
-    dicthalf_hour_or_less = {"Max_Playtime": {"$lte": 30}}
-    dictfour_or_more_players = {"Min_Players": {"$gt": 3}}
-    dictless_than_1hrs = {"Max_Playtime": {"$lt": 61}}
-    dictless_than_2hrs = {"Max_Playtime": {"$lt": 121}}
-    dicttwo_to_four_players = {"Min_Players": {"$eq": 2}, "Max_Players": {"$eq": 4}}
+    dict_1_Hour_or_More = {"Max_Playtime": {"$gte": 60}}
+    dict_1_Hour_or_Less = {"Max_Playtime": {"$lte": 60}}
+    dict_30_Minutes_or_Less = {"Max_Playtime": {"$lte": 30}}
 
-    ################FIILTERS FOR GENRES#####################
+    dict_Players_2 = {"Min_Players": {"$gte": 2}}
+    dict_Players_3 = {"Min_Players": {"$gte": 3}}
+    dict_Players_4 = {"Min_Players": {"$gte": 4}}
+    dict_Players_5 = {"Min_Players": {"$gte": 5}}
 
-    dictAverage_Game_Price_Less_than_50 = {"Average_Price": {"$lt": "50.00"}}
-    dictAverage_Game_Price_Less_than_25 = {"Average_Price": {"$lt": "25.00"}}
-    dictAverage_Game_Price_Less_than_15 = {"Average_Price": {"$lt": "15.00"}}
+    dict_Average_Price_30_or_More = {"Average_Price": {"$gte": 30}}
+    dict_Average_Price_30_or_Less = {"Average_Price": {"$lte": 30}}
+    dict_Average_Price_15_or_Less = {"Average_Price": {"$lte": 15}}
 
-    ################FILTERS FOR PUBLISHERS#####################
-    dictAverage_Game_Price_Less_than_30 = {"Average_Price": {"$lt": 30}}
-    dictAverage_Game_Price_Less_than_20 = {"Average_Price": {"$lt": 20}}
 
+    dict_Average_Playtime_30_minutes_or_Less = {"Average_Playtime": {"$lte": 30}}
+    dict_Average_Playtime_1_Hour_or_Less ={"Average_Playtime": {"$lte": 60}}
+    dict_Average_Playtime_1_Hour_or_More = {"Average_Playtime": {"$gte": 60}}
+
+    #These calls must have a string because DB for Genres stores it as a string not double like publishers collection.
+    dict_Average_Price_30_or_More_Publisher =  {"Average_Price": {"$gte": "30"}}
+    dict_Average_Price_30_or_Less_Publisher = {"Average_Price": {"$lte": "30"}}
+    dict_Average_Price_15_or_Less_Publisher = {"Average_Price": {"$lte": "15"}}
 
     for specificFilter in Allfilters:
         substring = specificFilter
@@ -406,31 +430,46 @@ def CheckSubstringMatches(filters, NonFilteredCollection):
     listofFindCommands = []
 
     for filter in FoundFilters:
-        if filter == 'year_1940_1970':
-            listofFindCommands.append(dictYear1940_1970)
-        if (filter == 'half_hour_or_less'):
-            listofFindCommands.append(dicthalf_hour_or_less)
-        if (filter == 'less_than_2hrs'):
-            listofFindCommands.append(dictless_than_2hrs)
-        if (filter == 'two_to_four_players'):
-            listofFindCommands.append(dicttwo_to_four_players)
-        if (filter == 'less_than_1hrs'):
-            listofFindCommands.append(dictless_than_1hrs)
-        if (filter == 'four_or_more_players'):
-            listofFindCommands.append(dictfour_or_more_players)
+        ###########GAME CALLS TO DATABASE###################3
 
-        if (filter == 'Average_Game_Price_Less_than_25'):
-            listofFindCommands.append(dictAverage_Game_Price_Less_than_25)
-        if (filter == 'Average_Game_Price_Less_than_50'):
-            listofFindCommands.append(dictAverage_Game_Price_Less_than_50)
-        if (filter == 'Average_Game_Price_Less_than_20'):
-            listofFindCommands.append(dictAverage_Game_Price_Less_than_20)
-        if (filter == 'Average_Game_Price_Less_than_30'):
-            listofFindCommands.append(dictAverage_Game_Price_Less_than_30)
+        if (filter == '1_Hour_or_More'):
+            listofFindCommands.append(dict_1_Hour_or_More)
+        if (filter == '1_Hour_or_Less'):
+            listofFindCommands.append(dict_1_Hour_or_Less)
+        if (filter == '30_Minutes_or_Less'):
+            listofFindCommands.append(dict_30_Minutes_or_Less)
+        if (filter == 'Players:_2'):
+            listofFindCommands.append(dict_Players_2)
+        if (filter == 'Players:_3'):
+            listofFindCommands.append(dict_Players_4)
+        if (filter == 'Players:_4'):
+            listofFindCommands.append(dict_Players_3)
+        if (filter == 'Players: _5 +'):
+            ###########GENRES CALLS TO DATABASE###################3
 
-        if (filter == 'Average_Game_Price_Less_than_15'):
-            listofFindCommands.append(dictAverage_Game_Price_Less_than_15)
+            listofFindCommands.append(dict_Players_5)
+        if (filter == 'Average_Price:_$30_or_More'):
+            listofFindCommands.append(dict_Average_Price_30_or_More)
+        if (filter == 'Average_Price:_$30_or_Less'):
+            listofFindCommands.append(dict_Average_Price_30_or_Less)
+        if (filter == 'Average_Price:_$15_or_Less'):
+            listofFindCommands.append(dict_Average_Price_15_or_Less)
 
+        ###########SHARED GENRES AND PUBLISHER PUBLISHER CALLS TO DATABASE###################
+        if (filter == 'Average_Playtime:_30_minutes_or_Less'):
+            listofFindCommands.append(dict_Average_Playtime_30_minutes_or_Less)
+        if (filter == 'Average_Playtime:_1_Hour_or_Less'):
+            listofFindCommands.append(dict_Average_Playtime_1_Hour_or_Less)
+        if (filter == 'Average_Playtime:_1_Hour_or_More'):
+            listofFindCommands.append(dict_Average_Playtime_1_Hour_or_More)
+
+        ###########PUBLISHER CALLS TO DATABASE###################
+        if (filter == 'Average_Price:_$30_or_More_Publisher'):
+            listofFindCommands.append(dict_Average_Price_30_or_More_Publisher)
+        if (filter == 'Average_Price:_$30_or_Less_Publisher'):
+            listofFindCommands.append(dict_Average_Price_30_or_Less_Publisher)
+        if (filter == 'Average_Price:_$15_or_Less_Publisher'):
+            listofFindCommands.append(dict_Average_Price_15_or_Less_Publisher)
 
     basedictionary = {"$and": listofFindCommands}
     return ApplyFoundFilters(FoundFilters, NonFilteredCollection,
