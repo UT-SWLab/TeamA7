@@ -3,12 +3,13 @@
 {% block head %}
     <title>{% block title %}{% endblock %}</title>
 
-
     <script>
+
+
         var elements = document.getElementsByClassName("column");
         var i;
 
-        var filter = 'nofilters';
+        var filter = '';
 
         //alert(filter);
         console.log(filter);
@@ -47,55 +48,65 @@
             //alert(filter);
         }
 
-        function PeekCheckBoxBuildString() {
-  // Get the checkbox
-  var checkBox1 = document.getElementById("checkbox1");
-  var checkBox2 = document.getElementById("checkbox2");
-  var checkBox3 = document.getElementById("checkbox3");
-  var checkBox4 = document.getElementById("checkbox4");
-  var checkBox5 = document.getElementById("checkbox5");
-  var checkBox6 = document.getElementById("checkbox6");
-  var checkBox7 = document.getElementById("checkbox7");
+$( document ).ready(function() {
 
-    var checkBox8 =  document.getElementById("checkbox8");
-    var checkBox9 = document.getElementById("checkbox9");
-    var checkBox10 =  document.getElementById("checkbox10");
-    var checkBox11 =  document.getElementById("checkbox11");
-    var checkBox12 =  document.getElementById("checkbox12");
+          //to check box of current filter
+          currentfilterindex = window.location.href.lastIndexOf('/')
+          currentfilter = window.location.href.substring(currentfilterindex+1)
 
-    var checkBox13 =  document.getElementById("checkbox13");
-    var checkBox14 =  document.getElementById("checkbox14");
-    var checkBox15 =  document.getElementById("checkbox15");
-    var checkBox16 =  document.getElementById("checkbox16");
-    var checkBox17 =  document.getElementById("checkbox17");
-    var checkBox18 =  document.getElementById("checkbox18");
-    var checkBox19 =  document.getElementById("checkbox19");
-
-  // If the checkbox is checked, display the output text
-
-if (checkBox1.checked == true){       buildFilterString('1_Hour_or_More');}
-if (checkBox2.checked == true){       buildFilterString('1_Hour_or_Less');}
-if (checkBox3.checked == true){       buildFilterString('30_Minutes_or_Less'); }
-if (checkBox4.checked == true){       buildFilterString( 'Players:_2');}
-if (checkBox5.checked == true){       buildFilterString('Players:_3');}
-if (checkBox6.checked == true){       buildFilterString('Players:_4'); }
-if (checkBox7.checked == true){       buildFilterString('Players:_5 +'); }
-
-
-if (checkBox8.checked == true){       buildFilterString('Average_Price:_$30_or_More');}
-if (checkBox9.checked == true){       buildFilterString('Average_Price:_$30_or_Less');}
-if (checkBox10.checked == true){      buildFilterString('Average_Price:_$15_or_Less');}
-if (checkBox11.checked == true){      buildFilterString('Average_Playtime:_30_minutes_or_Less');}
-if (checkBox12.checked == true){      buildFilterString('Average_Playtime:_30_minutes_or_More');}
-
-if (checkBox13.checked == true){       buildFilterString('Average_Price:_$30_or_More_Double');}
-if (checkBox14.checked == true){       buildFilterString('Average_Price:_$30_or_Less_Publisher');}
-if (checkBox15.checked == true){       buildFilterString('Average_Price:_$15_or_Less_Publisher');}
-if (checkBox16.checked == true){       buildFilterString('Average_Playtime:_30_minutes_or_Less');}
-if (checkBox17.checked == true){        buildFilterString('Average_Playtime:_30_minutes_or_More');}
-
-
-  }
+          if (currentfilter == "1_Hour_or_More"){
+            document.getElementById("checkbox1").checked = true
+          }
+          if (currentfilter == "1_Hour_or_Less"){
+            document.getElementById("checkbox2").checked = true
+          }
+          if (currentfilter == "30_Minutes_or_Less"){
+            document.getElementById("checkbox3").checked = true
+          }
+          if (currentfilter == "Players:_2"){
+            document.getElementById("checkbox4").checked = true
+          }
+          if (currentfilter == "Players:_3"){
+            document.getElementById("checkbox5").checked = true
+          }
+          if (currentfilter == "Players:_4"){
+            document.getElementById("checkbox6").checked = true
+          }
+          if (currentfilter == "Players:_5%20+"){
+            document.getElementById("checkbox7").checked = true
+          }
+          if (currentfilter == "Average_Price:_$30_or_More"){
+            document.getElementById("checkbox8").checked = true
+          }
+          if (currentfilter == "Average_Price:_$30_or_Less"){
+            document.getElementById("checkbox9").checked = true
+          }
+          if (currentfilter == "Average_Price:_$15_or_Less"){
+            document.getElementById("checkbox10").checked = true
+          }
+          if (currentfilter == "Average_Playtime:_30_minutes_or_Less"){
+            document.getElementById("checkbox11").checked = true
+          }
+          if (currentfilter == "Average_Playtime:_30_Minutes_or_More"){
+            document.getElementById("checkbox12").checked = true
+          }
+          if (currentfilter == "Average_Price:_$30_or_More_Double"){
+            document.getElementById("checkbox13").checked = true
+          }
+          if (currentfilter == "Average_Price:_$30_or_Less_Publisher"){
+            document.getElementById("checkbox14").checked = true
+          }
+          if (currentfilter == "Average_Price:_$15_or_Less_Publisher"){
+            document.getElementById("checkbox15").checked = true
+          }
+          if (currentfilter == "Average_Playtime:_30_minutes_or_Less"){
+            document.getElementById("checkbox16").checked = true
+          }
+          if (currentfilter == "Average_Playtime:_30_Minutes_or_More"){
+            document.getElementById("checkbox17").checked = true  
+          } 
+});
+  
 
         function link(page_route, sort, page, filter){
             return '/' + page_route + '/' + sort + '/' + page + '/' + filter;
@@ -105,33 +116,28 @@ if (checkBox17.checked == true){        buildFilterString('Average_Playtime:_30_
             return '/' + page_route + '/' + sort + '/' + page + '/' + filter;
         }
 
-    function linkandBuildString(){
-      PeekCheckBoxBuildString(); //This will look at what is checked and build the string accordingly
-      window.location.href = link('{{page_route}}', '{{sort_type}}', '1', getFilter() );
-      //need to hard code to page 1, to not get empty page on restrictive filters.
-      //We always go to page 1 on any filters application.
-      //have to call link after PeeckCheckBoxBuildString so that getFilter gets the filter based on checkedboxes.
 
-
+    function loadNewFilter(filter){
+      window.location.href = link('{{page_route}}', '{{sort_type}}', '1', filter );
       }
 
     function Testfunc(){ alert('hit test funct'); }
 
 
-     function TurnOffGameFilter() {
+    function TurnOffGameFilter() {
         document.getElementById("FiltersForGames").style.display = "none";
-            }
+    }
 
-               function TurnOffGenreFilter() {
+    function TurnOffGenreFilter() {
         document.getElementById("FiltersForGenres").style.display = "none";
-            }
+    }
 
-            function TurnOffPublisherFilter() {
+    function TurnOffPublisherFilter() {
         document.getElementById("FiltersForPublisher").style.display = "none";
-            }
+    }
 
-        function dropdownStayDown() {
-            document.getElementById('FiltersForGames').addEventListener('click', function (event) {
+    function dropdownStayDown() {
+        document.getElementById('FiltersForGames').addEventListener('click', function (event) {
     event.stopPropagation();}); }
 
     </script>
@@ -221,48 +227,48 @@ if (checkBox17.checked == true){        buildFilterString('Average_Playtime:_30_
     <a class="dropdown-item" href="#">
       <!-- Default unchecked -->
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox1"   onclick="linkandBuildString()">
+        <input type="checkbox" class="custom-control-input" id="checkbox1"   onclick="loadNewFilter('1_Hour_or_More')">
         <label class="custom-control-label" for="checkbox1">1 Hour or More</label>
       </div>
         </a>
 
     <a class="dropdown-item" href="#">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox2"  onclick="linkandBuildString()">
+        <input type="checkbox" class="custom-control-input" id="checkbox2"  onclick="loadNewFilter('1_Hour_or_Less')">
         <label class="custom-control-label" for="checkbox2">1 Hour or Less </label>
       </div>
     </a>
     <a class="dropdown-item" href="#">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox3"  onclick="linkandBuildString()">
+        <input type="checkbox" class="custom-control-input" id="checkbox3"  onclick="loadNewFilter('30_Minutes_or_Less')">
         <label class="custom-control-label" for="checkbox3">30 Minutes or Less</label>
       </div>
     </a>
 
     <a class="dropdown-item" href="#">
   <div class="custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="checkbox4"   onclick="linkandBuildString()">
+    <input type="checkbox" class="custom-control-input" id="checkbox4"   onclick="loadNewFilter('Players:_2')">
     <label class="custom-control-label" for="checkbox4">Players: 2</label>
   </div>
 </a>
 
  <a class="dropdown-item" href="#">
 <div class="custom-control custom-checkbox">
-<input type="checkbox" class="custom-control-input" id="checkbox5" onclick="linkandBuildString()" >
+<input type="checkbox" class="custom-control-input" id="checkbox5" onclick="loadNewFilter('Players:_3')" >
 <label class="custom-control-label" for="checkbox5">Players: 3 </label>
 </div>
 </a>
 
       <a class="dropdown-item" href="#">
 <div class="custom-control custom-checkbox">
-<input type="checkbox" class="custom-control-input" id="checkbox6"  onclick="linkandBuildString()">
+<input type="checkbox" class="custom-control-input" id="checkbox6"  onclick="loadNewFilter('Players:_4')">
 <label class="custom-control-label" for="checkbox6">Players: 4 </label>
 </div>
 </a>
 
            <a class="dropdown-item" href="#">
 <div class="custom-control custom-checkbox">
-<input type="checkbox" class="custom-control-input" id="checkbox7" onclick="linkandBuildString()" >
+<input type="checkbox" class="custom-control-input" id="checkbox7" onclick="loadNewFilter('Players:_5 +')" >
 <label class="custom-control-label" for="checkbox7">Players: 5+</label>
 </div>
 </a>
@@ -278,6 +284,8 @@ if (checkBox17.checked == true){        buildFilterString('Average_Playtime:_30_
 
 
 
+
+
 <div class="dropdown" style="margin-left:60px;">
   <!-- Basic dropdown -->
   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
@@ -287,36 +295,36 @@ if (checkBox17.checked == true){        buildFilterString('Average_Playtime:_30_
  <a class="dropdown-item" href="#">
       <!-- Default unchecked -->
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox8"  onclick="linkandBuildString()"  >
+        <input type="checkbox" class="custom-control-input" id="checkbox8"  onclick="loadNewFilter('Average_Price:_$30_or_More')"  >
         <label class="custom-control-label" for="checkbox8">Average Price: $30 or More</label>
       </div>
         </a>
 
     <a class="dropdown-item" href="#">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox9"  onclick="linkandBuildString()">
+        <input type="checkbox" class="custom-control-input" id="checkbox9"  onclick="loadNewFilter('Average_Price:_$30_or_Less')">
         <label class="custom-control-label" for="checkbox9">Average Price: $30 or Less</label>
       </div>
     </a>
 
        <a class="dropdown-item" href="#">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox10" onclick="linkandBuildString()" >
+        <input type="checkbox" class="custom-control-input" id="checkbox10" onclick="loadNewFilter('Average_Price:_$15_or_Less')" >
         <label class="custom-control-label" for="checkbox10">Average Price: $15 or Less</label>
       </div>
     </a>
 
         <a class="dropdown-item" href="#">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox11" onclick="linkandBuildString()" >
-        <label class="custom-control-label" for="checkbox11">Average Playtime: 30 minutes or Less</label>
+        <input type="checkbox" class="custom-control-input" id="checkbox11" onclick="loadNewFilter('Average_Playtime:_30_minutes_or_Less')" >
+        <label class="custom-control-label" for="checkbox11">Average Playtime: 30 Minutes or Less</label>
       </div>
     </a>
 
         <a class="dropdown-item" href="#">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox12"  onclick="linkandBuildString()">
-        <label class="custom-control-label" for="checkbox12">Average Playtime: 30 minutes or More</label>
+        <input type="checkbox" class="custom-control-input" id="checkbox12"  onclick="loadNewFilter('Average_Playtime:_30_Minutes_or_More')">
+        <label class="custom-control-label" for="checkbox12">Average Playtime: 30 Minutes or More</label>
       </div>
     </a>
 
@@ -341,7 +349,7 @@ if (checkBox17.checked == true){        buildFilterString('Average_Playtime:_30_
 
         <a class="dropdown-item" href="#">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox13"  onclick="linkandBuildString()">
+        <input type="checkbox" class="custom-control-input" id="checkbox13"  onclick="loadNewFilter('Average_Price:_$30_or_More_Double')">
         <label class="custom-control-label" for="checkbox13">Average Price: $30 or More</label>
       </div>
     </a>
@@ -350,7 +358,7 @@ if (checkBox17.checked == true){        buildFilterString('Average_Playtime:_30_
     <a class="dropdown-item" href="#">
       <!-- Default unchecked -->
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox14" onclick="linkandBuildString()"  >
+        <input type="checkbox" class="custom-control-input" id="checkbox14" onclick="loadNewFilter('Average_Price:_$30_or_Less_Publisher')"  >
         <label class="custom-control-label" for="checkbox14">Average Price: $30 or Less</label>
       </div>
         </a>
@@ -358,7 +366,7 @@ if (checkBox17.checked == true){        buildFilterString('Average_Playtime:_30_
        <a class="dropdown-item" href="#">
       <!-- Default unchecked -->
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox15"  onclick="linkandBuildString()" >
+        <input type="checkbox" class="custom-control-input" id="checkbox15"  onclick="loadNewFilter('Average_Price:_$15_or_Less_Publisher')" >
         <label class="custom-control-label" for="checkbox15">Average Price: $15 or Less</label>
       </div>
         </a>
@@ -367,16 +375,16 @@ if (checkBox17.checked == true){        buildFilterString('Average_Playtime:_30_
   <a class="dropdown-item" href="#">
       <!-- Default unchecked -->
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox16"  onclick="linkandBuildString()" >
-        <label class="custom-control-label" for="checkbox16">Average Playtime: 30 minutes or Less</label>
+        <input type="checkbox" class="custom-control-input" id="checkbox16"  onclick="loadNewFilter('Average_Playtime:_30_minutes_or_Less')" >
+        <label class="custom-control-label" for="checkbox16">Average Playtime: 30 Minutes or Less</label>
       </div>
         </a>
 
   <a class="dropdown-item" href="#">
       <!-- Default unchecked -->
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox17" onclick="linkandBuildString()"  >
-        <label class="custom-control-label" for="checkbox17">Average Playtime: 30 minutes or More</label>
+        <input type="checkbox" class="custom-control-input" id="checkbox17" onclick="loadNewFilter('Average_Playtime:_30_Minutes_or_More')"  >
+        <label class="custom-control-label" for="checkbox17">Average Playtime: 30 Minutes or More</label>
       </div>
         </a>
 
@@ -400,6 +408,7 @@ if (checkBox17.checked == true){        buildFilterString('Average_Playtime:_30_
 
 TurnOffGameFilter();
 TurnOffPublisherFilter();
+
 </script>
 {% endif %}
 
@@ -424,10 +433,8 @@ TurnOffGenreFilter();
 <script>
 TooManyFilters();
 </script>
-<p style="text-align:center">No Results to show: Too many filters were applied and we found no results. Please reset Filters or use less filters.</p>
+<p style="text-align:center">No Results</p>
 {% endif %}
-
-
 
 <h5></h5>
 <nav aria-label="Page nav" style="margin-left: 60px;">

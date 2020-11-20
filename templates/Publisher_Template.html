@@ -25,7 +25,7 @@
                     <img src='{{ publisher["Image_URL"] }}' style="max-width: 100%; justify-content: center">
                     <div title="list">
                         <h5>Average Game Price: ${{ publisher["Average_Price"] }}</h5>
-                        <h5>Average Players: {{ publisher['Average_Min_Players'] }}-{{ publisher['Average_Max_Players'] }} minutes</h5>
+                        <h5>Average Players: {{ publisher['Average_Min_Players'] }}-{{ publisher['Average_Max_Players'] }}</h5>
                         <h5>Average Game Playtime: {{ publisher['Average_Playtime'] }} minutes</h5>
                     </div>
                     <form action='/game' method="POST">
