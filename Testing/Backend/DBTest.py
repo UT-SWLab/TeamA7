@@ -6,7 +6,6 @@ from bson.objectid import ObjectId
 from mongoengine import *
 import requests
 import re
-import FilterTesting
 client = MongoClient("mongodb+srv://teama7:ee461lteama7@mongodbcluster.bs58o.gcp.mongodb.net/BGDB?retryWrites=true&w=majority")
 db = client["BGDB"]
 connect('BGDB', host='localhost', port=27017)
@@ -46,5 +45,20 @@ class DBTest(unittest.TestCase):
             genres = p["Genres"]
             for gen in genres:
                 self.assertNotEqual(genre_objects.find({"Name": gen}), None)
+    def test_no_game_duplicates(self):
+        for b in board_game_objects.find():
+            test = list(board_game_objects.aggregate([{"$match": {'Name': b["Name"]}}]))
+            self.assertEqual(len(test), 1)
+
+    def test_no_genre_duplicates(self):
+        for g in genre_objects.find():
+            test = list(genre_objects.aggregate([{"$match": {'Name': g["Name"]}}]))
+            self.assertEqual(len(test), 1)
+
+    def test_no_publisher_duplicates(self):
+        for p in publish_objects.find():
+            test = list(publish_objects.aggregate([{"$match": {'Name': p["Name"]}}]))
+            self.assertEqual(len(test), 1)
+
 if __name__ == '__main__':
     unittest.main()
