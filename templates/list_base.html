@@ -48,134 +48,64 @@
             //alert(filter);
         }
 
-        function PeekCheckBoxBuildString() {
-  // Get the checkbox
-  var checkBox1 = document.getElementById("checkbox1");
-  var checkBox2 = document.getElementById("checkbox2");
-  var checkBox3 = document.getElementById("checkbox3");
-  var checkBox4 = document.getElementById("checkbox4");
-  var checkBox5 = document.getElementById("checkbox5");
-  var checkBox6 = document.getElementById("checkbox6");
-  var checkBox7 = document.getElementById("checkbox7");
+$( document ).ready(function() {
 
-    var checkBox8 =  document.getElementById("checkbox8");
-    var checkBox9 = document.getElementById("checkbox9");
-    var checkBox10 =  document.getElementById("checkbox10");
-    var checkBox11 =  document.getElementById("checkbox11");
-    var checkBox12 =  document.getElementById("checkbox12");
+          //to check box of current filter
+          currentfilterindex = window.location.href.lastIndexOf('/')
+          currentfilter = window.location.href.substring(currentfilterindex+1)
 
-    var checkBox13 =  document.getElementById("checkbox13");
-    var checkBox14 =  document.getElementById("checkbox14");
-    var checkBox15 =  document.getElementById("checkbox15");
-    var checkBox16 =  document.getElementById("checkbox16");
-    var checkBox17 =  document.getElementById("checkbox17");
-    var checkBox18 =  document.getElementById("checkbox18");
-    var checkBox19 =  document.getElementById("checkbox19");
-
-  // If the checkbox is checked, display the output text
-
-if (checkBox1.checked == true){       buildFilterString('1_Hour_or_More');}
-if (checkBox2.checked == true){       buildFilterString('1_Hour_or_Less');}
-if (checkBox3.checked == true){       buildFilterString('30_Minutes_or_Less'); }
-if (checkBox4.checked == true){       buildFilterString( 'Players:_2');}
-if (checkBox5.checked == true){       buildFilterString('Players:_3');}
-if (checkBox6.checked == true){       buildFilterString('Players:_4'); }
-if (checkBox7.checked == true){       buildFilterString('Players:_5 +'); }
-
-
-
-if (checkBox8.checked == true){       buildFilterString('Average_Price:_$30_or_More');}
-if (checkBox9.checked == true){       buildFilterString('Average_Price:_$30_or_Less');}
-if (checkBox10.checked == true){      buildFilterString('Average_Price:_$15_or_Less');}
-if (checkBox11.checked == true){      buildFilterString('Average_Playtime:_30_minutes_or_Less');}
-if (checkBox12.checked == true){      buildFilterString('Average_Playtime:_30_Minutes_or_More');}
-
-if (checkBox13.checked == true){       buildFilterString('Average_Price:_$30_or_More_Double');}
-if (checkBox14.checked == true){       buildFilterString('Average_Price:_$30_or_Less_Publisher');}
-if (checkBox15.checked == true){       buildFilterString('Average_Price:_$15_or_Less_Publisher');}
-if (checkBox16.checked == true){       buildFilterString('Average_Playtime:_30_minutes_or_Less');}
-if (checkBox17.checked == true){        buildFilterString('Average_Playtime:_30_Minutes_or_More');}
-
-}
-
-  // var checkBox1 = document.getElementById("checkbox1");
-  // var checkBox2 = document.getElementById("checkbox2");
-  // var checkBox3 = document.getElementById("checkbox3");
-  // var checkBox4 = document.getElementById("checkbox4");
-  // var checkBox5 = document.getElementById("checkbox5");
-  // var checkBox6 = document.getElementById("checkbox6");
-  // var checkBox7 = document.getElementById("checkbox7");
-
-  //   var checkBox8 =  document.getElementById("checkbox8");
-  //   var checkBox9 = document.getElementById("checkbox9");
-  //   var checkBox10 =  document.getElementById("checkbox10");
-  //   var checkBox11 =  document.getElementById("checkbox11");
-  //   var checkBox12 =  document.getElementById("checkbox12");
-
-  //   var checkBox13 =  document.getElementById("checkbox13");
-  //   var checkBox14 =  document.getElementById("checkbox14");
-  //   var checkBox15 =  document.getElementById("checkbox15");
-  //   var checkBox16 =  document.getElementById("checkbox16");
-  //   var checkBox17 =  document.getElementById("checkbox17");
-  //   var checkBox18 =  document.getElementById("checkbox18");
-  //   var checkBox19 =  document.getElementById("checkbox19");
-
-
-  //         //to check box of current filter
-  //         currentfilterindex = window.location.href.lastIndexOf('/')
-  //         currentfilter = window.location.href.substring(currentfilterindex+1)
-
-  //         if (currentfilter == "1_Hour_or_More"){
-  //           checkBox1.checked = true
-  //         }
-  //         if (currentfilter == "1_Hour_or_Less"){
-  //           checkBox2.checked = true
-  //         }
-  //         if (currentfilter == "30_Minutes_or_Less"){
-  //           checkBox3.checked = true
-  //         }
-  //         if (currentfilter == "Players:_2"){
-  //           checkBox4.checked = true
-  //         }
-  //         if (currentfilter == "Players:_3"){
-  //           checkBox5.checked = true
-  //         }
-  //         if (currentfilter == "Players:_4"){
-  //           checkBox6.checked = true
-  //         }
-  //         if (currentfilter == "Players:_5%20+"){
-  //           checkBox7.checked = true
-  //         }
-  //         if (currentfilter == "Average_Price:_$30_or_More"){
-  //           checkBox8.checked = true
-  //         }
-  //         if (currentfilter == "Average_Price:_$30_or_Less"){
-  //           checkBox9.checked = true
-  //         }
-  //         if (currentfilter == "Average_Price:_$15_or_Less"){
-  //           checkBox10.checked = true
-  //         }
-  //         if (currentfilter == "Average_Playtime:_30_Minutes_or_Less"){
-  //           checkBox11.checked = true
-  //         }
-  //         if (currentfilter == "Average_Playtime:_30_Minutes_or_More"){
-  //           checkBox12.checked = true
-  //         }
-  //         if (currentfilter == "Average_Price:_$30_or_More_Double"){
-  //           checkBox13.checked = true
-  //         }
-  //         if (currentfilter == "Average_Price:_$30_or_Less_Publisher"){
-  //           checkBox14.checked = true
-  //         }
-  //         if (currentfilter == "Average_Price:_$15_or_Less_Publisher"){
-  //           checkBox15.checked = true
-  //         }
-  //         if (currentfilter == "Average_Playtime:_30_Minutes_or_Less"){
-  //           checkBox16.checked = true
-  //         }
-  //         if (currentfilter == "Average_Playtime:_30_Minutes_or_More"){
-  //           checkBox17.checked = true  
-  //         } 
+          if (currentfilter == "1_Hour_or_More"){
+            document.getElementById("checkbox1").checked = true
+          }
+          if (currentfilter == "1_Hour_or_Less"){
+            document.getElementById("checkbox2").checked = true
+          }
+          if (currentfilter == "30_Minutes_or_Less"){
+            document.getElementById("checkbox3").checked = true
+          }
+          if (currentfilter == "Players:_2"){
+            document.getElementById("checkbox4").checked = true
+          }
+          if (currentfilter == "Players:_3"){
+            document.getElementById("checkbox5").checked = true
+          }
+          if (currentfilter == "Players:_4"){
+            document.getElementById("checkbox6").checked = true
+          }
+          if (currentfilter == "Players:_5%20+"){
+            document.getElementById("checkbox7").checked = true
+          }
+          if (currentfilter == "Average_Price:_$30_or_More"){
+            document.getElementById("checkbox8").checked = true
+          }
+          if (currentfilter == "Average_Price:_$30_or_Less"){
+            document.getElementById("checkbox9").checked = true
+          }
+          if (currentfilter == "Average_Price:_$15_or_Less"){
+            document.getElementById("checkbox10").checked = true
+          }
+          if (currentfilter == "Average_Playtime:_30_minutes_or_Less"){
+            document.getElementById("checkbox11").checked = true
+          }
+          if (currentfilter == "Average_Playtime:_30_Minutes_or_More"){
+            document.getElementById("checkbox12").checked = true
+          }
+          if (currentfilter == "Average_Price:_$30_or_More_Double"){
+            document.getElementById("checkbox13").checked = true
+          }
+          if (currentfilter == "Average_Price:_$30_or_Less_Publisher"){
+            document.getElementById("checkbox14").checked = true
+          }
+          if (currentfilter == "Average_Price:_$15_or_Less_Publisher"){
+            document.getElementById("checkbox15").checked = true
+          }
+          if (currentfilter == "Average_Playtime:_30_minutes_or_Less"){
+            document.getElementById("checkbox16").checked = true
+          }
+          if (currentfilter == "Average_Playtime:_30_Minutes_or_More"){
+            document.getElementById("checkbox17").checked = true  
+          } 
+});
   
 
         function link(page_route, sort, page, filter){
@@ -185,16 +115,6 @@ if (checkBox17.checked == true){        buildFilterString('Average_Playtime:_30_
         function linkResetFilter(page_route, sort, page, filter){
             return '/' + page_route + '/' + sort + '/' + page + '/' + filter;
         }
-
-    function linkandBuildString(){
-      PeekCheckBoxBuildString(); //This will look at what is checked and build the string accordingly
-      window.location.href = link('{{page_route}}', '{{sort_type}}', '1', getFilter() );
-      //need to hard code to page 1, to not get empty page on restrictive filters.
-      //We always go to page 1 on any filters application.
-      //have to call link after PeeckCheckBoxBuildString so that getFilter gets the filter based on checkedboxes.
-
-
-      }
 
 
     function loadNewFilter(filter){
