@@ -1,14 +1,16 @@
 
 import unittest
-import main
+from main import app
+from main import search
 
-class MyTestCase(unittest.TestCase):
+
+class SearchTest(unittest.TestCase):
     def setUp(self):
         self.app = app.test_client()
 
-    #go to home page
     def test_search(self):
-        home = self.app.get('/')
+        search = self.app.get('/search')
+
         self.assertTrue('TeamA7 Project Home' in str(home.data))
 
     def tearDown(self):

@@ -23,7 +23,7 @@
                     <br>
                     <a>Playtime: {{ game['Min_Playtime'] }}-{{ game['Max_Playtime'] }} minutes</a>
                     <br>
-                    <a>Price: {{ game['Current_Price'] }}</a>
+                    <a>Price: ${{ game['Current_Price'] }}</a>
                 </div>
 
 <!--                <form action="/publisher" method="POST">-->
@@ -36,11 +36,11 @@
 <!--                            {% for genre in g["genres"] %}<button type="submit" class="btn btn-link" title="list" name="genrename" id="genrename" value='{{ genre }}'>{{ genre }}</button>{% endfor %}-->
 <!--                    </a>-->
 <!--                </form>-->
-                </div>
-                {% if i>0 and ((i++1)%4==0) %}
-                    </div><div class="row">
-                {% endif %}
+            </div>
+            {% if i>0 and ((i++1)%4==0) %}
+                </div><div class="row">
             {% endif %}
-        {% endfor %}
-        </div>
+        {% endif %}
+    {% endfor %}
+    </div>
 {% endblock %}

@@ -206,7 +206,7 @@ $( document ).ready(function() {
 <div class="dropdown" style="margin-left:60px;">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="sort_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sorting</button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        {% if sort_type != 'normal' %}<button class="btn btn-link list2" onclick="window.location.href = link('{{page_route}}', 'normal', '{{page}}', '{{filters}}')">normal</button>{% endif %}
+        {% if sort_type != 'normal' %}<button class="btn btn-link list2" onclick="window.location.href = link('{{page_route}}', 'normal', '{{page}}', '{{filters}}')">Default</button>{% endif %}
         {% if sort_type != 'alphabetical' %}<button class="btn btn-link list2" onclick="window.location.href = link('{{page_route}}', 'alphabetical', '{{page}}', '{{filters}}')">A-Z</button>{% endif %}
         {% if sort_type != 'inverse' %}<button class="btn btn-link list2" onclick="window.location.href = link('{{page_route}}', 'inverse', '{{page}}', '{{filters}}')">Z-A</button>{% endif %}
         {% if sort_type != 'min-playtime' %}<button class="btn btn-link list2" onclick="window.location.href = link('{{page_route}}', 'min-playtime', '{{page}}', '{{filters}}')">Minimum Playtime</button>{% endif %}

@@ -15,12 +15,12 @@
                         <br>
                         <button type= "submit" class="btn btn-link" name ="publishername" value= '{{ publisher["Name"] }}'><img style="max-width:100%;width: 500px;object-fit: cover;" src='{{publisher["Image_URL"]}}' alt='{{ publisher["Name"] }}'></button>
                     </form>
-                    <div>
-                        <a title="list">Average Game Price: ${{ publisher["Average_Price"] }}</a>
+                    <div title="list">
+                        <a>Average Game Price: ${{ publisher["Average_Price"] }}</a>
                         <br>
-                        <a title="list">Average Players: {{ publisher['Average_Min_Players'] }}-{{ publisher['Average_Max_Players'] }}</a>
+                        <a>Average Players: {{ publisher['Average_Min_Players'] }}-{{ publisher['Average_Max_Players'] }}</a>
                         <br>
-                        <a title="list">Average Game Playtime: {{ publisher['Average_Playtime'] }} minutes</a>
+                        <a>Average Game Playtime: {{ publisher['Average_Playtime'] }} minutes</a>
                     </div>
 
 <!--                    <form action= '/game' method="POST">
