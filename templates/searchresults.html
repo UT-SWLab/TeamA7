@@ -251,23 +251,22 @@
           }).appendTo($('tbody'));
         }
         else if(type == "board games, genres, publishers"){
-          filteredresults.sort(function(a,b){
-            return $('td:last', a).find('strong').text().localeCompare($('td:last',b).find('strong').text());
-          }).appendTo($('tbody'));
+          filteredresults.show();
+          var publishers = $('.publisherrow:visible');
+          var genres = $('.genrerow:visible');
+          var games = $('.gamerow:visible');
+          $('tbody').prepend(games,genres,publishers);
+          filteredresults = $('tr:visible');
         }
-        else if(type == "publishers, genres, board games"){
-          var publishers = filteredresults.find('.model.strong:contains("Publisher")')
-          var genres = filteredresults.find('.model.strong:contains("Genre")')
-          var games = filteredresults.find('.model.strong:contains("Board Game")')
-          games.prependTo($('tbody'));
-          genres.prependTo($('tbody'));
-          publishers.prependTo($('tbody'));
+        else if(type == "publishers, genres, board games") {
+          filteredresults.show();
+          var publishers = $('.publisherrow:visible');
+          var genres = $('.genrerow:visible');
+          var games = $('.gamerow:visible');
+          $('tbody').prepend(publishers,genres,games);
+          filteredresults = $('tr:visible');
         }
-        else if(type == "minimum number of players"){
-          filteredresults.sort(function(a,b){
-            return $('td:last', b).find('gminplayers').text().localeCompare($('td:last',a).find('gminplayers').text());
-          }).appendTo($('tbody'));
-        }
+
         paginationupdate();
         pagechange(1);
       }
@@ -370,8 +369,7 @@
                   <button class="dropdown-item" onclick="sort('A-Z');">A-Z</button>
                   <button class="dropdown-item" onclick="sort('Z-A');">Z-A</button>
                   <button class="dropdown-item" onclick="sort('board games, genres, publishers');">games, genres, publishers</button>
-                  <button class="dropdown-item" onclick="sort('publishers, genres, games');">publishers, genres, games</button>
-                  <button class="dropdown-item" onclick="sort('minimum number of players');">minimum number of players</button>
+                  <button class="dropdown-item" onclick="sort('publishers, genres, board games');">publishers, genres, games</button>
 
                 </div>
               </div>
