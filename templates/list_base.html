@@ -8,7 +8,7 @@
         var elements = document.getElementsByClassName("column");
         var i;
 
-        var filter = {{ filters|tojson }};
+        var filter = '';
 
         //alert(filter);
         console.log(filter);
@@ -55,35 +55,33 @@
   var checkBox4 = document.getElementById("checkbox4");
   var checkBox5 = document.getElementById("checkbox5");
   var checkBox6 = document.getElementById("checkbox6");
-
-
   var checkBox7 = document.getElementById("checkbox7");
-  var checkBox8 =  document.getElementById("checkbox8");
-  var checkBox9 = document.getElementById("checkbox9");
-  var checkBox10 =  document.getElementById("checkbox10");
 
-  var checkBoxGenres_less_than_15 =  document.getElementById("checkboxlessthan15");
-
-
-
+    var checkBox8 =  document.getElementById("checkbox8");
+    var checkBox9 = document.getElementById("checkbox9");
+    var checkBox10 =  document.getElementById("checkbox10");
+    var checkBox11 =  document.getElementById("checkbox11");
+    var checkBox12 =  document.getElementById("checkbox12");
+    var checkBox13 =  document.getElementById("checkbox13");
 
   // If the checkbox is checked, display the output text
-  if (checkBox1.checked == true){       buildFilterString('four_or_more_players');}
-  if (checkBox2.checked == true){       buildFilterString('less_than_2hrs');}
-  if (checkBox3.checked == true){       buildFilterString('two_to_four_players'); }
-  if (checkBox4.checked == true){       buildFilterString('year_1940_1970');}
-  if (checkBox5.checked == true){       buildFilterString('less_than_1hrs');}
-  if (checkBox6.checked == true){       buildFilterString('half_hour_or_less'); }
+
+if (checkBox1.checked == true){       buildFilterString('1_Hour_or_More');}
+if (checkBox2.checked == true){       buildFilterString('1_Hour_or_Less');}
+if (checkBox3.checked == true){       buildFilterString('30_Minutes_or_Less'); }
+if (checkBox4.checked == true){       buildFilterString( 'Players:_2');}
+if (checkBox5.checked == true){       buildFilterString('Players:_3');}
+if (checkBox6.checked == true){       buildFilterString('Players:_4'); }
+if (checkBox7.checked == true){       buildFilterString('Players:_5 +'); }
 
 
-  if (checkBox7.checked == true){       buildFilterString('Average_Game_Price_Less_than_50');}
-  if (checkBox8.checked == true){       buildFilterString('Average_Game_Price_Less_than_25');}
 
- if (checkBox9.checked == true){       buildFilterString('Average_Game_Price_Less_than_30');}
- if (checkBox10.checked == true){       buildFilterString('Average_Game_Price_Less_than_20');}
-
- if (checkBoxGenres_less_than_15.checked == true){   buildFilterString('Average_Game_Price_Less_than_15');}
-
+if (checkBox8.checked == true){       buildFilterString('Average_Price:_$30_or_More');}
+if (checkBox9.checked == true){       buildFilterString('Average_Price:_$30_or_Less');}
+if (checkBox10.checked == true){      buildFilterString('Average_Price:_$15_or_Less');}
+if (checkBox11.checked == true){       buildFilterString('Average_Playtime:_30_minutes_or_Less');}
+if (checkBox12.checked == true){       buildFilterString('Average_Playtime:_1_Hour_or_Less');}
+if (checkBox13.checked == true){       buildFilterString('Average_Playtime:_1_Hour_or_More');}
 
 
   }
@@ -216,48 +214,54 @@
           aria-haspopup="true" aria-expanded="false" id = "FiltersForGames" >Filters for Games</button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-     <a class="dropdown-item" href="#">
+    <a class="dropdown-item" href="#">
       <!-- Default unchecked -->
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="checkbox1"  >
-        <label class="custom-control-label" for="checkbox1">four_or_more_players</label>
+        <label class="custom-control-label" for="checkbox1">1 Hour or More</label>
       </div>
         </a>
 
     <a class="dropdown-item" href="#">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="checkbox2" >
-        <label class="custom-control-label" for="checkbox2">less_than_2hrs</label>
+        <label class="custom-control-label" for="checkbox2">1 Hour or Less </label>
       </div>
     </a>
     <a class="dropdown-item" href="#">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="checkbox3" >
-        <label class="custom-control-label" for="checkbox3">two_to_four_players</label>
+        <label class="custom-control-label" for="checkbox3">30 Minutes or Less</label>
       </div>
     </a>
 
     <a class="dropdown-item" href="#">
   <div class="custom-control custom-checkbox">
     <input type="checkbox" class="custom-control-input" id="checkbox4"  >
-    <label class="custom-control-label" for="checkbox4">year_1940_1970</label>
+    <label class="custom-control-label" for="checkbox4">Players: 2</label>
   </div>
 </a>
 
  <a class="dropdown-item" href="#">
 <div class="custom-control custom-checkbox">
 <input type="checkbox" class="custom-control-input" id="checkbox5" >
-<label class="custom-control-label" for="checkbox5">less_than_1hrs</label>
+<label class="custom-control-label" for="checkbox5">Players: 3 </label>
 </div>
 </a>
 
       <a class="dropdown-item" href="#">
 <div class="custom-control custom-checkbox">
 <input type="checkbox" class="custom-control-input" id="checkbox6" >
-<label class="custom-control-label" for="checkbox6">half_hour_or_less</label>
+<label class="custom-control-label" for="checkbox6">Players: 4 </label>
 </div>
 </a>
 
+           <a class="dropdown-item" href="#">
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="checkbox7" >
+<label class="custom-control-label" for="checkbox7">Players: 5+</label>
+</div>
+</a>
 
       <a class="dropdown-item" href="#">
   <div class="custom-control custom-checkbox">
@@ -282,25 +286,46 @@
           aria-haspopup="true" aria-expanded="false" id = "FiltersForGenres">Filters for Genres</button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-    <a class="dropdown-item" href="#">
+ <a class="dropdown-item" href="#">
       <!-- Default unchecked -->
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox7"  >
-        <label class="custom-control-label" for="checkbox7">Average_Game_Price_Less_than_50</label>
+        <input type="checkbox" class="custom-control-input" id="checkbox8"  >
+        <label class="custom-control-label" for="checkbox8">Average Price: $30 or More</label>
       </div>
         </a>
 
     <a class="dropdown-item" href="#">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox8" >
-        <label class="custom-control-label" for="checkbox8">Average_Game_Price_Less_than_25</label>
+        <input type="checkbox" class="custom-control-input" id="checkbox9" >
+        <label class="custom-control-label" for="checkbox9">Average Price: $30 or Less</label>
       </div>
     </a>
 
        <a class="dropdown-item" href="#">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkboxlessthan15" >
-        <label class="custom-control-label" for="checkboxlessthan15">Average_Game_Price_Less_than_15</label>
+        <input type="checkbox" class="custom-control-input" id="checkbox10" >
+        <label class="custom-control-label" for="checkbox10">Average Price: $15 or Less</label>
+      </div>
+    </a>
+
+        <a class="dropdown-item" href="#">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="checkbox11" >
+        <label class="custom-control-label" for="checkbox11">Average Playtime: 30 minutes or Less</label>
+      </div>
+    </a>
+
+        <a class="dropdown-item" href="#">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="checkbox12" >
+        <label class="custom-control-label" for="checkbox12">Average Playtime: 1 Hour or Less</label>
+      </div>
+    </a>
+
+        <a class="dropdown-item" href="#">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="checkbox13" >
+        <label class="custom-control-label" for="checkbox13">Average Playtime: 1 Hour or More</label>
       </div>
     </a>
 
@@ -322,25 +347,6 @@
   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false" id = "FiltersForPublisher" >Filters for Publishers</button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-    <a class="dropdown-item" href="#">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox9" >
-        <label class="custom-control-label" for="checkbox9">Average_Game_Price_Less_than_30</label>
-      </div>
-    </a>
-
-
-    <a class="dropdown-item" href="#">
-      <!-- Default unchecked -->
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox10"  >
-        <label class="custom-control-label" for="checkbox10">Average_Game_Price_Less_than_20</label>
-      </div>
-        </a>
-
-    <a class="dropdown-item" href="#">
-
 
 
 
