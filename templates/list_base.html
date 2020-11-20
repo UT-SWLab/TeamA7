@@ -111,15 +111,27 @@
 
      function TurnOffGameFilter() {
         document.getElementById("FiltersForGames").style.display = "none";
+                document.getElementById("RunFilterGames").style.display = "none";
+
+
             }
 
                function TurnOffGenreFilter() {
         document.getElementById("FiltersForGenres").style.display = "none";
+                        document.getElementById("RunFilterGenres").style.display = "none";
+
             }
 
             function TurnOffPublisherFilter() {
         document.getElementById("FiltersForPublisher").style.display = "none";
+                        document.getElementById("RunFilterPublisher").style.display = "none";
+
             }
+
+        function dropdownStayDown() {
+            document.getElementById('FiltersForGames').addEventListener('click', function (event) {
+    event.stopPropagation();}); }
+
     </script>
     <style>
         .row{
@@ -198,10 +210,9 @@
 
 
 
-
 <div class="dropdown" style="margin-left:60px;">
   <!-- Basic dropdown -->
-  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+  <button class="btn btn-primary dropdown-toggle " type="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false" id = "FiltersForGames" >Filters for Games</button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
@@ -247,13 +258,6 @@
 </div>
 </a>
 
-    <a class="dropdown-item" href="#">
-  <div class="custom-control custom-checkbox">
-      <button class="btn btn-link" title="list2" onclick="linkandBuildString()">Run Filter</button>
-  </div>
-</a>
-
-
 
       <a class="dropdown-item" href="#">
   <div class="custom-control custom-checkbox">
@@ -262,8 +266,14 @@
 </a>
 </div>
   <!-- Basic dropdown -->
+      <button class="btn btn-link list2"   id="RunFilterGames" onclick="linkandBuildString()">Run Filter</button>
     </div>
+
+
 </div>
+
+
+
 
 
 <div class="dropdown" style="margin-left:60px;">
@@ -294,11 +304,7 @@
       </div>
     </a>
 
-    <a class="dropdown-item" href="#">
-  <div class="custom-control custom-checkbox">
-      <button class="btn btn-link" title="list2" onclick="linkandBuildString()">Run Filter</button>
-  </div>
-</a>
+
       <a class="dropdown-item" href="#">
   <div class="custom-control custom-checkbox">
       <button class="btn btn-link" title="list2" onclick=" window.location.href = link('{{page_route}}', '{{sort_type}}', '{{page}}', 'nofilters' )">Clear All Filters</button>
@@ -306,6 +312,7 @@
 </a>
 </div>
   <!-- Basic dropdown -->
+          <button class="btn btn-link list2" id="RunFilterGenres"  onclick="linkandBuildString()">Run Filter</button>
     </div>
 </div>
 
@@ -334,11 +341,6 @@
 
     <a class="dropdown-item" href="#">
 
-    <a class="dropdown-item" href="#">
-  <div class="custom-control custom-checkbox">
-      <button class="btn btn-link" title="list2" onclick="linkandBuildString()">Run Filter</button>
-  </div>
-</a>
 
 
 
@@ -349,6 +351,8 @@
 </a>
 </div>
   <!-- Basic dropdown -->
+          <button class="btn btn-link list2" id="RunFilterPublisher" onclick="linkandBuildString()">Run Filter</button>
+
     </div>
 </div>
 
@@ -367,6 +371,8 @@ TurnOffPublisherFilter();
 <script>
 TurnOffPublisherFilter();
 TurnOffGenreFilter();
+
+
 </script>
 {% endif %}
 
