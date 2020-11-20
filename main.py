@@ -211,12 +211,10 @@ def games(page, sort_type, filters):
     else:
         # Case where no sorting is done, Give Cursor to list_Base Page
         gameobjects = filteredCollection.find()
-    Empty = 'False'
-    if filteredCollection.count() == 0:
-        Empty = 'True'
+    empty = filteredCollection.count() == 0
     max_pages = (gameobjects.collection.count() // 12) + 1
     return render_template('Board_Games_List.html', gameobjects=gameobjects, page=page, max_pages=max_pages,
-                           sort_type=sort_type, page_route='boardgames', filters=filters, Empty=Empty)
+                           sort_type=sort_type, page_route='boardgames', filters=filters, empty=empty)
 
 
 @app.route('/boardgamegenres/<string:sort_type>/<int:page>/<string:filters>')
@@ -285,7 +283,7 @@ def genre_page(genre_link):
     global genre_name_request
     global genre_objects
     genre = genre_objects.find({'Name': genre_name_request}).next()
-    return render_template("Genre_Template.html", genre=genre)
+    return render_template("Genre_Template.html", genre=genre, boardgames=boardgameobjects)
 
 
 ############ ROUTE TO PUBLISHER INSTANCE PAGES ############
