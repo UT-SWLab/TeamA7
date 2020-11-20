@@ -20,25 +20,25 @@ genrecollection = db["genrecollection"]
 
 ###############################TO COLLECT ALL GAMES AND PUBLISHERS ASSOCIATED WITH EACH GENRE######################################
 
-# for game in boardgamecollection.find():
-# 	for genre in game["genres"]:
-# 		query = {"Name": genre}
-# 		if genrecollection.find_one(query) != None:
-# 			genretoupdate = genrecollection.find_one(query)
-# 			print(genretoupdate["Name"])
-# 			#to connect publishers to genres
-# 			publisher = game['Publisher']
-# 			genrecollection.update_one({'Name': genre}, { "$addToSet" : {"Publishers": publisher}})
-# 			#to connect games to genres
-# 			gamename = game['Name']
-# 			genrecollection.update_one({'Name': genre}, { "$addToSet" : {"Games": gamename}})
-# 		else:
-# 			newgenre = {
-# 				"Name": genre,
-# 				"Games": [game['Name']],
-# 				"Publishers": [game['Publisher']]
-# 			}
-# 			genrecollection.insert_one(newgenre)
+for game in boardgamecollection.find():
+	for genre in game["genres"]:
+		query = {"Name": genre}
+		if genrecollection.find_one(query) != None:
+			genretoupdate = genrecollection.find_one(query)
+			print(genretoupdate["Name"])
+			#to connect publishers to genres
+			publisher = game['Publisher']
+			genrecollection.update_one({'Name': genre}, { "$addToSet" : {"Publishers": publisher}})
+			#to connect games to genres
+			gamename = game['Name']
+			genrecollection.update_one({'Name': genre}, { "$addToSet" : {"Games": gamename}})
+		else:
+			newgenre = {
+				"Name": genre,
+				"Games": [game['Name']],
+				"Publishers": [game['Publisher']]
+			}
+			genrecollection.insert_one(newgenre)
 
 
 ################################TO CALCULATE AVERAGE PLAYERS, PLAYTIME, AND PRICE######################################
@@ -93,19 +93,19 @@ for genre in genrecollection.find():
 #uses API key generated on GCP to search custom search engine (also generated in GCP) that only searches Board Game Geek and Wikipedia
 #safe search is on and results return exactly one image
 
-# for genre in genrecollection.find():
-#     name = genre["Name"]
-#     searchname = genre['Name'].replace(" ", "+") + "+board+games"
-#     requeststring = "https://www.googleapis.com/customsearch/v1?key=AIzaSyCxFCh2XeiGTNT7kjDN2fhfB_J3W0ByabY&cx=4366fe0d278a82053&num=1&searchType=image&imgSize=large&q=" + searchname
-#     resp = requests.get(requeststring)
-#     if resp.status_code != 200:
-#         # This means something went wrong.
-#         raise ApiError('GET /tasks/ {}'.format(resp.status_code))
-#     else:
-#         results = resp.json()['items']
-#         formattedresults = results[0]
-#         image_url = formattedresults['link']
-#         genrecollection.update_one({'Name': name}, { "$set" : {"Image_URL": image_url}})
+for genre in genrecollection.find():
+    name = genre["Name"]
+    searchname = genre['Name'].replace(" ", "+") + "+board+games"
+    requeststring = "https://www.googleapis.com/customsearch/v1?key=AIzaSyCxFCh2XeiGTNT7kjDN2fhfB_J3W0ByabY&cx=4366fe0d278a82053&num=1&searchType=image&imgSize=large&q=" + searchname
+    resp = requests.get(requeststring)
+    if resp.status_code != 200:
+        # This means something went wrong.
+        raise ApiError('GET /tasks/ {}'.format(resp.status_code))
+    else:
+        results = resp.json()['items']
+        formattedresults = results[0]
+        image_url = formattedresults['link']
+        genrecollection.update_one({'Name': name}, { "$set" : {"Image_URL": image_url}})
 
 
 ######################################################CLEAR COLLECTION#############################################################
