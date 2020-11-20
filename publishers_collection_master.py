@@ -176,57 +176,58 @@ for i in range(len(listOfDicts)):
 ###############################TO COLLECT ALL GAMES AND GENRES ASSOCIATED WITH EACH PUBLISHER######################################
 
 for game in boardgamecollection.find():
-	publisher = game["Publisher"]
-	publishercollection.update_one({'Name': publisher}, {"$addToSet" : {"Games": game['Name']}})
+  publisher = game["Publisher"]
+  publishercollection.update_one({'Name': publisher}, {"$addToSet" : {"Games": game['Name']}})
 
 for genre in genrecollection.find():
-	for publisher in genre['Publishers']:
-		publishercollection.update_one({'Name': publisher}, {"$addToSet" : {"Genres": genre['Name']}})
+  for publisher in genre['Publishers']:
+    publishercollection.update_one({'Name': publisher}, {"$addToSet" : {"Genres": genre['Name']}})
 
 
 ################################TO CALCULATE AVERAGE PLAYERS, PLAYTIME, AND PRICE######################################
 
 for publisher in publishercollection.find():
 
-	totalminplayers = 0
-	totalmaxplayers = 0
-	totalplaytime = 0
-	gamecount = 0
-	totalprice = 0
-	gameswithpricecount = 0
+  totalminplayers = 0
+  totalmaxplayers = 0
+  totalplaytime = 0
+  gamecount = 0
+  totalprice = 0
+  gameswithpricecount = 0
 
-	for gamename in publisher["Games"]:
-		game = boardgamecollection.find_one({"Name": gamename})
-		totalminplayers += game["Min_Players"]
-		totalmaxplayers += game["Max_Players"]
-		gameaverageplaytime = game["Min_Playtime"]
-		gameaverageplaytime += game["Max_Playtime"]
-		gameaverageplaytime = gameaverageplaytime/2
-		totalplaytime += gameaverageplaytime
-		gamecount += 1
-		if float(game["Current_Price"]) != 0:
-			totalprice += float(game["Current_Price"])
-			gameswithpricecount += 1
+  for gamename in publisher["Games"]:
+    game = boardgamecollection.find_one({"Name": gamename})
+    totalminplayers += game["Min_Players"]
+    totalmaxplayers += game["Max_Players"]
+    gameaverageplaytime = game["Min_Playtime"]
+    gameaverageplaytime += game["Max_Playtime"]
+    gameaverageplaytime = gameaverageplaytime/2
+    totalplaytime += gameaverageplaytime
+    gamecount += 1
+    if float(game["Current_Price"]) != 0:
+      totalprice += float(game["Current_Price"])
+      gameswithpricecount += 1
 
-	print(publisher["Name"])
-	print("gamecount = " + str(gamecount))
-	print("totalminplayers = " + str(totalminplayers))
-	print("totalmaxplayers = " + str(totalmaxplayers))
-	print("totalplaytime = " + str(totalplaytime))
-	print("gameswithpricecount = " + str(gameswithpricecount))
-	averageminplayers = totalminplayers / gamecount
-	averagemaxplayers = totalmaxplayers / gamecount
-	averageplaytime = totalplaytime / gamecount
-	if(gameswithpricecount != 0):
-		averageprice = totalprice / gameswithpricecount
-		publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Price": round(averageprice, 2)}})
-	else:
-		averageprice = "Not Available"
-		publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Price": averageprice}})
+  print(publisher["Name"])
+  print("gamecount = " + str(gamecount))
+  print("totalminplayers = " + str(totalminplayers))
+  print("totalmaxplayers = " + str(totalmaxplayers))
+  print("totalplaytime = " + str(totalplaytime))
+  print("gameswithpricecount = " + str(gameswithpricecount))
+  averageminplayers = totalminplayers / gamecount
+  averagemaxplayers = totalmaxplayers / gamecount
+  averageplaytime = totalplaytime / gamecount
+  if(gameswithpricecount != 0):
+    averageprice = totalprice / gameswithpricecount
+    publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Price": "%.2f" % averageprice}})
+    publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Price_Float": round(averageprice, 2)}})
+  else:
+    averageprice = "Not Available"
+    publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Price": averageprice}})
 
-	publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Min_Players": round(averageminplayers)}})
-	publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Max_Players": round(averagemaxplayers)}})
-	publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Playtime": round(averageplaytime)}})
+  publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Min_Players": round(averageminplayers)}})
+  publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Max_Players": round(averagemaxplayers)}})
+  publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Playtime": round(averageplaytime)}})
 
 
 #####################################TO FIND IMAGES TO USE ON THE PUBLISHER INSTANCE PAGES############################################
