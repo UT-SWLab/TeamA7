@@ -162,7 +162,6 @@ Github ID: sbloemsma
   ## Cedrik Ho (ch45935)  
 Github ID: cedrikho  
 **User Stories Worked On:**  
-**Tasks Worked On:**
 *As a User I want to select sorting or filtering with one click, and I want to filter and sort in two clicks only. 
 *Estimated time: 10 hrs
 *Actual time: 6hrs
@@ -172,4 +171,8 @@ Github ID: cedrikho
 *As a User I want to be able to clear my filter and revert to the base page. I also want to be able to stack filters. 
 *Estimated time: 8hrs
 *Actual time: 10hr (Stacking ended up not being requirement after further clarification)
+
+**Tasks Worked On:**
+*Filtering for all 3 modules and collections. 
+*Testing for Sorting 
 
