@@ -24,7 +24,7 @@ publisherobjects = client["BGDB"].publishercollection
 def isInAlphabeticalOrder(word):
     return word == ''.join(sorted(word))
 
-class TestFiltering(unittest.TestCase):
+class TestSorting(unittest.TestCase):
 
     def test_alphabetical_sort(self):
         sort_type = "alphabetical"

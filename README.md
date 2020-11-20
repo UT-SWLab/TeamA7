@@ -133,3 +133,43 @@ Github ID: cedrikho
   
 **Tasks Worked On:**
 * Populating database with information from the Board Game Geek API  
+
+
+
+# Phase III Team Contribution Time
+
+## Phase III User Stories:  
+*As a User I want to select sorting or filtering with one click, and I want to filter and sort in two clicks only. 
+*As a user I want to be able to filter on one single click from a checkbox. Checkbox will stay to show selected filter.
+*As a User I want to be able to clear my filter and revert to the base page. I also want to be able to stack filters. 
+
+
+## Technical Tasks 
+
+## Allegra Thomas (at35737)  
+GitHub ID: AllegraThomas  
+**User Stories Worked On:**  
+**Tasks Worked On:**  
+## Grant Ross (ghr344)  
+Github ID: Grant Ross  
+**User Stories Worked On:**  
+**Tasks Worked On:**
+
+## Sanne Bloemsma (scb2936)  
+Github ID: sbloemsma  
+**User Stories Worked On:** 
+**Tasks Worked On:**
+  ## Cedrik Ho (ch45935)  
+Github ID: cedrikho  
+**User Stories Worked On:**  
+**Tasks Worked On:**
+*As a User I want to select sorting or filtering with one click, and I want to filter and sort in two clicks only. 
+*Estimated time: 10 hrs
+*Actual time: 6hrs
+*As a user I want to be able to filter on one single click from a checkbox. Checkbox will stay to show selected filter
+*Estimated time: 7 hrs
+*Actual time: 7hrs
+*As a User I want to be able to clear my filter and revert to the base page. I also want to be able to stack filters. 
+*Estimated time: 8hrs
+*Actual time: 10hr (Stacking ended up not being requirement after further clarification)
+
