@@ -21,19 +21,19 @@ class MyTestCase(unittest.TestCase):
         self.app.get('/')
         gamelist = self.app.get('boardgames/normal/1/nofilters')
         self.assertEqual(gamelist.status_code, 200)
-        self.assertTrue('Board Games Page 1' in gamelist.data)
+        self.assertTrue('Board Games Page 1' in str(gamelist.data))
 
     def test_genre_list(self):
         self.app.get('/')
         genrelist = self.app.get('boardgamegenres/normal/1/nofilters')
-        self.assertEqual(gamelist.status_code, 200)
-        self.assertTrue('Genres Page 1' in genrelist.data)
+        self.assertEqual(genrelist.status_code, 200)
+        self.assertTrue('Genres Page 1' in str(genrelist.data))
 
     def test_publisher_list(self):
         self.app.get('/')
-        publisherlist = self.app.get('publishers/normal/1/nofilters')
-        self.assertEqual(gamelist.status_code, 200)
-        self.assertTrue('Publishers Page 1' in publisherlist.data)
+        publisherlist = self.app.get('boardgamepublishers/normal/1/nofilters')
+        self.assertEqual(publisherlist.status_code, 200)
+        self.assertTrue('Publishers Page 1' in str(publisherlist.data))
     def tearDown(self):
         pass
 
