@@ -18,23 +18,61 @@ class MyTestCase(unittest.TestCase):
 
         self.assertEqual(partial, {})
 
+    #test game page is valid
     def test_game_list(self):
-        self.app.get('/')
         gamelist = self.app.get('boardgames/normal/1/nofilters')
         self.assertEqual(gamelist.status_code, 200)
         self.assertTrue('Board Games Page 1' in str(gamelist.data))
 
+    #test genre page is valid
     def test_genre_list(self):
-        self.app.get('/')
         genrelist = self.app.get('boardgamegenres/normal/1/nofilters')
         self.assertEqual(genrelist.status_code, 200)
         self.assertTrue('Genres Page 1' in str(genrelist.data))
 
+    #test publisher page is valid
     def test_publisher_list(self):
-        self.app.get('/')
         publisherlist = self.app.get('boardgamepublishers/normal/1/nofilters')
         self.assertEqual(publisherlist.status_code, 200)
         self.assertTrue('Publishers Page 1' in str(publisherlist.data))
+
+    # test boardgame filter pages are valid
+    def test_game_list_filters(self):
+        filters = ['1_Hour_or_More',
+                   '1_Hour_or_Less',
+                   '30_Minutes_or_Less',
+                   'Players:_2',
+                   'Players:_3',
+                   'Players:_4',
+                   'Players:_5 +']
+        for f in filters:
+            filteredpage = self.app.get('boardgames/normal/1/'+f)
+            self.assertEqual(filteredpage.status_code, 200)
+            self.assertTrue('Board Games Page 1' in str(filteredpage.data))
+
+    # test genre filter pages are valid
+    def test_genre_list_filters(self):
+        filters = ['Average_Price:_$30_or_More',
+                   'Average_Price:_$30_or_Less',
+                   'Average_Price:_$15_or_Less',
+                   'Average_Playtime:_30_minutes_or_Less',
+                   'Average_Playtime:_30_Minutes_or_More']
+        for f in filters:
+                filteredpage = self.app.get('boardgamegenres/normal/1/' + f)
+                self.assertEqual(filteredpage.status_code, 200)
+                self.assertTrue('Genres Page 1' in str(filteredpage.data))
+
+    # test publisher filter pages are valid
+    def test_publisher_list_filters(self):
+        filters = ['Average_Price:_$30_or_More',
+                   'Average_Price:_$30_or_Less',
+                   'Average_Price:_$15_or_Less',
+                   'Average_Playtime:_30_minutes_or_Less',
+                   'Average_Playtime:_30_Minutes_or_More']
+        for f in filters:
+            filteredpage = self.app.get('boardgamepublishers/normal/1/' + f)
+            self.assertEqual(filteredpage.status_code, 200)
+            self.assertTrue('Publishers Page 1' in str(filteredpage.data))
 
     def tearDown(self):
         pass
