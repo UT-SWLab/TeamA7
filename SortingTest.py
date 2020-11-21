@@ -95,6 +95,32 @@ class TestSorting(unittest.TestCase):
                 print("Passed Test")
                 self.assertTrue(True)
 
+    def test_no_sort_to_filter_to_alphabetical(self):
+        #Check to make sure collection isn't less than it was before. After filter is applied
+            filteredCollection = db["FinalFiltered"]
+            filteredCollection.drop()  # drop entire collection
+            filteredCollection = db["FinalFiltered"]
+            cur = boardgameobjects.find({"$and": [{"Min_Players": {"$lte": 2}}, {"Max_Players": {"$gte": 2}}]})
+            for element in cur:
+                filteredCollection.insert_one(element)
+            countPriorToSorting = filteredCollection.count() #Count after filter
+            boardgame_obj = boardgameobjects.find().sort("Min_Players")
+            array = []
+            for element in boardgame_obj:
+                boardgame = element["Min_Players"]
+                print(boardgame)
+                array.append(boardgame)
+            if all(i <= j for i, j in zip(array, array[1:])):
+                print("Minimum Sorted Players Pass")
+            countAfterSorting = boardgame_obj.count()
+            if (countPriorToSorting == countAfterSorting):
+                self.assertTrue(True)
+
+
+dict_Players_2 = {"$and": [{"Min_Players": {"$lte": 2}}, {"Max_Players": {"$gte": 2}}]}
+dict_Players_3 = {"$and": [{"Min_Players": {"$lte": 3}}, {"Max_Players": {"$gte": 3}}]}
+dict_Players_4 = {"$and": [{"Min_Players": {"$lte": 4}}, {"Max_Players": {"$gte": 4}}]}
+dict_Players_5 = {"$and": [{"Min_Players": {"$lte": 5}}, {"Max_Players": {"$gte": 5}}]}
 
 
 if __name__ == '__main__':
