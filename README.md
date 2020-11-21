@@ -148,12 +148,26 @@ Github ID: cedrikho
 
 ## Allegra Thomas (at35737)  
 GitHub ID: AllegraThomas  
-**User Stories Worked On:**  
+**User Stories Worked On:** 
+*As a User I want to select sorting or filtering with one click, and I want to filter and sort in two clicks only.
+*Estimated time: 8 hrs
+*Actual time: 5hrs
 **Tasks Worked On:**  
+*Sorting all model list pages
+*Adding multimedia to model instance pages
+*Website Visual improvements
 ## Grant Ross (ghr344)  
 Github ID: Grant Ross  
-**User Stories Worked On:**  
+**User Stories Worked On:** 
+As a user, I want the site to be clean and readable as well as aesthetically pleasing in order to navigate the site better and overall have a more positive experience with the site. 
+Estimated Time: 3hrs
+Actual Time: 2hrs
+As a user I want to sort board games/genres/publishers based on alphabetical order so I can find the instances I want easier Estimated Time: 4hrs
+Actual Time: 4hrs
 **Tasks Worked On:**
+*Filtering for model list pages
+*Adding multimedia to model instance pages
+*Website visual improvements
 
 ## Sanne Bloemsma (scb2936)  
 Github ID: sbloemsma  
