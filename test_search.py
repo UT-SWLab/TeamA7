@@ -60,7 +60,6 @@ class SearchTest(unittest.TestCase):
     def test_fields(self):
         exact, partial = searchdb('Scrabble', {'boardgames': True, 'genres': False, 'publishers': False}, ['Name'])
         self.assertTrue(len(exact) == 1)
-        self.assertTrue()
 
         exact, partial = searchdb('Scrabble', {'boardgames': False, 'genres': True, 'publishers': True}, ['Name'])
         self.assertTrue(len(exact) == 2)
