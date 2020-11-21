@@ -139,23 +139,47 @@ Github ID: cedrikho
 # Phase III Team Contribution Time
 
 ## Phase III User Stories:  
-*As a User I want to select sorting or filtering with one click, and I want to filter and sort in two clicks only. 
+*As a user I want to select sorting or filtering with one click, and I want to filter and sort in two clicks only. 
 *As a user I want to be able to filter on one single click from a checkbox. Checkbox will stay to show selected filter.
-*As a User I want to be able to clear my filter and revert to the base page. I also want to be able to stack filters. 
-
-
+*As a user I want to be able to clear my filter and revert to the base page.
+*As a user, I want to be able to access lots of accurate information about board games/genres/publishers so that I can learn more about games/genres/publishers that might interest me.
+*As a user I want to be able to search for board games by a particular number of players (play time, other instance attributes) in order to find games that I would want or be able to play.  
+*As a user I want to be able to search for board games/genres/publishers by name so I can find information about that instance quickly.  
+*As a user I want to filter by field types of games/genres/publishers so I can find instances that match my preferences.  
+*As a user, I want the site to be clean and readable as well as aesthetically pleasing in order to navigate the site better and overall have a more positive experience with the site.  
+*As a user I want to sort board games/genres/publishers based on alphabetical order so I can find the instances I want easier.  
+  
 ## Technical Tasks 
-
+*Adding more information to all model instance pages  
+*Implementing searching functionality  
+*Implementing sorting functionality  
+*Implementing filtering functionality  
+*Testing database calls  
+*Testing search functionality  
+*Testing sorting functionality  
+*Testing filtering functionality  
+*Visually improving the website  
+  
 ## Allegra Thomas (at35737)  
 GitHub ID: AllegraThomas  
 **User Stories Worked On:** 
-*As a User I want to select sorting or filtering with one click, and I want to filter and sort in two clicks only.
-*Estimated time: 8 hrs
-*Actual time: 5hrs
+*As a user, I want to be able to access lots of accurate information about board games/genres/publishers so that I can learn more about games/genres/publishers that might interest me.  
+Estimated Time: 10 hrs  
+Actual Time: 6 hrs  
+*As a user, I want to select sorting or filtering with one click, and I want to filter and sort in two clicks only.  
+*Estimated Time: 4 hrs  
+*Actual Time: 8 hrs  
 **Tasks Worked On:**  
-*Sorting all model list pages
-*Adding multimedia to model instance pages
-*Website Visual improvements
+*Adding information (videos, pictures, links, social media, average prices, average playtime etc.) from APIs to database to put on model instance pages from  
+Estimate Time: 10 hrs  
+Actual Time: 6 hrs  
+*Tested and improved filtering functionality  
+*Estimated Time: 4 hrs  
+*Actual Time: 8 hrs  
+*Website visual improvements  
+*Estimated Time: 2 hrs  
+*Actual Time: 1 hr  
+  
 ## Grant Ross (ghr344)  
 Github ID: Grant Ross  
 **User Stories Worked On:** 
