@@ -195,12 +195,25 @@ Actual Time: 4hrs
   
 ## Sanne Bloemsma (scb2936)  
 Github ID: sbloemsma  
-**User Stories Worked On:**  
+**User Stories Worked On:** 
+As a user I want to be able to search for board games/genres/publishers by name so I can find information about that instance quickly. 
+Estimated Time: 5hrs
+Actual Time: 5hrs
+As a user I want to filter by field types of games/genres/publishers so I can find instances that match my preferences. 
+Estimated time: 5hrs
+Actual Time: 6hrs
+As a user I want to be able to search for board games by a particular genre, description phrase, (other instance attributes) in order to find games that I would want or be able to play 
+Estimated Time: 6hrs
+Actual Time: 7hrs
 **Tasks Worked On:**  
-  
+*Database testing
+*Additional site testing
+*Search implementation
+
   ## Cedrik Ho (ch45935)    
 Github ID: cedrikho  
 **User Stories Worked On:**  
+
 *As a User I want to select sorting or filtering with one click, and I want to filter and sort in two clicks only.  
 *Estimated time: 10 hrs  
 *Actual time: 6hrs  
