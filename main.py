@@ -5,7 +5,6 @@ from bson.objectid import ObjectId
 from mongoengine import *
 import requests
 import re
-import FilterTesting
 
 client = MongoClient(
     "mongodb+srv://teama7:ee461lteama7@mongodbcluster.bs58o.gcp.mongodb.net/BGDB?retryWrites=true&w=majority")
