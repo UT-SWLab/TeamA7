@@ -159,6 +159,13 @@ $( document ).ready(function() {
             text-align: left;
             text-anchor: start;
         }
+        .list_button{
+            color: #3e5d85;
+            font-size: large;
+            font-family: Cambria;
+            border-radius: 8px;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.18);
+        }
         [title="main"]{
             justify-content: center;
             color: #3e5d85;
@@ -193,16 +200,19 @@ $( document ).ready(function() {
 {% block bodywithmargin %}
     <h1 style = "font-size:30px; padding-top:100px; padding-bottom: 25px; padding-left: 30px;">{% block pagetitle %}{% endblock %} Page {{ page }}</h1>
 <div style="margin-left:60px;">
-    <h3>
+    <h4>
         View Style:
-        <button title="list_button" onclick="listView()">List</button>
+        <button class="list_button" onclick="listView()">List</button>
 
-        <button title="list_button" onclick="gridView()">Grid</button>
-    </h3>
+        <button class="list_button" onclick="gridView()">Grid</button>
+    </h4>
 </div>
 
-<h5></h5>
 
+
+<div class="row" style="width: 50%;justify-content: left;padding: 0% 1%">
+    <div style="margin-left:60px;"><h4>Sorting and Filters:</h4></div>
+    <div class="column">
 <div class="dropdown" style="margin-left:60px;">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="sort_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sorting</button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -215,9 +225,8 @@ $( document ).ready(function() {
         {% block sorts %}{% endblock %}
     </div>
 </div>
-
-
-
+    </div>
+    <div class="column" >
 <div class="dropdown" style="margin-left:60px;">
   <!-- Basic dropdown -->
   <button class="btn btn-primary dropdown-toggle " type="button" data-toggle="dropdown"
@@ -280,11 +289,6 @@ $( document ).ready(function() {
 </div>
   <!-- Basic dropdown -->
     </div>
-</div>
-
-
-
-
 
 <div class="dropdown" style="margin-left:60px;">
   <!-- Basic dropdown -->
@@ -337,8 +341,6 @@ $( document ).ready(function() {
   <!-- Basic dropdown -->
 
     </div>
-</div>
-
 
 <div class="dropdown" style="margin-left:60px;">
   <!-- Basic dropdown -->
@@ -346,60 +348,57 @@ $( document ).ready(function() {
           aria-haspopup="true" aria-expanded="false" id = "FiltersForPublisher" >Filters for Publishers</button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
+        <a class="dropdown-item" href="#">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="checkbox13"  onclick="loadNewFilter('Average_Price:_$30_or_More_Double')">
+            <label class="custom-control-label" for="checkbox13">Average Price: $30 or More</label>
+          </div>
+        </a>
+
 
         <a class="dropdown-item" href="#">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox13"  onclick="loadNewFilter('Average_Price:_$30_or_More_Double')">
-        <label class="custom-control-label" for="checkbox13">Average Price: $30 or More</label>
-      </div>
-    </a>
-
-
-    <a class="dropdown-item" href="#">
-      <!-- Default unchecked -->
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox14" onclick="loadNewFilter('Average_Price:_$30_or_Less_Publisher')"  >
-        <label class="custom-control-label" for="checkbox14">Average Price: $30 or Less</label>
-      </div>
+          <!-- Default unchecked -->
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="checkbox14" onclick="loadNewFilter('Average_Price:_$30_or_Less_Publisher')"  >
+            <label class="custom-control-label" for="checkbox14">Average Price: $30 or Less</label>
+          </div>
         </a>
 
-       <a class="dropdown-item" href="#">
-      <!-- Default unchecked -->
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox15"  onclick="loadNewFilter('Average_Price:_$15_or_Less_Publisher')" >
-        <label class="custom-control-label" for="checkbox15">Average Price: $15 or Less</label>
-      </div>
+        <a class="dropdown-item" href="#">
+          <!-- Default unchecked -->
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="checkbox15"  onclick="loadNewFilter('Average_Price:_$15_or_Less_Publisher')" >
+            <label class="custom-control-label" for="checkbox15">Average Price: $15 or Less</label>
+          </div>
         </a>
 
 
-  <a class="dropdown-item" href="#">
-      <!-- Default unchecked -->
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox16"  onclick="loadNewFilter('Average_Playtime:_30_minutes_or_Less')" >
-        <label class="custom-control-label" for="checkbox16">Average Playtime: 30 Minutes or Less</label>
-      </div>
+        <a class="dropdown-item" href="#">
+          <!-- Default unchecked -->
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="checkbox16"  onclick="loadNewFilter('Average_Playtime:_30_minutes_or_Less')" >
+            <label class="custom-control-label" for="checkbox16">Average Playtime: 30 Minutes or Less</label>
+          </div>
         </a>
 
-  <a class="dropdown-item" href="#">
+        <a class="dropdown-item" href="#">
       <!-- Default unchecked -->
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="checkbox17" onclick="loadNewFilter('Average_Playtime:_30_Minutes_or_More')"  >
-        <label class="custom-control-label" for="checkbox17">Average Playtime: 30 Minutes or More</label>
-      </div>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="checkbox17" onclick="loadNewFilter('Average_Playtime:_30_Minutes_or_More')"  >
+                <label class="custom-control-label" for="checkbox17">Average Playtime: 30 Minutes or More</label>
+            </div>
         </a>
 
-
-      <a class="dropdown-item" href="#">
-  <div class="custom-control custom-checkbox">
-      <button class="btn btn-link" title="list2" onclick=" window.location.href = link('{{page_route}}', '{{sort_type}}', '{{page}}', 'nofilters' )">No Filters</button>
-  </div>
-</a>
-</div>
-  <!-- Basic dropdown -->
-
+        <a class="dropdown-item" href="#">
+            <div class="custom-control custom-checkbox">
+                <button class="btn btn-link" title="list2" onclick=" window.location.href = link('{{page_route}}', '{{sort_type}}', '{{page}}', 'nofilters' )">No Filters</button>
+            </div>
+        </a>
     </div>
 </div>
 
+    </div>
+</div>
 
 
 
