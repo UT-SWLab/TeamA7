@@ -148,8 +148,14 @@ Github ID: cedrikho
 
 ## Allegra Thomas (at35737)  
 GitHub ID: AllegraThomas  
-**User Stories Worked On:**  
+**User Stories Worked On:** 
+*As a User I want to select sorting or filtering with one click, and I want to filter and sort in two clicks only.
+*Estimated time: 8 hrs
+*Actual time: 5hrs
 **Tasks Worked On:**  
+*Sorting all model list pages
+*Adding multimedia to model instance pages
+*Website Visual improvements
 ## Grant Ross (ghr344)  
 Github ID: Grant Ross  
 **User Stories Worked On:**  
