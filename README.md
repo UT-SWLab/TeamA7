@@ -167,18 +167,18 @@ GitHub ID: AllegraThomas
 Estimated Time: 10 hrs  
 Actual Time: 6 hrs  
 *As a user, I want to select sorting or filtering with one click, and I want to filter and sort in two clicks only.  
-*Estimated Time: 4 hrs  
-*Actual Time: 8 hrs  
+Estimated Time: 4 hrs  
+Actual Time: 8 hrs  
 **Tasks Worked On:**  
 *Adding information (videos, pictures, links, social media, average prices, average playtime etc.) from APIs to database to put on model instance pages from  
-Estimate Time: 10 hrs  
+Estimated Time: 10 hrs  
 Actual Time: 6 hrs  
-*Tested and improved filtering functionality  
-*Estimated Time: 4 hrs  
-*Actual Time: 8 hrs  
+*Testing and improving filtering functionality  
+Estimated Time: 4 hrs  
+Actual Time: 8 hrs  
 *Website visual improvements  
-*Estimated Time: 2 hrs  
-*Actual Time: 1 hr  
+Estimated Time: 2 hrs  
+Actual Time: 1 hr  
   
 ## Grant Ross (ghr344)  
 Github ID: Grant Ross  
