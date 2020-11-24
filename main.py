@@ -33,146 +33,69 @@ def GameLinkify(name):
 
 
 # input = string searched by user
-# models = board games, genres, publishers (can be any combo of 3)
-# gamefields = if looking for board games what field are we searching in (default all)
-# Name, Publisher, Genre, Min_Players, etc
-# genrefields = if looing for genres what fields are we searching in (default all)
-# publisherfields = if looking for publishers what fields are we searching in (default all)
-# , gamefields, genrefields, publisherfields add these to the left back into input variables for search when adding fields
+# models = board games, genres, publishers
+# fields = array of strings of fields searched in each model (default is all fields)
 def searchdb(input, models, fields):
     exactmatches = {}  # not case sensitive, array of all exact matches
     partialmatches = {}  # not case sensitive, dict of all partial matches with key the word they're matched to
+    partialwords = list(input.split())
+    if len(partialwords) == 1:
+        partialwords = []
     if models['boardgames']:
-        searchdict = {}
+        game_fields = fields
         if list(fields) == ["all"]:
-            searchdict = {"$or": [{"Name": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-                                  {"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-                                  {"Publisher": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-                                  {"genres": {"$regex": ".*" + input + ".*", '$options': 'i'}}]}
-        else:
+            game_fields = ["Name", "Description", "Publisher", "genres"]
+        exact_search = []
+        for f in game_fields:
+            exact_search.append({f: {"$regex": ".*" + input + ".*", '$options': 'i'}})
+        exactmatches['boardgames'] = list(boardgameobjects.find({"$or": exact_search}))
+        for w in partialwords:
+            if w not in partialmatches:
+                partialmatches[w] = {}
             fieldsearches = []
-            for f in fields:
-                fieldsearches.append({f: {"$regex": ".*" + input + ".*", '$options': 'i'}})
-            searchdict["$or"] = fieldsearches
-        exactmatches['boardgames'] = list(boardgameobjects.find(searchdict))
+            for f in game_fields:
+                fieldsearches.append({f: {"$regex": ".*" + w + ".*", '$options': 'i'}})
+            partialmatches[w]['boardgames'] = list(filter(lambda g: g not in exactmatches['boardgames'],
+                                                          (list(boardgameobjects.find({"$or": fieldsearches})))))
     if models['genres']:
-        searchdict = {}
+        genre_fields = fields
         if list(fields) == ["all"]:
-            searchdict = {"$or": [{"Name": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-                                  {"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-                                  {"Publishers": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-                                  {"Games": {"$regex": ".*" + input + ".*", '$options': 'i'}}]}
-        else:
+            genre_fields = ["Name","Description","Publishers","Games"]
+        exact_search = []
+        for f in genre_fields:
+            if f == "Publisher":
+                exact_search.append({"Publishers": {"$regex": ".*" + input + ".*", '$options': 'i'}})
+            else:
+                exact_search.append({f: {"$regex": ".*" + input + ".*", '$options': 'i'}})
+        exactmatches['genres'] = list(genre_objects.find({"$or": exact_search}))
+        for w in partialwords:
+            if w not in partialmatches:
+                partialmatches[w] = {}
             fieldsearches = []
-            for f in fields:
-                if f == "Publisher":
-                    fieldsearches.append({"Publishers": {"$regex": ".*" + input + ".*", '$options': 'i'}})
-                else:
-                    fieldsearches.append({f: {"$regex": ".*" + input + ".*", '$options': 'i'}})
-            searchdict["$or"] = fieldsearches
-        exactmatches['genres'] = list(genre_objects.find(searchdict))
+            for f in genre_fields:
+                fieldsearches.append({f: {"$regex": ".*" + w + ".*", '$options': 'i'}})
+            partialmatches[w]['genres'] = list(filter(lambda g: g not in exactmatches['genres'],
+                                                      (list(genre_objects.find({"$or": fieldsearches})))))
     if models['publishers']:
-        searchdict = {}
+        publisher_fields = fields
         if list(fields) == ["all"]:
-            searchdict = {"$or": [
-                {"Name": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-                {"Description": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-                {"Genres": {"$regex": ".*" + input + ".*", '$options': 'i'}},
-                {"Games": {"$regex": ".*" + input + ".*", '$options': 'i'}}]}
-        else:
+            publisher_fields = ["Name", "Description", "Genres", "Games"]
+        exact_search = []
+        for f in publisher_fields:
+            if f == "genres":
+                exact_search.append({"Genres": {"$regex": ".*" + input + ".*", '$options': 'i'}})
+            else:
+                exact_search.append({f: {"$regex": ".*" + input + ".*", '$options': 'i'}})
+        exactmatches['publishers'] = list(publish_objects.find({"$or": exact_search}))
+        for w in partialwords:
+            if w not in partialmatches:
+                partialmatches[w] = {}
             fieldsearches = []
-            for f in fields:
-                if f == "genres":
-                    fieldsearches.append({"Genres": {"$regex": ".*" + input + ".*", '$options': 'i'}})
-                else:
-                    fieldsearches.append({f: {"$regex": ".*" + input + ".*", '$options': 'i'}})
-            searchdict["$or"] = fieldsearches
-        exactmatches['publishers'] = list(publish_objects.find(searchdict))
-    partialwords = input.split()
-    if len(partialwords) > 1:
-        for word in partialwords:
-            partialmatches[word] = {}
-            if models['boardgames']:
-                final = []
-                searchdict = {}
-                if list(fields) == ["all"]:
-                    searchdict = {"$or": [
-                        {"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}},
-                        {"Description": {"$regex": ".*" + word + ".*", '$options': 'i'}},
-                        {"Publisher": {"$regex": ".*" + word + ".*", '$options': 'i'}},
-                        {"genres": {"$regex": ".*" + word + ".*", '$options': 'i'}}]}
-                else:
-                    fieldsearches = list()
-                    for f in fields:
-                        fieldsearches.append({f: {"$regex": ".*" + word + ".*", '$options': 'i'}})
-                    searchdict["$or"] = fieldsearches
-                matches = list(boardgameobjects.find(searchdict))
-                for m in matches:
-                    if m not in exactmatches['boardgames']:
-                        final.append(m)
-                partialmatches[word]['boardgames'] = final
-            if models['genres']:
-                final = []
-                searchdict = {}
-                if list(fields) == ["all"]:
-                    searchdict = {"$or": [{"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}},
-                                          {"Description": {"$regex": ".*" + word + ".*", '$options': 'i'}},
-                                          {"Publishers": {"$regex": ".*" + word + ".*", '$options': 'i'}},
-                                          {"Games": {"$regex": ".*" + word + ".*", '$options': 'i'}}]}
-                else:
-                    fieldsearches = []
-                    for f in fields:
-                        if f == "Publisher":
-                            fieldsearches.append({"Publishers": {"$regex": ".*" + word + ".*", '$options': 'i'}})
-                        else:
-                            fieldsearches.append({f: {"$regex": ".*" + word + ".*", '$options': 'i'}})
-                    searchdict["$or"] = fieldsearches
-                matches = list(genre_objects.find(searchdict))
-                for m in matches:
-                    if m not in exactmatches['genres']:
-                        final.append(m)
-                partialmatches[word]['genres'] = final
-            if models['publishers']:
-                final = []
-                searchdict = {}
-                if list(fields) == ["all"]:
-                    searchdict = {"$or": [{"Name": {"$regex": ".*" + word + ".*", '$options': 'i'}},
-                                          {"Description": {"$regex": ".*" + word + ".*", '$options': 'i'}},
-                                          {"Genres": {"$regex": ".*" + word + ".*", '$options': 'i'}},
-                                          {"Games": {"$regex": ".*" + word + ".*", '$options': 'i'}}]}
-                else:
-                    fieldsearches = []
-                    for f in fields:
-                        if f == "genres":
-                            fieldsearches.append({"Genres": {"$regex": ".*" + word + ".*", '$options': 'i'}})
-                        else:
-                            fieldsearches.append({f: {"$regex": ".*" + word + ".*", '$options': 'i'}})
-                    searchdict["$or"] = fieldsearches
-                matches = list(publish_objects.find(searchdict))
-                for m in matches:
-                    if m not in exactmatches['publishers']:
-                        final.append(m)
-                partialmatches[word]['publishers'] = final
+            for f in publisher_fields:
+                fieldsearches.append({f: {"$regex": ".*" + w + ".*", '$options': 'i'}})
+            partialmatches[w]['publishers'] = list(filter(lambda g: g not in exactmatches['publishers'],
+                                                      (list(publish_objects.find({"$or": fieldsearches})))))
     return exactmatches, partialmatches
-
-
-def PublisherNames():
-    # Function now returns tupple of list to so game and publisher are tied for publisher page elements.
-    bgc = boardgameobjects.find()
-    publishernames = []
-    publishernameGame = []
-    publishYear = []
-    for game in bgc:
-        if game['Publisher'] not in publishernames:
-            if game['Publisher'] == 'None':
-                game['Publisher'] = "unaffiliated"
-            publishernames.append(game['Publisher'])
-            publishernameGame.append(game['Name'])
-            publishYear.append(game['Year_Published'])
-    # print (publishernames) #Debuggin
-    # print (publishernameGame)
-    return publishernames, publishernameGame, publishYear
-
 
 @app.route('/')
 def home():
@@ -324,22 +247,18 @@ def GamePage(gamelink):
 @app.route('/search', methods=['POST'])
 def search():
     input_string = request.form['search']
-    type = ''
+    type = request.form["modeltype"]
     models = {'boardgames': False, 'genres': False, 'publishers': False}
     fields = ['all']
-    if "modeltype" in request.form:
-        type = request.form["modeltype"]
+    if type == "all":
+        models = {'boardgames': True, 'genres': True, 'publishers': True}
+    else:
         models[type] = True;
-        if type == "all":
-            models = {'boardgames': True, 'genres': True, 'publishers': True}
     if "fields" in request.form:
         fromform = request.form["fields"]
         if fromform != "all":
             fields = fromform.split()
-    print(fields)
-    print(len(fields))
-    print(models)
-    exactmatches, partialmatches = searchdb(input_string, models, fields)
+    exactmatches, partialmatches = searchdb(input=input_string, models=models, fields=fields)
     return render_template("searchresults.html", input_string=input_string, exactmatches=exactmatches,
                            partialmatches=partialmatches, modeltype=type)
 

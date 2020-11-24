@@ -12,9 +12,10 @@
         filteredresults = $('tr');
         paginationupdate();
         pagechange(1);
+        //hide advanced search features
         $('.searchfilters').hide();
-        $('input[name="fields"]').val('all');
-        //default checking different check boxes depending on the search's model_type
+        $('input[name="fields"]').val('all'); //default search setting is all
+        //default checking different model filter checkboxes depending on the search's model_type
         if ('{{modeltype}}' == 'boardgames') {
           $('.showgenres,.showpublishers').parent().hide();
           $('.showgames').prop("checked", true);
@@ -27,9 +28,8 @@
         } else {
           $('.showpublishers,.showgames,.showgenres').prop("checked", true);
         }
-        //user toggled advance search, show options
+        //user toggled advance search, shows different options depending on modeltype they search
         $('#searchtoggle,#modelselect').change( function(){
-          $('')
           if($('#searchtoggle').prop("checked")==true){
             $('.searchfilters').show();
             $('.searchfilters').find('input').prop("checked", false);
@@ -70,25 +70,21 @@
         })
         $('#searchbypublisherfield,#searchbygamefield,#searchdescriptions,#searchnames, #searchbygenrefield').click(function(){
           var fields = []
-          if($('#searchnames').prop("checked")== true){
+          if($('#searchnames').prop("checked")== true)
             fields.push('Name');
-          }
-          if($('#searchdescriptions').prop("checked")== true){
+          if($('#searchdescriptions').prop("checked")== true)
             fields.push('Description');
-          }
-          if($('#searchbygamefield').prop("checked")== true){
+          if($('#searchbygamefield').prop("checked")== true)
             fields.push('Games');
-          }
-          if($('#searchbygenrefield').prop("checked")== true){
+          if($('#searchbygenrefield').prop("checked")== true)
             fields.push('genres');
-          }
-          if($('#searchbypublisherfield').prop("checked")== true){
+          if($('#searchbypublisherfield').prop("checked")== true)
             fields.push('Publisher');
-          }
           $('input[name="fields"]').val(fields);
         });
         //user has changed what model_types they want to see on the results page
         $('.showgames,.showgenres,.showpublishers').click(function () {
+          filteredresults.show();
           if ($('.showgames').prop("checked") == true)
             $('.gamerow').show();
            else
