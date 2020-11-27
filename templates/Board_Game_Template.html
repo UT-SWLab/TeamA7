@@ -1,11 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'instance_base.html' %}
 {% block model_type %}boardgames{% endblock %}
 {% block searchplaceholder %}Search games{% endblock %}
 {% block head %}
     <title>Board Games</title>
-    <script>
-
-    </script>
     <style>
         [title="entry"]{
             color: #bf6402;
@@ -17,89 +14,77 @@
         </style>
 {% endblock %}
 
-{% block bodywithmargin %}
-    <h1 style = "font-size:30px; padding-bottom: 25px; padding-left: 30px;">Board Games</h1>
-    <div class="container-fluid">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-4" style="width: 100%">
-                    <img src='{{ game["Image_URL"] }}' style="max-width:100%;width: 500px;object-fit: cover;">
-                    <br>
-                    <br>
-                    <h5>Year Published: {{ game['Year_Published'] }}</h5>
-
-                    <h5>Players: {{ game['Min_Players'] }}-{{ game['Max_Players'] }}</h5>
+{% block title %}Board Games{% endblock %}
+{% block attribute1 %}Year Published: {{ game['Year_Published'] }}{% endblock %}
+{% block attribute2 %}Players: {{ game['Min_Players'] }}-{{ game['Max_Players'] }}{% endblock %}
+{% block attribute3 %}
                     {% if game['Min_Playtime'] != game['Max_Playtime'] %}
-                        <h5>Playtime: {{ game['Min_Playtime'] }}-{{ game['Max_Playtime'] }} minutes</h5>
+                        Playtime: {{ game['Min_Playtime'] }}-{{ game['Max_Playtime'] }} minutes
                     {% else %}
-                        <h5>Playtime: {{ game['Min_Playtime'] }} minutes</h5>
+                        Playtime: {{ game['Min_Playtime'] }} minutes
                     {% endif %}
-                         <h5>Year Published: {{ game['Year_Published'] }}</h5>
-                    <form action="/publisher" method="POST">
-                        <h4>Publisher:
-                            <button type="submit" class="btn btn-link" title="entry" name= "publishername" id="publishername" value='{{game["Publisher"]}}'>{{ game['Publisher'] }}</button>
-                        </h4>
-                    </form>
-
-                    <form action="/genre" method="POST">
-                        <h4>Genres:
-                            {% for genre in game["genres"] %}
-                                <button type="submit" class="btn btn-link" title="entry" name= "genrename" id="genrename" value='{{ genre }}'>{{ genre }}</button>
-                            {% endfor %}
-                        </h4>
-                    </form>
-                  </div>
-                <div class="col-sm-8" style="justify-content: center">
-                    <h2>{{ game['Name'] }}</h2>
-                    <hr>
-                    <h5>Description:</h5>
-                    <p>{{ game['Description'].replace("<br />", '').replace("<p>", '').replace("</p>", '').replace("<em>", '').replace("</em>", '') }}</p>
-                    <hr>
-                    {% if game['Videos']|length != 0 %}
-                    <h5>Videos:</h5>
-                    <br>
-                    <div class="row" style="max-height: 100%">
-                        {% for i in range(0, 4) %}
-                            {% if i < game["Videos"]|length %}
-                                {%if i == 2 %}<div class="w-100"></div>{% endif %}
-                                <div class="col-md-6" style="justify-content: center; height: 100%">
-                                    <p>{{ game["Videos"][i]["Title"] }}</p>
-                                    <iframe width="100%" height="250" frameborder="0" src="https://www.youtube.com/embed/{{ game['Videos'][i]['URL'].split('=')[1] }}"></iframe>
-                                </div>
-                            {% endif %}
-                    {% endfor %}
-                    </div>
-                {% else %}
-                <h5>Images:</h5>
-                <br>
-                    <div class="row" style="grid-row-gap: 50px; max-height: 100%">
-                    {% for i in range(0, 4) %}
-                        {% if i < game["Images"]|length %}
-                                {%if i == 2 %}<div class="w-100"></div>{% endif %}
-                            <div class="col-md-6" style="width:50%; height: 50%;justify-content: center;padding: 0% 1%">
-                                <img src="{{ game['Images'][i] }}" style="max-height:100%;height: 300px;">
-                            </div>
-                        {% endif %}
-                    {% endfor %}
+{% endblock %}
+{% block attribute4 %}Year Published: {{ game['Year_Published'] }}{% endblock %}
+{% block attribute5 %}{% endblock %}
+{% block links %}
+    <form action="/publisher" method="POST">
+        <h4>Publisher:
+            <button type="submit" class="btn btn-link" title="entry" name= "publishername" id="publishername" value='{{game["Publisher"]}}'>{{ game['Publisher'] }}</button>
+        </h4>
+    </form>
+    <form action="/genre" method="POST">
+        <h4>Genres:
+            {% for genre in game["genres"] %}
+                <button type="submit" class="btn btn-link" title="entry" name= "genrename" id="genrename" value='{{ genre }}'>{{ genre }}</button>
+            {% endfor %}
+        </h4>
+    </form>
+{% endblock %}
+{% block multimedia %}
+    {% if game['Videos']|length != 0 %}
+    <h5>Videos:</h5>
+    <br>
+    <div class="row" style="max-height: 100%">
+        {% for i in range(0, 4) %}
+            {% if i < game["Videos"]|length %}
+                {%if i == 2 %}<div class="w-100"></div>{% endif %}
+                <div class="col-md-6" style="justify-content: center; height: 100%">
+                    <p>{{ game["Videos"][i]["Title"] }}</p>
+                    <iframe width="100%" height="250" frameborder="0" src="https://www.youtube.com/embed/{{ game['Videos'][i]['URL'].split('=')[1] }}"></iframe>
                 </div>
+            {% endif %}
+    {% endfor %}
+    </div>
+    {% else %}
+    <h5>Images:</h5>
+    <br>
+        <div class="row" style="grid-row-gap: 50px; max-height: 100%">
+        {% for i in range(0, 4) %}
+            {% if i < game["Images"]|length %}
+                    {%if i == 2 %}<div class="w-100"></div>{% endif %}
+                <div class="col-md-6" style="width:50%; height: 50%;justify-content: center;padding: 0% 1%">
+                    <img src="{{ game['Images'][i] }}" style="max-height:100%;height: 300px;">
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+{% endblock %}
+{% block multimedia2 %}
+    <hr>
+    <h5>Reddit Comments:</h5>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            {% for i in range(0, 2) %}
+                {% if i < game["Reddit_Comments"]|length %}
+                    {% set comment = game["Reddit_Comments"][i] %}
+                    <h6><a href="{{comment['URL']}}">{{ comment["Title"] }}</a></h6>
+                    <p>{{ comment["Body"] }}</p>
                 {% endif %}
-                <hr>
-                <h5>Reddit Comments:</h5>
-                <br>
-                <div class="row">
-                    <div class="col-md-12">
-                        {% for i in range(0, 2) %}
-                            {% if i < game["Reddit_Comments"]|length %}
-                                {% set comment = game["Reddit_Comments"][i] %}
-                                <h6><a href="{{comment['URL']}}">{{ comment["Title"] }}</a></h6>
-                                <p>{{ comment["Body"] }}</p>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
-    </div>
 {% endblock %}
+
 

@@ -240,7 +240,7 @@ def GameRouting():
 def GamePage(gamelink):
     global gamepagerequest
     game = boardgameobjects.find({'Name': gamepagerequest}).next()
-    return render_template("Board_Game_Template.html", game=game)
+    return render_template("Board_Game_Template.html", game=game, model=game)
 
 
 ############ ROUTE TO SEARCH RESULTS ############

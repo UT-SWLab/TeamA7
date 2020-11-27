@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+{% block bodywithmargin %}
+    <h1 style = "font-size:30px; padding-bottom: 25px; padding-left: 30px;">{% block title %}{% endblock %}</h1>
+    <div class="container-fluid">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4" style="width: 100%">
+                    <img src="{{ model['Image_URL'] }}" style="max-width:100%;width: 500px;object-fit: cover;">
+                    <br>
+                    <br>
+                    <h5>{% block attribute1 %}{% endblock %}</h5>
+                    <h5>{% block attribute2 %}{% endblock %}</h5>
+                    <h5>{% block attribute3 %}{% endblock %}</h5>
+                    <h5>{% block attribute4 %}{% endblock %}</h5>
+                    <h5>{% block attribute5 %}{% endblock %}</h5>
+                    {% block links %}{% endblock %}
+                </div>
+                <div class="col-sm-8" style="justify-content: center">
+                    <h2>{{ model['Name'] }}</h2>
+                    <hr>
+                    <h5>Description:</h5>
+                    <p>{{ model['Description'].replace("<br />", '').replace("<p>", '').replace("</p>", '').replace("<em>", '').replace("</em>", '') }}</p>
+                    <hr>
+                    {% block multimedia %}{% endblock %}
+                    {% block multimedia2 %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
