@@ -81,13 +81,13 @@ $( document ).ready(function() {
           if (currentfilter == "Average_Price:_$15_or_Less"){
             document.getElementById("checkbox10").checked = true
           }
-          if (currentfilter == "Average_Playtime:_30_minutes_or_Less"){
+          if (currentfilter == "Average_Playtime:_30_Minutes_or_Less"){
             document.getElementById("checkbox11").checked = true
           }
           if (currentfilter == "Average_Playtime:_30_Minutes_or_More"){
             document.getElementById("checkbox12").checked = true
           }
-          if (currentfilter == "Average_Price:_$30_or_More_Double"){
+          if (currentfilter == "Average_Price:_$30_or_More_Publisher"){
             document.getElementById("checkbox13").checked = true
           }
           if (currentfilter == "Average_Price:_$30_or_Less_Publisher"){
@@ -96,10 +96,10 @@ $( document ).ready(function() {
           if (currentfilter == "Average_Price:_$15_or_Less_Publisher"){
             document.getElementById("checkbox15").checked = true
           }
-          if (currentfilter == "Average_Playtime:_30_minutes_or_Less"){
+          if (currentfilter == "Average_Playtime:_30_Minutes_or_Less_Publisher"){
             document.getElementById("checkbox16").checked = true
           }
-          if (currentfilter == "Average_Playtime:_30_Minutes_or_More"){
+          if (currentfilter == "Average_Playtime:_30_Minutes_or_More_Publisher"){
             document.getElementById("checkbox17").checked = true  
           } 
 });
@@ -276,7 +276,7 @@ $( document ).ready(function() {
                 </a>
                 <a class="dropdown-item" href="#">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="checkbox11" onclick="loadNewFilter('Average_Playtime:_30_minutes_or_Less')" >
+                        <input type="checkbox" class="custom-control-input" id="checkbox11" onclick="loadNewFilter('Average_Playtime:_30_Minutes_or_Less')" >
                         <label class="custom-control-label" for="checkbox11">Average Playtime: 30 Minutes or Less</label>
                     </div>
                 </a>
@@ -299,7 +299,7 @@ $( document ).ready(function() {
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="#">
                   <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="checkbox13"  onclick="loadNewFilter('Average_Price:_$30_or_More_Double')">
+                    <input type="checkbox" class="custom-control-input" id="checkbox13"  onclick="loadNewFilter('Average_Price:_$30_or_More_Publisher')">
                     <label class="custom-control-label" for="checkbox13">Average Price: $30 or More</label>
                   </div>
                 </a>
@@ -317,13 +317,13 @@ $( document ).ready(function() {
                 </a>
                 <a class="dropdown-item" href="#">
                   <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="checkbox16"  onclick="loadNewFilter('Average_Playtime:_30_minutes_or_Less')" >
+                    <input type="checkbox" class="custom-control-input" id="checkbox16"  onclick="loadNewFilter('Average_Playtime:_30_Minutes_or_Less_Publisher')" >
                     <label class="custom-control-label" for="checkbox16">Average Playtime: 30 Minutes or Less</label>
                   </div>
                 </a>
                 <a class="dropdown-item" href="#">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="checkbox17" onclick="loadNewFilter('Average_Playtime:_30_Minutes_or_More')"  >
+                        <input type="checkbox" class="custom-control-input" id="checkbox17" onclick="loadNewFilter('Average_Playtime:_30_Minutes_or_More_Publisher')"  >
                         <label class="custom-control-label" for="checkbox17">Average Playtime: 30 Minutes or More</label>
                     </div>
                 </a>

@@ -116,7 +116,7 @@ def about():
 def games(page, sort_type, filters):
     global boardgameobjects
 
-    filteredCollection = CheckSubstringMatches(filters, boardgameobjects)
+    filteredCollection = SelectFilter(filters, boardgameobjects)
 
     # Apply ordering to filtered collection.
     if sort_type == "alphabetical":
@@ -144,7 +144,7 @@ def games(page, sort_type, filters):
 def genres(page, sort_type, filters):
     global genre_objects
 
-    filteredCollection = CheckSubstringMatches(filters, genre_objects)
+    filteredCollection = SelectFilter(filters, genre_objects)
 
     if sort_type == "alphabetical":
         genre_obj = filteredCollection.find().sort("Name")
@@ -168,7 +168,7 @@ def genres(page, sort_type, filters):
 def publishers(page, sort_type, filters):
     global publish_objects
 
-    filteredCollection = CheckSubstringMatches(filters, publish_objects)
+    filteredCollection = SelectFilter(filters, publish_objects)
 
     if sort_type == "alphabetical":
         publish_obj = filteredCollection.find().sort("Name")
@@ -264,42 +264,13 @@ def search():
                            partialmatches=partialmatches, modeltype=type)
 
 
-####################FILTERS#####################
-
 def noFilter(cur, filteredCollection):
     for match in cur.find():
         filteredCollection.insert_one(match)
     return filteredCollection
 
 
-'''
-        '1_Hour_or_More',
-        '1_Hour_or_Less',
-        '30_Minutes_or_Less',
-
-        'Players:_2',
-        'Players:_3',
-        'Players:_4',
-        'Players:_5 +',
-
-        'Average_Price:_$30_or_More',
-        'Average_Price:_$30_or_Less',
-        'Average_Price:_$15_or_Less',
-
-        'Average_Playtime:_30_minutes_or_Less',
-        'Average_Playtime:_1_Hour_or_Less',
-        'Average_Playtime:_1_Hour_or_More',
-        'Average_Playtime:_30_Minutes_or_More',
-
-        'Average_Price:_$30_or_More_Publisher',
-        'Average_Price:_$30_or_Less_Publisher',
-        'Average_Price:_$15_or_Less_Publisher',
-        'Average_Price:_$30_or_More_Double'
-
-'''
-
-
-def CheckSubstringMatches(filter, NonFilteredCollection):
+def SelectFilter(filter, NonFilteredCollection):
     if filter == "nofilters":
         return NonFilteredCollection
 
@@ -331,15 +302,12 @@ def CheckSubstringMatches(filter, NonFilteredCollection):
     # dict_Players_4 = {"$and": [{"Min_Players": {"$lte": 4}}, {"Max_Players": {"$gte": 4}}]}
     # dict_Players_5 = {"$and": [{"Min_Players": {"$lte": 5}}, {"Max_Players": {"$gte": 5}}]}
     ###################################################
-    dict_Average_Price_30_or_More = {"Average_Price_Float": {"$gte": 30}}
-    dict_Average_Price_30_or_Less = {"Average_Price_Float": {"$lte": 30}}
-    dict_Average_Price_15_or_Less = {"Average_Price_Float": {"$lte": 15}}
+    # dict_Average_Price_30_or_More = {"Average_Price_Float": {"$gte": 30}}
+    # dict_Average_Price_30_or_Less = {"Average_Price_Float": {"$lte": 30}}
+    # dict_Average_Price_15_or_Less = {"Average_Price_Float": {"$lte": 15}}
     ###################################################
-    print("This is the filter " + filter)
-    if (filter.split('_')[0]) == 'Average':
-        print("Inside Fucn")
-        Price =   int (filter.split('_')[2].strip('$'))
-        print("This is the Price " + str(Price))
+    if (filter.split('_')[1]) == 'Price:':
+        Price = int(filter.split('_')[2].strip('$'))
         if (filter.split('_')[4]) == 'More':
             listofFindCommands.append({"Average_Price_Float": {"$gte": Price}})
         if (filter.split('_')[4]) == 'Less':
@@ -350,48 +318,22 @@ def CheckSubstringMatches(filter, NonFilteredCollection):
     dict_Average_Playtime_30_Minutes_or_More = {"Average_Playtime": {"$gte": 30}}
     ###################################################
     dict_Average_Playtime_1_Hour_or_Less = {"Average_Playtime": {"$lte": 60}}
-    dict_Average_Playtime_30_minutes_or_Less = {"Average_Playtime": {"$lte": 30}}
+    dict_Average_Playtime_30_Minutes_or_Less = {"Average_Playtime": {"$lte": 30}}
+    print("This is the filter" + filter)
+    if filter.split('_')[1] == 'Playtime:':
+        print("inside the function")
+        if (filter.split('_')[3]) == 'Hour':
+            Minutes = int(filter.split('_')[2]) * 60
+            if (filter.split('_')[5]) == 'More':
+                listofFindCommands.append({"Average_Playtime": {"$gte": Minutes}})
+            else:
+                listofFindCommands.append({"Average_Playtime": {"$lte": Minutes}})
 
-    ###########GAME CALLS TO DATABASE###################
-    # if (filter == '1_Hour_or_More'):
-    #    listofFindCommands.append(dict_1_Hour_or_More)
-    # if (filter == '1_Hour_or_Less'):
-    #   listofFindCommands.append(dict_1_Hour_or_Less)
-    # if (filter == '30_Minutes_or_Less'):
-    #   listofFindCommands.append(dict_30_Minutes_or_Less)
-    # if (filter == 'Players:_2'):
-    #   listofFindCommands.append(dict_Players_2)
-    # if (filter == 'Players:_3'):
-    #   listofFindCommands.append(dict_Players_3)
-    # if (filter == 'Players:_4'):
-    #   listofFindCommands.append(dict_Players_4)
-    # if (filter == 'Players:_5 +'):
-    #   listofFindCommands.append(dict_Players_5)
-    ###########GENRES CALLS TO DATABASE#################
-    # if (filter == 'Average_Price:_$30_or_More'):
-    #    listofFindCommands.append(dict_Average_Price_30_or_More)
-    # if (filter == 'Average_Price:_$30_or_Less'):
-    #   listofFindCommands.append(dict_Average_Price_30_or_Less)
-    # if (filter == 'Average_Price:_$15_or_Less'):
-    # listofFindCommands.append(dict_Average_Price_15_or_Less)
-
-    ###########SHARED GENRES AND PUBLISHER CALLS TO DATABASE##################################
-    if (filter == 'Average_Playtime:_30_minutes_or_Less'):
-        listofFindCommands.append(dict_Average_Playtime_30_minutes_or_Less)
-    if (filter == 'Average_Playtime:_1_Hour_or_Less'):
-        listofFindCommands.append(dict_Average_Playtime_1_Hour_or_Less)
-    if (filter == 'Average_Playtime:_1_Hour_or_More'):
-        listofFindCommands.append(dict_Average_Playtime_1_Hour_or_More)
-    if (filter == 'Average_Playtime:_30_Minutes_or_More'):
-        listofFindCommands.append(dict_Average_Playtime_30_Minutes_or_More)
-
-    ###########PUBLISHER CALLS TO DATABASE######################################
-    if (filter == 'Average_Price:_$30_or_More_Double'):
-        listofFindCommands.append(dict_Average_Price_30_or_More)
-    if (filter == 'Average_Price:_$30_or_Less_Publisher'):
-        listofFindCommands.append(dict_Average_Price_30_or_Less)
-    if (filter == 'Average_Price:_$15_or_Less_Publisher'):
-        listofFindCommands.append(dict_Average_Price_15_or_Less)
+        if (filter.split('_')[3]) == 'Minutes':
+            if (filter.split('_')[5]) == 'More':
+                listofFindCommands.append({"Average_Playtime": {"$gte": int(filter.split('_')[2])}})
+            else:
+                listofFindCommands.append({"Average_Playtime": {"$lte": int(filter.split('_')[2])}})
 
     basedictionary = {"$and": listofFindCommands}
     return ApplyFoundFilters(NonFilteredCollection,
