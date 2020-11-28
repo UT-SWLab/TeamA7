@@ -285,27 +285,11 @@ def SelectFilter(filter, NonFilteredCollection):
     if (filter.split('_')[1]) == 'Minutes':
         listofFindCommands.append({"Max_Playtime": {"$lte": int(filter.split('_')[0])}})
 
-    # Need to multiply by 60.
-    # dict_1_Hour_or_More = {"Max_Playtime": {"$gte": 60}}
-    # dict_1_Hour_or_Less = {"Max_Playtime": {"$lte": 60}}
-    ###################################################
-    # dict_30_Minutes_or_Less = {"Max_Playtime": {"$lte": 30}}
-    ###################################################
-
     if (filter.split('_')[0]) == 'Players:':
         numberOfPlayers = int((filter.split('_')[1]).strip('+'))  # Necessary for 5 + case
         listofFindCommands.append({"$and": [{"Min_Players": {"$lte": numberOfPlayers}},
                                             {"Max_Players": {"$gte": numberOfPlayers}}]})
 
-    # dict_Players_2 = {"$and": [{"Min_Players": {"$lte": 2}}, {"Max_Players": {"$gte": 2}}]}
-    # dict_Players_3 = {"$and": [{"Min_Players": {"$lte": 3}}, {"Max_Players": {"$gte": 3}}]}
-    # dict_Players_4 = {"$and": [{"Min_Players": {"$lte": 4}}, {"Max_Players": {"$gte": 4}}]}
-    # dict_Players_5 = {"$and": [{"Min_Players": {"$lte": 5}}, {"Max_Players": {"$gte": 5}}]}
-    ###################################################
-    # dict_Average_Price_30_or_More = {"Average_Price_Float": {"$gte": 30}}
-    # dict_Average_Price_30_or_Less = {"Average_Price_Float": {"$lte": 30}}
-    # dict_Average_Price_15_or_Less = {"Average_Price_Float": {"$lte": 15}}
-    ###################################################
     if (filter.split('_')[1]) == 'Price:':
         Price = int(filter.split('_')[2].strip('$'))
         if (filter.split('_')[4]) == 'More':
@@ -313,15 +297,7 @@ def SelectFilter(filter, NonFilteredCollection):
         if (filter.split('_')[4]) == 'Less':
             listofFindCommands.append({"Average_Price_Float": {"$lte": Price}})
 
-    ###################################################
-    dict_Average_Playtime_1_Hour_or_More = {"Average_Playtime": {"$gte": 60}}
-    dict_Average_Playtime_30_Minutes_or_More = {"Average_Playtime": {"$gte": 30}}
-    ###################################################
-    dict_Average_Playtime_1_Hour_or_Less = {"Average_Playtime": {"$lte": 60}}
-    dict_Average_Playtime_30_Minutes_or_Less = {"Average_Playtime": {"$lte": 30}}
-    print("This is the filter" + filter)
     if filter.split('_')[1] == 'Playtime:':
-        print("inside the function")
         if (filter.split('_')[3]) == 'Hour':
             Minutes = int(filter.split('_')[2]) * 60
             if (filter.split('_')[5]) == 'More':
