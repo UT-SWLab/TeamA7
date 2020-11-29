@@ -34,11 +34,12 @@ class SearchBoardGames:
     def __init__(self, fields):
         if fields == ['all']:
             self.fields = ["Name", "Description", "Publisher", "genres"]
-            return
-        board_game_fields = ["Name", "Description", "Publisher", "genres"]
-        for f in board_game_fields:
-            if f in fields:
-                self.fields.append(f)
+        else:
+            board_game_fields = ["Name", "Description", "Publisher", "genres"]
+            self.fields = []
+            for f in board_game_fields:
+                if f in fields:
+                    self.fields.append(f)
 
     def search_for_string(self, input):
         return {'boardgames': list(board_game_objects.find(search_dictionary(self.fields, input)))}
@@ -49,13 +50,14 @@ class SearchBoardGames:
 
 class SearchGenres:
     def __init__(self, fields):
-        if fields[0] == 'all':
+        if fields == ['all']:
             self.fields = ["Name", "Description", "Publishers", "Games"]
-            return
-        genre_fields = ["Name", "Description", "Publishers", "Games"]
-        for f in genre_fields:
-            if f in fields:
-                self.fields.append(f)
+        else:
+            genre_fields = ["Name", "Description", "Publishers", "Games"]
+            self.fields = []
+            for f in genre_fields:
+                if f in fields:
+                    self.fields.append(f)
 
     def search_for_string(self, input):
         return {'genres': list(genre_objects.find(search_dictionary(self.fields, input)))}
@@ -66,13 +68,14 @@ class SearchGenres:
 
 class SearchPublishers:
     def __init__(self, fields):
-        if fields[0] == 'all':
+        if fields == ['all']:
             self.fields = ["Name", "Description", "Genres", "Games"]
-            return
-        publisher_fields = ["Name", "Description", "Genres", "Games"]
-        for f in publisher_fields:
-            if f in fields:
-                self.fields.append(f)
+        else:
+            publisher_fields = ["Name", "Description", "Genres", "Games"]
+            self.fields = []
+            for f in publisher_fields:
+                if f in fields:
+                    self.fields.append(f)
 
     def search_for_string(self, input):
         return {'publishers': list(publisher_objects.find(search_dictionary(self.fields, input)))}
