@@ -8,18 +8,19 @@ from pymongo import MongoClient
 from mongoengine import *
 import requests
 
-# connects to our MongoDB server running on MongoDB Atlas
-client = MongoClient("mongodb+srv://teama7:ee461lteama7@mongodbcluster.bs58o.gcp.mongodb.net/BGDB?retryWrites=true&w=majority")
-connect('BGDB', host='localhost', port=27017)
+#connects to our MongoDB server running on MongoDB Atlas
+#commented out for safety to prevent people who don't know how it works from running it, uncomment to actually run
+# client = MongoClient("mongodb+srv://teama7:ee461lteama7@mongodbcluster.bs58o.gcp.mongodb.net/BGDB?retryWrites=true&w=majority")
+# connect('BGDB', host='localhost', port=27017)
 
-# designate 'db' as the name of our database to be used in this code, and 'boardgamecollection' as the name of the collection of board games to be used in this code
+# designate 'db' as the name of our database to be used in this code and designate names of the collections to be used in this code
 db = client["BGDB"]
 boardgamecollection = db["boardgamecollection"]
 genrecollection = db["genrecollection"]
 publishercollection = db["publishercollection"]
 
 
-##################################################TO POPULATE PUBLISHER PAGES WITH INFO##############################################################
+##############################################TO POPULATE PUBLISHER COLLECTION WITH PUBLISHERS AND STARTER INFO##############################################################
 
 listOfDicts = [{"Name": "Stronghold Games",
                 "Description": "Founded in late 2009, the focus of Stronghold Games has been to provide maximum customer value by delivering high-quality products, and maximum customer satisfaction with Best of Breed games, i.e. games that are the finest in mechanic, theme, and/or other attributes valued by gamers."
@@ -135,7 +136,7 @@ listOfDicts = [{"Name": "Stronghold Games",
 
                {"Name": "North Star Games", "Description": " North Star Games was originally founded in 2003 by pro Magic player Dominic Crapuchettes to bring innovation to a stagnant party game market. The success of Wits & Wagers and Say Anything in the hobby and mass markets enabled North Star Games to return to their gamer roots and create a hobby game division. Notable hobby games include the acclaimed Evolution series and The Quacks of Quedlinburg, winner of a 2018 Spiel des Jahres award. ","Games": [],"Genres": [] },
 
-               {"Name": "Blue Cocker", "Description": " Few words :What makes a good game is the emotions you feel while playing,i.e. the game play.This is more about the gameplay that I intend to dwell! Gamplay, pointing to me evocations, emotions and various pleasures that the game attempts to mislead.Ok, things like depends mainly on players around the table, the time, and many other details,but still, the game , by these mechanisms, its theme and editorial treatment may make it easier or rather complex.For example, to speak of junk, Age of Steam is for me a great party game ! (i know , we re very few to think that !)The spread of this very personal truth has not been helped by his edition!So, I look for games with high natural gameplay and I will, in any case try to, magnify the gameplay by my editorial work. ","Games": [],"Genres": [] },
+               {"Name": "Blue Cocker Games", "Description": " Few words :What makes a good game is the emotions you feel while playing,i.e. the game play.This is more about the gameplay that I intend to dwell! Gamplay, pointing to me evocations, emotions and various pleasures that the game attempts to mislead.Ok, things like depends mainly on players around the table, the time, and many other details,but still, the game , by these mechanisms, its theme and editorial treatment may make it easier or rather complex.For example, to speak of junk, Age of Steam is for me a great party game ! (i know , we re very few to think that !)The spread of this very personal truth has not been helped by his edition!So, I look for games with high natural gameplay and I will, in any case try to, magnify the gameplay by my editorial work. ","Games": [],"Genres": [] },
 
                {"Name": "Karma Games", "Description": "Karma Games was founded by Juma Al-JouJou in Berlin/Germany and publishes strategy board games. ","Games": [],"Genres": [] },
 
@@ -167,7 +168,6 @@ listOfDicts = [{"Name": "Stronghold Games",
 
 
 
-
 for i in range(len(listOfDicts)):
     Dict = listOfDicts[i]
     publishercollection.replace_one({'Name': Dict['Name']}, Dict, upsert=True)
@@ -184,59 +184,54 @@ for genre in genrecollection.find():
     publishercollection.update_one({'Name': publisher}, {"$addToSet" : {"Genres": genre['Name']}})
 
 
-################################TO CALCULATE AVERAGE PLAYERS, PLAYTIME, AND PRICE######################################
+################################TO POPULATE INFORMATION FOR ALL PUBLISHERS IN COLLECTION######################################
 
 for publisher in publishercollection.find():
 
-  totalminplayers = 0
-  totalmaxplayers = 0
-  totalplaytime = 0
-  gamecount = 0
-  totalprice = 0
-  gameswithpricecount = 0
+	################################TO CALCULATE AVERAGE PLAYERS, PLAYTIME, AND PRICE######################################
 
-  for gamename in publisher["Games"]:
-    game = boardgamecollection.find_one({"Name": gamename})
-    totalminplayers += game["Min_Players"]
-    totalmaxplayers += game["Max_Players"]
-    gameaverageplaytime = game["Min_Playtime"]
-    gameaverageplaytime += game["Max_Playtime"]
-    gameaverageplaytime = gameaverageplaytime/2
-    totalplaytime += gameaverageplaytime
-    gamecount += 1
-    if float(game["Current_Price"]) != 0:
-      totalprice += float(game["Current_Price"])
-      gameswithpricecount += 1
+	totalminplayers = 0
+	totalmaxplayers = 0
+	totalplaytime = 0
+	gamecount = 0
+	totalprice = 0
+	gameswithpricecount = 0
 
-  print(publisher["Name"])
-  print("gamecount = " + str(gamecount))
-  print("totalminplayers = " + str(totalminplayers))
-  print("totalmaxplayers = " + str(totalmaxplayers))
-  print("totalplaytime = " + str(totalplaytime))
-  print("gameswithpricecount = " + str(gameswithpricecount))
-  averageminplayers = totalminplayers / gamecount
-  averagemaxplayers = totalmaxplayers / gamecount
-  averageplaytime = totalplaytime / gamecount
-  if(gameswithpricecount != 0):
-    averageprice = totalprice / gameswithpricecount
-    publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Price": "%.2f" % averageprice}})
-    publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Price_Float": round(averageprice, 2)}})
-  else:
-    averageprice = "Not Available"
-    publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Price": averageprice}})
+	for gamename in publisher["Games"]:
+		game = boardgamecollection.find_one({"Name": gamename})
+		totalminplayers += game["Min_Players"]
+		totalmaxplayers += game["Max_Players"]
+		gameaverageplaytime = game["Min_Playtime"]
+		gameaverageplaytime += game["Max_Playtime"]
+		gameaverageplaytime = gameaverageplaytime/2
+		totalplaytime += gameaverageplaytime
+		gamecount += 1
+	if float(game["Current_Price"]) != 0:
+		totalprice += float(game["Current_Price"])
+		gameswithpricecount += 1
 
-  publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Min_Players": round(averageminplayers)}})
-  publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Max_Players": round(averagemaxplayers)}})
-  publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Playtime": round(averageplaytime)}})
+	averageminplayers = totalminplayers / gamecount
+	averagemaxplayers = totalmaxplayers / gamecount
+	averageplaytime = totalplaytime / gamecount
+	if(gameswithpricecount != 0):
+		averageprice = totalprice / gameswithpricecount
+		publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Price": "%.2f" % averageprice}})
+		publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Price_Float": round(averageprice, 2)}})
+	else:
+		averageprice = "Not Available"
+		publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Price": averageprice}})
+
+	publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Min_Players": round(averageminplayers)}})
+	publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Max_Players": round(averagemaxplayers)}})
+	publishercollection.update_one({'Name': publisher['Name']}, {"$set" : {"Average_Playtime": round(averageplaytime)}})
 
 
-#####################################TO FIND IMAGES TO USE ON THE PUBLISHER INSTANCE PAGES############################################
+	#####################################TO FIND IMAGES TO USE ON THE PUBLISHER INSTANCE PAGES############################################
 
-#API request from Google Images
-#uses API key generated on GCP to search custom search engine (also generated in GCP) that only searches Board Game Geek and Wikipedia
-#safe search is on and results return exactly one image
+	#API request from Google Images
+	#uses API key generated on GCP to search custom search engine (also generated in GCP) that only searches Board Game Geek and Wikipedia
+	#safe search is on and results return exactly one image
 
-for publisher in publishercollection.find():
     name = publisher["Name"]
     searchname = publisher['Name'].replace(" ", "+") + "+board+game+publisher+logo"
     requeststring = "https://www.googleapis.com/customsearch/v1?key=AIzaSyCxFCh2XeiGTNT7kjDN2fhfB_J3W0ByabY&cx=4366fe0d278a82053&num=1&searchType=image&imgSize=medium&q=" + searchname

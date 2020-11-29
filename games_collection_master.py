@@ -8,16 +8,18 @@ from pymongo import MongoClient
 from mongoengine import *
 import requests
 import time
+import re
 
 #connects to our MongoDB server running on MongoDB Atlas
-client = MongoClient("mongodb+srv://teama7:ee461lteama7@mongodbcluster.bs58o.gcp.mongodb.net/BGDB?retryWrites=true&w=majority")
-connect('BGDB', host='localhost', port=27017)
+#commented out for safety to prevent people who don't know how it works from running it, uncomment to actually run
+#client = MongoClient("mongodb+srv://teama7:ee461lteama7@mongodbcluster.bs58o.gcp.mongodb.net/BGDB?retryWrites=true&w=majority")
+#connect('BGDB', host='localhost', port=27017)
 
 #designate 'db' as the name of our database to be used in this code, and 'boardgamecollection' as the name of the collection of board games to be used in this code
 db = client["BGDB"]
 boardgamecollection = db["boardgamecollection"]
 
-############################################FOR FIRST 100 GAMES####################################################
+############################################TO PUT FIRST 100 GAMES IN COLLECTION####################################################
 
 # API request from Board Game Atlas
 resp = requests.get('https://api.boardgameatlas.com/api/search?list_id=L6t9vL6DnV&client_id=zJUSH9XolY')
@@ -27,7 +29,7 @@ if resp.status_code != 200:
     raise ApiError('GET /tasks/ {}'.format(resp.status_code))
 for game in resp.json()['games']:
 
-    # you have to make a dictionary object with the info and then insert that into a collection
+    # you have to make a dictionary object with the info and then insert that into the collection
     newboardgame = {
         "Name": game['name'],
         "Game_ID": game['id'],
@@ -53,20 +55,20 @@ for game in resp.json()['games']:
         "Rules_URL": game['rules_url']
     }
 
-    # insert the new boardgame into the board game collection or update the existing board game by replacing the information
+    # insert the new board game into the board game collection or update the existing board game by replacing the information
     boardgamecollection.replace_one({'Name': newboardgame['Name']}, newboardgame, upsert=True)
 
-############################################FOR GAMES 101-123######################################################
+############################################TO PUT GAMES 101-123 IN COLLECTION######################################################
 
 #API request from Board Game Atlas
-resp2 = requests.get('https://api.boardgameatlas.com/api/search?skip=100&list_id=L6t9vL6DnV&client_id=zJUSH9XolY')
+resp = requests.get('https://api.boardgameatlas.com/api/search?skip=100&list_id=L6t9vL6DnV&client_id=zJUSH9XolY')
 
-if resp2.status_code != 200:
+if resp.status_code != 200:
     # This means something went wrong.
-    raise ApiError('GET /tasks/ {}'.format(resp2.status_code))
-for game in resp2.json()['games']:
+    raise ApiError('GET /tasks/ {}'.format(resp.status_code))
+for game in resp.json()['games']:
 
-    # you have to make a dictionary object with the info and then insert that into a collection
+    # you have to make a dictionary object with the info and then insert that into the collection
     newboardgame = {
         "Name": game['name'],
         "Game_ID": game['id'],
@@ -92,22 +94,70 @@ for game in resp2.json()['games']:
         "Rules_URL": game['rules_url']
     }
 
-    # insert the new boardgame into the board game collection or update the existing board game by replacing the information
+    # insert the new board game into the board game collection or update the existing board game by replacing the information
     boardgamecollection.replace_one({'Name': newboardgame['Name']}, newboardgame, upsert=True)
 
 
-############################################TO GET EXTRA GAME IMAGES##########################################################
+###########################################TO POPULATE INFORMATION FOR ALL GAMES IN COLLECTION#############################################
 
 # when we reach 60 requests, we need to sleep for one minute in order to avoid exceeding our request limit of 60 per minute
 # to allow for wiggle room, this code sleeps for 62 seconds when we reach 55 requests
 count = 0
 
-for game in boardgamecollection.find():
+def updatecount():
+    global count
     count += 1
     if count >=55:
         count = 0
         time.sleep(62)
+
+#API request from Board Game Atlas, to get category names
+categoriesresp = requests.get('https://api.boardgameatlas.com/api/game/categories?name=Aliens&client_id=zJUSH9XolY')
+categoriesfromBGA = categoriesresp.json()["categories"]
+genres = {}
+for cat in categoriesfromBGA:
+    g = {cat['id']: cat['name']}
+    genres.update(g)
+
+#HTML tags to parse out from game descriptions (not all tags need to be parsed because MongoDB is weird)
+tagstodelete = {"<b>", "</b>", "<i>", "</i>", "<strong>", "</strong>", "<div>", "</div>", "<p>", "<em>", "</em>", "<ul>", "</ul>", "<li>", "&quot;", "<h4>"}
+tagstoreplacewithspace = {"</p>", "</li>", "</h4>"}
+
+#need batch size so that cursor doesn't time out
+for game in boardgamecollection.find().batch_size(50):
+
     game_id = game['Game_ID']
+
+
+    ###########################TO UPDATE THE CATEGORIES TO ACTUAL NAMES INSTEAD OF CATEGORY IDS##########################
+
+    c = game['Category']
+    genresforgame = []
+    for i in c:
+        for o in i:
+            if o['id'] in genres:
+                genresforgame.append(genres[o['id']])
+    boardgamecollection.update_one({'Name': game['Name']}, {"$set" : {"genres": genresforgame}})
+    #delete old Category array
+    boardgamecollection.update_one({'Name': game['Name']}, {"$unset" : {"Category": ""}})
+
+
+    ###################################TO PARSE OUT THE HTML TAGS FROM DESCRIPTIONS######################################
+
+    description = game["Description"]
+
+    for tag in tagstodelete:
+        description = description.replace(tag, "")
+
+    for tag in tagstoreplacewithspace:
+        description = description.replace(tag, " ")
+
+    boardgamecollection.update_one({'Name': game['Name']}, {"$set" : {"Description": description}})
+
+
+    ############################################TO GET EXTRA GAME IMAGES################################################
+
+    updatecount()
     #API request from Board Game Atlas
     request = "https://api.boardgameatlas.com/api/game/images?limit=10&client_id=zJUSH9XolY&game_id=" + game_id
     resp = requests.get(request)
@@ -119,14 +169,9 @@ for game in boardgamecollection.find():
         boardgamecollection.update_one({'Name': game['Name']}, {"$addToSet" : {"Images": image['url']}})
 
 
-############################################TO GET GAME VIDEOS##########################################################
+    ############################################TO GET GAME VIDEOS######################################################
 
-for game in boardgamecollection.find():
-    count += 1
-    if count >=55:
-        count = 0
-        time.sleep(62)
-    game_id = game['Game_ID']
+    updatecount()
     #API request from Board Game Atlas
     request = "https://api.boardgameatlas.com/api/game/videos?limit=10&client_id=zJUSH9XolY&game_id=" + game_id
     resp = requests.get(request)
@@ -139,14 +184,9 @@ for game in boardgamecollection.find():
         boardgamecollection.update_one({'Name': game['Name']}, {"$addToSet" : {"Videos": newvideo}})
 
 
-############################################TO GET GAME REDDIT COMMENTS##########################################################
+    #######################################TO GET GAME REDDIT COMMENTS##################################################
 
-for game in boardgamecollection.find():
-    count += 1
-    if count >=55:
-        count = 0
-        time.sleep(62)
-    game_id = game['Game_ID']
+    updatecount()
     #API request from Board Game Atlas
     request = "https://api.boardgameatlas.com/api/game/reddit?limit=10&client_id=zJUSH9XolY&game_id=" + game_id
     resp = requests.get(request)
@@ -157,72 +197,10 @@ for game in boardgamecollection.find():
     for comment in resp.json()['reddit_comments']:
         body = comment['body']
         #parse out HTML tags
-        body = body.replace("<b>", "")
-        body = body.replace("</b>", "")
-        body = body.replace("<i>", "")
-        body = body.replace("</i>", "")
-        body = body.replace("<strong>", "")
-        body = body.replace("</strong>", "")
-        body = body.replace("<div>", "")
-        body = body.replace("</div>", "")
-        body = body.replace("<p>", "")
-        body = body.replace("</p>", " ")
-        body = body.replace("<em>", "")
-        body = body.replace("</em>", "")
-        body = body.replace("<ul>", "")
-        body = body.replace("</ul>", "")
-        body = body.replace("<li>", "")
-        body = body.replace("</li>", " ")
-        body = body.replace("&quot;", '"')
-        body = body.replace("<h4>", "")
-        body = body.replace("</h4>", " ")
-        newcomment = {'Title': comment['title'], 'URL': comment['link_url'], 'Body': body} 
+        parsetags = re.compile('<.*?>')
+        cleanbody = re.sub(parsetags, '', body)
+        newcomment = {'Title': comment['title'], 'URL': comment['link_url'], 'Body': cleanbody} 
         boardgamecollection.update_one({'Name': game['Name']}, {"$addToSet" : {"Reddit_Comments": newcomment}})
-
-###########################TO UPDATE THE CATEGORIES TO ACTUAL NAMES INSTEAD OF CATEGORY IDS##################################
-
-#API request from Board Game Atlas, to get category names
-categoriesresp = requests.get('https://api.boardgameatlas.com/api/game/categories?name=Aliens&client_id=zJUSH9XolY')
-categoriesfromBGA = categoriesresp.json()["categories"]
-genres = {}
-for cat in categoriesfromBGA:
-    g= {cat['id']: cat['name']}
-    genres.update(g)
-print(genres)
-for game in client["BGDB"]["boardgamecollection"].find():
-    c = game['Category']
-    genresforgame = []
-    for i in c:
-        for o in i:
-            if o['id'] in genres:
-                genresforgame.append(genres[o['id']])
-    client["BGDB"]["boardgamecollection"].update_one({'Name': game['Name']}, {"$set" : {"genres": genresforgame}})
-
-
-########################TO PARSE OUT THE HTML TAGS IN DESCRIPTIONS THAT NEED PARSING (NOT ALL DO)#################################
-
-for game in boardgamecollection.find():
-    description = game["Description"]
-    description = description.replace("<b>", "")
-    description = description.replace("</b>", "")
-    description = description.replace("<i>", "")
-    description = description.replace("</i>", "")
-    description = description.replace("<strong>", "")
-    description = description.replace("</strong>", "")
-    description = description.replace("<div>", "")
-    description = description.replace("</div>", "")
-    description = description.replace("<p>", "")
-    description = description.replace("</p>", " ")
-    description = description.replace("<em>", "")
-    description = description.replace("</em>", "")
-    description = description.replace("<ul>", "")
-    description = description.replace("</ul>", "")
-    description = description.replace("<li>", "")
-    description = description.replace("</li>", " ")
-    description = description.replace("&quot;", '"')
-    description = description.replace("<h4>", "")
-    description = description.replace("</h4>", " ")
-    boardgamecollection.update_one({'Name': game['Name']}, {"$set" : {"Description": description}})
 
 
 ##############################################CLEAR COLLECTION###########################################################
@@ -235,4 +213,3 @@ for game in boardgamecollection.find():
 #db = client["BGDB"]
 #boardgamecollection = db["boardgamecollection"]
 #boardgamecollection.delete_many({ })
-
