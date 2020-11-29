@@ -45,65 +45,6 @@
             //alert(filter);
         }
 
-$( document ).ready(function() {
-
-          //to check box of current filter
-          currentfilterindex = window.location.href.lastIndexOf('/')
-          currentfilter = window.location.href.substring(currentfilterindex+1)
-
-          if (currentfilter == "1_Hour_or_More"){
-            document.getElementById("checkbox1").checked = true
-          }
-          if (currentfilter == "1_Hour_or_Less"){
-            document.getElementById("checkbox2").checked = true
-          }
-          if (currentfilter == "30_Minutes_or_Less"){
-            document.getElementById("checkbox3").checked = true
-          }
-          if (currentfilter == "Players:_2"){
-            document.getElementById("checkbox4").checked = true
-          }
-          if (currentfilter == "Players:_3"){
-            document.getElementById("checkbox5").checked = true
-          }
-          if (currentfilter == "Players:_4"){
-            document.getElementById("checkbox6").checked = true
-          }
-          if (currentfilter == "Players:_5%20+"){
-            document.getElementById("checkbox7").checked = true
-          }
-          if (currentfilter == "Average_Price:_$30_or_More"){
-            document.getElementById("checkbox8").checked = true
-          }
-          if (currentfilter == "Average_Price:_$30_or_Less"){
-            document.getElementById("checkbox9").checked = true
-          }
-          if (currentfilter == "Average_Price:_$15_or_Less"){
-            document.getElementById("checkbox10").checked = true
-          }
-          if (currentfilter == "Average_Playtime:_30_Minutes_or_Less"){
-            document.getElementById("checkbox11").checked = true
-          }
-          if (currentfilter == "Average_Playtime:_30_Minutes_or_More"){
-            document.getElementById("checkbox12").checked = true
-          }
-          if (currentfilter == "Average_Price:_$30_or_More_Publisher"){
-            document.getElementById("checkbox13").checked = true
-          }
-          if (currentfilter == "Average_Price:_$30_or_Less_Publisher"){
-            document.getElementById("checkbox14").checked = true
-          }
-          if (currentfilter == "Average_Price:_$15_or_Less_Publisher"){
-            document.getElementById("checkbox15").checked = true
-          }
-          if (currentfilter == "Average_Playtime:_30_Minutes_or_Less_Publisher"){
-            document.getElementById("checkbox16").checked = true
-          }
-          if (currentfilter == "Average_Playtime:_30_Minutes_or_More_Publisher"){
-            document.getElementById("checkbox17").checked = true  
-          } 
-});
-  
 
         function link(page_route, sort, page, filter){
             return '/' + page_route + '/' + sort + '/' + page + '/' + filter;
@@ -202,134 +143,25 @@ $( document ).ready(function() {
     </div>
     <div class="column" style="justify-content: left; padding: 0% 1%">
         <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id = "FiltersForGames" >Filters for Games</button>
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id = "{{ filter_title.replace(' ','') }}" >
+                {{ filter_title }}</button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="checkbox1"   onclick="loadNewFilter('1_Hour_or_More')">
-                        <label class="custom-control-label" for="checkbox1">1 Hour or More</label>
+                {% for filter in filters_list %}
+                <a class="dropdown-item ">
+                    <div class="radio">
+                        <label>
+                            {% if filters == filter %}
+                        <input checked type="radio" name="filter-radio" onclick="loadNewFilter('{{ filter }}')">
+                            {% else%}
+                        <input type="radio" name="filter-radio" onclick="loadNewFilter('{{ filter }}')">
+                            {% endif %}
+                        {{ filter.replace("_", " ") }}</label>
                     </div>
                 </a>
+                {% endfor %}
                 <a class="dropdown-item" href="#">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="checkbox2"  onclick="loadNewFilter('1_Hour_or_Less')">
-                        <label class="custom-control-label" for="checkbox2">1 Hour or Less </label>
-                    </div>
-                </a>
-                <a class="dropdown-item" href="#">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="checkbox3"  onclick="loadNewFilter('30_Minutes_or_Less')">
-                        <label class="custom-control-label" for="checkbox3">30 Minutes or Less</label>
-                    </div>
-                </a>
-                <a class="dropdown-item" href="#">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="checkbox4"   onclick="loadNewFilter('Players:_2')">
-                        <label class="custom-control-label" for="checkbox4">Players: 2</label>
-                    </div>
-                </a>
-                <a class="dropdown-item" href="#">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="checkbox5" onclick="loadNewFilter('Players:_3')" >
-                        <label class="custom-control-label" for="checkbox5">Players: 3 </label>
-                    </div>
-                </a>
-                <a class="dropdown-item" href="#">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="checkbox6"  onclick="loadNewFilter('Players:_4')">
-                        <label class="custom-control-label" for="checkbox6">Players: 4 </label>
-                    </div>
-                </a>
-                <a class="dropdown-item" href="#">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="checkbox7" onclick="loadNewFilter('Players:_5 +')" >
-                        <label class="custom-control-label" for="checkbox7">Players: 5+</label>
-                    </div>
-                </a>
-                <a class="dropdown-item" href="#">
-                    <div class="custom-control custom-checkbox">
-                        <button class="btn btn-link" title="list2" onclick=" window.location.href = link('{{page_route}}', '{{sort_type}}', '{{page}}', 'nofilters' )">No Filters</button>
-                    </div>
-                </a>
-            </div>
-    </div>
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id = "FiltersForGenres">Filters for Genres</button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="checkbox8"  onclick="loadNewFilter('Average_Price:_$30_or_More')">
-                        <label class="custom-control-label" for="checkbox8">Average Price: $30 or More</label>
-                    </div>
-                </a>
-                <a class="dropdown-item" href="#">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="checkbox9"  onclick="loadNewFilter('Average_Price:_$30_or_Less')">
-                    <label class="custom-control-label" for="checkbox9">Average Price: $30 or Less</label>
-                  </div>
-                </a>
-                <a class="dropdown-item" href="#">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="checkbox10" onclick="loadNewFilter('Average_Price:_$15_or_Less')" >
-                        <label class="custom-control-label" for="checkbox10">Average Price: $15 or Less</label>
-                    </div>
-                </a>
-                <a class="dropdown-item" href="#">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="checkbox11" onclick="loadNewFilter('Average_Playtime:_30_Minutes_or_Less')" >
-                        <label class="custom-control-label" for="checkbox11">Average Playtime: 30 Minutes or Less</label>
-                    </div>
-                </a>
-                <a class="dropdown-item" href="#">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="checkbox12"  onclick="loadNewFilter('Average_Playtime:_30_Minutes_or_More')">
-                        <label class="custom-control-label" for="checkbox12">Average Playtime: 30 Minutes or More</label>
-                    </div>
-                </a>
-                <a class="dropdown-item" href="#">
-                    <div class="custom-control custom-checkbox">
-                        <button class="btn btn-link" title="list2" onclick=" window.location.href = link('{{page_route}}', '{{sort_type}}', '{{page}}', 'nofilters' )">No Filters</button>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false" id = "FiltersForPublisher" >Filters for Publishers</button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="checkbox13"  onclick="loadNewFilter('Average_Price:_$30_or_More_Publisher')">
-                    <label class="custom-control-label" for="checkbox13">Average Price: $30 or More</label>
-                  </div>
-                </a>
-                <a class="dropdown-item" href="#">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="checkbox14" onclick="loadNewFilter('Average_Price:_$30_or_Less_Publisher')"  >
-                    <label class="custom-control-label" for="checkbox14">Average Price: $30 or Less</label>
-                  </div>
-                </a>
-                <a class="dropdown-item" href="#">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="checkbox15"  onclick="loadNewFilter('Average_Price:_$15_or_Less_Publisher')" >
-                        <label class="custom-control-label" for="checkbox15">Average Price: $15 or Less</label>
-                    </div>
-                </a>
-                <a class="dropdown-item" href="#">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="checkbox16"  onclick="loadNewFilter('Average_Playtime:_30_Minutes_or_Less_Publisher')" >
-                    <label class="custom-control-label" for="checkbox16">Average Playtime: 30 Minutes or Less</label>
-                  </div>
-                </a>
-                <a class="dropdown-item" href="#">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="checkbox17" onclick="loadNewFilter('Average_Playtime:_30_Minutes_or_More_Publisher')"  >
-                        <label class="custom-control-label" for="checkbox17">Average Playtime: 30 Minutes or More</label>
-                    </div>
-                </a>
-                <a class="dropdown-item" href="#">
-                    <div class="custom-control custom-checkbox">
-                        <button class="btn btn-link" title="list2" onclick=" window.location.href = link('{{page_route}}', '{{sort_type}}', '{{page}}', 'nofilters' )">No Filters</button>
+                        <button class="btn btn-link" title="list2" onclick="window.location.href = link('{{page_route}}', '{{sort_type}}', '{{page}}', 'nofilters' )">No Filters</button>
                     </div>
                 </a>
             </div>
@@ -374,13 +206,13 @@ TooManyFilters();
 <nav aria-label="Page nav" style="margin-left: 60px;">
   <ul class="pagination">
       {% if page != 1 %}
-    <li class="page-item"><a class="page-link" onclick="window.location.href = link('{{page_route}}', '{{sort_type}}', '{{page-1}}', '{{filters}}')" >Previous</a></li>
+        <li class="page-item"><a class="page-link" onclick="window.location.href = link('{{page_route}}', '{{sort_type}}', '{{page-1}}', '{{filters}}')" >Previous</a></li>
       {% endif %}
       {% for i in range(1, max_pages+1) %}
         {% if i == page %}
-         <li class="page-item active"><a class="page-link" onclick="window.location.href = link('{{page_route}}', '{{sort_type}}', '{{i}}', '{{filters}}')">{{ i }}</a></li>
+            <li class="page-item active"><a class="page-link" onclick="window.location.href = link('{{page_route}}', '{{sort_type}}', '{{i}}', '{{filters}}')">{{ i }}</a></li>
         {% else %}
-         <li class="page-item"><a class="page-link" onclick="window.location.href = link('{{page_route}}', '{{sort_type}}', '{{i}}', '{{filters}}')">{{ i }}</a></li>
+            <li class="page-item"><a class="page-link" onclick="window.location.href = link('{{page_route}}', '{{sort_type}}', '{{i}}', '{{filters}}')">{{ i }}</a></li>
         {% endif %}
       {% endfor %}
       {% if page != max_pages %}
@@ -388,5 +220,8 @@ TooManyFilters();
       {% endif %}
   </ul>
 </nav>
-{% block body %}{% endblock %}
+
+<div class="row">
+    {% block body %}{% endblock %}
+</div>
 {% endblock %}

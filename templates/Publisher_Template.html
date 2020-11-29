@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'instance_base.html' %}
 {% block model_type %}publishers{% endblock %}
 {% block searchplaceholder %}Search publishers{% endblock %}
 {% block head %}
@@ -14,60 +14,45 @@
         </style>
 {% endblock %}
 
-{% block bodywithmargin %}
-    <h1 style = "font-size:30px; padding-bottom: 25px; padding-left: 30px;">Publisher</h1>
-    <div class="container-fluid">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-4" style="width: 100%">
-                    <br>
-                    <br>
-                    <img src='{{ publisher["Image_URL"] }}' style="max-width: 100%; justify-content: center">
-                    <div title="list">
-                        <h5>Average Game Price: ${{ publisher["Average_Price"] }}</h5>
-                        <h5>Average Players: {{ publisher['Average_Min_Players'] }}-{{ publisher['Average_Max_Players'] }}</h5>
-                        <h5>Average Game Playtime: {{ publisher['Average_Playtime'] }} minutes</h5>
-                    </div>
-                    <form action='/game' method="POST">
-                        <h4>Games by Publisher:
-                        {% for game in publisher["Games"] %}
-                            <button type= "submit" class="btn btn-link" title="entry" name = "gamename" id="gamename" value='{{ game }}'>{{ game }}</button>
-                        {% endfor %}
-                        </h4>
-                    </form>
-                    <form action='/genre' method="POST">
-                        <h4>Genres Covered by Publisher:
-                        {% for genre in publisher["Genres"] %}
-                            <button type= "submit" class="btn btn-link" title="entry" name = "genrename" id="genrename" value='{{ genre }}'>{{ genre }}</button>
-                        {% endfor %}
-                        </h4>
-                    </form>
-                    </div>
-                    <div class="col-sm-8" style="justify-content: center">
-                    <h2>{{ publisher["Name"] }}</h2>
-                    <hr>
-                    <h5>Description:</h5>
-                    <p>{{ publisher["Description"] }}</p>
-                    <hr>
-                    <h5>Videos of Games:</h5>
-                    <br>
-                    <div class="row" style="max-height: 100%">
-                        {% for i in range(0, 4) %}
-                            {% if i < publisher["Games"]|length %}
-                            {%if i == 2 %}<div class="w-100"></div>{% endif %}
-                        <div class="col-md-6" style="justify-content: center; height: 100%">
-                            {% set game = boardgames.find_one({"Name":publisher["Games"][i]}) %}
-                            {% if game['Videos']|length != 0 %}
-                                <p>{{ game["Videos"][0]["Title"] }}</p>
-                                <iframe width="100%" height="250" frameborder="0" src="https://www.youtube.com/embed/{{ game['Videos'][0]['URL'].split('=')[1] }}"></iframe>
-                            {% endif %}
-                        </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
+{% block title %}Publisher{% endblock %}
+{% block attribute1 %}Average Game Price: ${{ publisher["Average_Price"] }}{% endblock %}
+{% block attribute2 %}Average Players: {{ publisher['Average_Min_Players'] }}-{{ publisher['Average_Max_Players'] }}{% endblock %}
+{% block attribute3 %}Average Game Playtime: {{ publisher['Average_Playtime'] }} minutes{% endblock %}
+{% block attribute4 %}{% endblock %}
+{% block attribute5 %}{% endblock %}
+{% block links %}
+    <form action='/game' method="POST">
+        <h4>Games by Publisher:
+        {% for game in publisher["Games"] %}
+            <button type= "submit" class="btn btn-link" title="entry" name = "gamename" id="gamename" value='{{ game }}'>{{ game }}</button>
+        {% endfor %}
+        </h4>
+    </form>
+    <form action='/genre' method="POST">
+        <h4>Genres Covered by Publisher:
+        {% for genre in publisher["Genres"] %}
+            <button type= "submit" class="btn btn-link" title="entry" name = "genrename" id="genrename" value='{{ genre }}'>{{ genre }}</button>
+        {% endfor %}
+        </h4>
+    </form>
+{% endblock %}
+{% block multimedia %}
+    <h5>Videos of Games:</h5>
+    <br>
+    <div class="row" style="max-height: 100%">
+        {% for i in range(0, 4) %}
+            {% if i < publisher["Games"]|length %}
+            {%if i == 2 %}<div class="w-100"></div>{% endif %}
+        <div class="col-md-6" style="justify-content: center; height: 100%">
+            {% set game = boardgames.find_one({"Name":publisher["Games"][i]}) %}
+            {% if game['Videos']|length != 0 %}
+                <p>{{ game["Videos"][0]["Title"] }}</p>
+                <iframe width="100%" height="250" frameborder="0" src="https://www.youtube.com/embed/{{ game['Videos'][0]['URL'].split('=')[1] }}"></iframe>
+            {% endif %}
         </div>
+            {% endif %}
+        {% endfor %}
     </div>
 {% endblock %}
-
+{% block multimedia2 %}
+{% endblock %}

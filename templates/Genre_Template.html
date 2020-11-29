@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'instance_base.html' %}
 {% block model_type %}genres{% endblock %}
 {% block searchplaceholder %}Search genres{% endblock %}
 {% block head %} 
@@ -14,56 +14,45 @@
         </style>
 {% endblock %}
 
-
-{% block bodywithmargin %}
-    <h1 style = "font-size:30px;padding-bottom: 25px; padding-left: 30px;">Genres</h1>
-    <div class="container-fluid">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-4" style="width: 100%">
-                    <img src='{{ genre["Image_URL"] }}' style="max-width: 100%; justify-content: center">
-                      <br>
-                    <br>
-                    <form action='/game' method="POST">
-                        <h4>Related Games:
-                            {% for game in genre['Games'] %}
-                                <button type= "submit" class="btn btn-link" title="entry" name = "gamename" id="gamename" value='{{ game }}'>{{ game }}</button>
-                            {% endfor %}
-                        </h4>
-                    </form>
-                    <form action="/publisher" method="POST">
-                        <h4>Related Publishers:
-                            {% for publisher in genre['Publishers'] %}
-                            <button type="submit" class="btn btn-link" title="entry" name= "publishername" id="publishername" value='{{ publisher }}'>{{ publisher }}</button>
-                            {% endfor %}
-                        </h4>
-                    </form>
-
+{% block title %}Genres{% endblock %}
+{% block attribute1 %}Average Price: ${{ genre['Average_Price'] }}{% endblock %}
+{% block attribute2 %}Average Players: {{ genre['Average_Min_Players'] }}-{{ genre['Average_Max_Players'] }}{% endblock %}
+{% block attribute3 %}Average Playtime: {{ genre['Average_Playtime'] }}{% endblock %}
+{% block attribute4 %}{% endblock %}
+{% block attribute5 %}{% endblock %}
+{% block links %}
+    <form action='/game' method="POST">
+        <h4>Related Games:
+            {% for game in genre['Games'] %}
+                <button type= "submit" class="btn btn-link" title="entry" name = "gamename" id="gamename" value='{{ game }}'>{{ game }}</button>
+            {% endfor %}
+        </h4>
+    </form>
+    <form action="/publisher" method="POST">
+        <h4>Related Publishers:
+            {% for publisher in genre['Publishers'] %}
+            <button type="submit" class="btn btn-link" title="entry" name= "publishername" id="publishername" value='{{ publisher }}'>{{ publisher }}</button>
+            {% endfor %}
+        </h4>
+    </form>
+{% endblock %}
+{% block multimedia %}
+    <h5>{{ genre['Name'] }} Games:</h5>
+    <br>
+    <div class="row" style="grid-row-gap: 50px;">
+        {% for i in range(0, 4) %}
+            {% if i < genre["Games"]|length %}
+                <div class="column" style="width:50%; height: 50%;justify-content: center;padding: 0% 1%">
+                    {% set game = boardgames.find_one({"Name":genre["Games"][i]}) %}
+                    {% if game['Images']|length != 0 %}<img src="{{ game['Images'][i] }}" style="max-height:100%;height: 300px;">{% endif %}
                 </div>
-                <div class="col-sm-8" style="justify-content: center">
-                    <h2>{{ genre['Name'] }}</h2>
-                    <hr>
-                    <h5>Description:</h5>
-                        <p>{{ genre['Description'].replace("<br />", '').replace("<p>", '').replace("</p>", '').replace("<em>", '').replace("</em>", '') }}</p>
-                    <hr>
-                    <h5>{{ genre['Name'] }} Games:</h5>
-                    <br>
-                    <div class="row" style="grid-row-gap: 50px;">
-                        {% for i in range(0, 4) %}
-                            {% if i < genre["Games"]|length %}
-                                <div class="column" style="width:50%; height: 50%;justify-content: center;padding: 0% 1%">
-                                    {% set game = boardgames.find_one({"Name":genre["Games"][i]}) %}
-                                    {% if game['Images']|length != 0 %}<img src="{{ game['Images'][i] }}" style="max-height:100%;height: 300px;">{% endif %}
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    <hr>
-                    <h6>More info at
-                        <a href="{{genre['BGG_Link']}}"> Board Game Geek</a>
-                    </h6>
-                </div>
-            </div>
-        </div>
+            {% endif %}
+        {% endfor %}
     </div>
+{% endblock %}
+{% block multimedia2 %}
+    <hr>
+    <h6>More info at
+        <a href="{{genre['BGG_Link']}}"> Board Game Geek</a>
+    </h6>
 {% endblock %}

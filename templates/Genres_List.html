@@ -27,35 +27,6 @@
                     <br>
                     <a>Average Playtime: {{ genre['Average_Playtime'] }} minutes</a>
                 </div>
-
-
-<!--                <form action="/publisher" method="POST">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="publisher_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Publishers
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            {% for publisher in genre["Publishers"] %}
-                            {% if (g["Publishers"]) | length == 1 and publisher == None %}
-                            None
-                            {% elif publisher != None %}
-                            <button type="submit" class="btn btn-link" title="list" name="publishername" id="publishername" value='{{ publisher }}'> {{ publisher }}</button>
-                            {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </form>
-                <h6></h6>
-                <form action="/game" method="POST">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="game_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Games
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            {% for game in genre["Games"] %}<button type="submit" class="btn btn-link" title="list" name="gamename" id="gamename" value='{{ game }}'> {{ game }}</button>{% endfor %}
-                        </div>
-                    </div>
-                </form>-->
             </div>
                 {% if i>0 and ((i++1)%4==0) %}
                     </div><div class="row">

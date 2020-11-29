@@ -26,6 +26,32 @@ LiveFilters = []
 
 app = Flask(__name__)
 
+boardgame_filters = [
+    "1_Hour_or_More",
+    "1_Hour_or_Less",
+    "30_Minutes_or_Less",
+    "Players:_2",
+    "Players:_3",
+    "Players:_4",
+    "Players:_5"
+]
+
+publisher_filters = [
+    "Average_Price:_$30_or_More",
+    "Average_Price:_$30_or_Less",
+    "Average_Price:_$15_or_Less",
+    "Average_Playtime:_30_Minutes_or_Less",
+    "Average_Playtime:_30_Minutes_or_More"
+]
+
+genre_filters = [
+    "Average_Price:_$30_or_More",
+    "Average_Price:_$30_or_Less",
+    "Average_Price:_$15_or_Less",
+    "Average_Playtime:_30_Minutes_or_Less",
+    "Average_Playtime:_30_Minutes_or_More"
+]
+
 
 def GameLinkify(name):
     linkformat = re.compile('[^a-zA-Z0-9]')
@@ -50,8 +76,7 @@ def about():
 ############# LIST PAGES #####################
 @app.route('/boardgames/<string:sort_type>/<int:page>/<string:filters>')
 def games(page, sort_type, filters):
-    global boardgameobjects
-
+    global boardgameobject
     filteredCollection = SelectFilter(filters, boardgameobjects)
 
     # Apply ordering to filtered collection.
@@ -73,7 +98,8 @@ def games(page, sort_type, filters):
     empty = filteredCollection.count() == 0
     max_pages = ((gameobjects.collection.count() - 1) // 12) + 1
     return render_template('Board_Games_List.html', gameobjects=gameobjects, page=page, max_pages=max_pages,
-                           sort_type=sort_type, page_route='boardgames', filters=filters, empty=empty)
+                           sort_type=sort_type, page_route='boardgames', filters=filters, empty=empty,
+                           models=gameobjects, filters_list=boardgame_filters, filter_title="Filters For Games")
 
 
 @app.route('/boardgamegenres/<string:sort_type>/<int:page>/<string:filters>')
@@ -97,7 +123,8 @@ def genres(page, sort_type, filters):
     empty = filteredCollection.count() == 0
     max_pages = ((genre_obj.collection.count() - 1) // 12) + 1
     return render_template('Genres_List.html', genres=genre_obj, page=page, max_pages=max_pages,
-                           sort_type=sort_type, page_route='boardgamegenres', filters=filters, empty=empty)
+                           sort_type=sort_type, page_route='boardgamegenres', filters=filters, empty=empty,
+                           models=genre_obj, filters_list=genre_filters, filter_title="Filters For Genres")
 
 
 @app.route('/boardgamepublishers/<string:sort_type>/<int:page>/<string:filters>')
@@ -124,7 +151,7 @@ def publishers(page, sort_type, filters):
     max_pages = ((publish_obj.collection.count() - 1) // 12) + 1
     return render_template('Publishers_List.html', publishers=publish_obj, page=page, max_pages=max_pages,
                            sort_type=sort_type, page_route='boardgamepublishers', filters=filters,
-                           empty=empty)
+                           empty=empty, models=publish_obj, filters_list=publisher_filters, filter_title="Filters For Publishers")
 
 
 ############ ROUTE TO GENRE INSTANCE PAGES ############
@@ -142,7 +169,7 @@ def genre_page(genre_link):
     global genre_name_request
     global genre_objects
     genre = genre_objects.find({'Name': genre_name_request}).next()
-    return render_template("Genre_Template.html", genre=genre, boardgames=boardgameobjects)
+    return render_template("Genre_Template.html", genre=genre, boardgames=boardgameobjects, model=genre)
 
 
 ############ ROUTE TO PUBLISHER INSTANCE PAGES ############
@@ -160,7 +187,7 @@ def PubPage(publisherlink):
     global pubnamerequest
     global publish_objects
     publisher = publish_objects.find({'Name': pubnamerequest}).next()
-    return render_template("Publisher_Template.html", publisher=publisher, boardgames=boardgameobjects)
+    return render_template("Publisher_Template.html", publisher=publisher, boardgames=boardgameobjects, model=publisher)
 
 
 ############ ROUTE TO GAME INSTANCE PAGES ############
@@ -209,7 +236,6 @@ def noFilter(cur, filteredCollection):
 def SelectFilter(filter, NonFilteredCollection):
     if filter == "nofilters":
         return NonFilteredCollection
-
     listofFindCommands = []
     if (filter.split('_')[1]) == 'Hour':
         Minutes = int(filter.split('_')[0]) * 60
