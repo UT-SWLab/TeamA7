@@ -100,5 +100,7 @@ def searchFactory(models, fields):
     possible_searchers = {'boardgames': SearchBoardGames, 'genres': SearchGenres, 'publishers': SearchPublishers}
     searchers = []
     for m in models:
-        searchers.append(possible_searchers[m](fields))
+        searcher = possible_searchers[m](fields)
+        if searcher.fields != []:
+            searchers.append(searcher)
     return searchers
