@@ -5,13 +5,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) #so we can access main from parent directory
-from main import noFilter
-from main import SelectFilter
-from main import ApplyFoundFilters
-import pymongo
-from pymongo import MongoClient
-from mongoengine import *
-import time
 
 
 ##################################################SITE FRONT END TESTING#########################################################
