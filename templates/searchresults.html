@@ -24,10 +24,9 @@
         } else {
           $('.showpublishers,.showgames,.showgenres').prop("checked", true);
         }
-
         //user toggled advance search or search model
         $('#searchtoggle,#modelselect').change( function(){
-          if($('#searchtoggle').prop("checked")==true){
+          if($('#searchtoggle').prop("checked")){
             $('.searchfilters').show();
             $('.searchfilters').find('input').prop("checked", false);
             if($('#modelselect option:selected').val() == "boardgames"){
@@ -57,20 +56,20 @@
             $('.searchfilters').find('input').prop("checked", false);
           }
         })
-        $('#searchbypublisherfield,#searchbygamefield,#searchdescriptions,#searchnames, #searchbygenrefield').click(function(){
+        $('#searchnames,#searchdescriptions,#searchbygamefield,#searchbygenrefield, #searchbypublisherfield').click(function(){
           var fields = []
-          if($('#searchnames').prop("checked")== true)
+          if($('#searchnames').prop("checked"))
             fields.push('Name');
-          if($('#searchdescriptions').prop("checked")== true)
+          if($('#searchdescriptions').prop("checked"))
             fields.push('Description');
-          if($('#searchbygamefield').prop("checked")== true)
+          if($('#searchbygamefield').prop("checked"))
             fields.push('Games');
-          if($('#searchbygenrefield').prop("checked")== true)
+          if($('#searchbygenrefield').prop("checked"))
             if($('#modelselect option:selected').val() == "publishers")
               fields.push('Genres');
             else
               fields.push('genres')
-          if($('#searchbypublisherfield').prop("checked")== true)
+          if($('#searchbypublisherfield').prop("checked"))
             if($('#modelselect option:selected').val() == "genres")
               fields.push('Publishers');
             else
@@ -83,70 +82,49 @@
         $('.showgames,.showgenres,.showpublishers').click(function () {
           handlemodelfilters();
           handlefieldfilters();
-          paginationupdate();
         });
         $('#age').change(function () {
           $('#ageval').text($('#age').val());
-          if($('.gameagefilter').prop("checked")==false)
+          if(!$('.agefilter').prop("checked"))
             return; // if filter is not applied results do not change
           handlemodelfilters();
           handlefieldfilters();
         });
         $('#players').change(function () {
           $('#playernumber').text($('#players').val());
-          if($('.gameplayersfilter').prop("checked")==false)
+          if(!$('.gameplayersfilter').prop("checked"))
             return; // if filter is not applied results do not change
-          handlemodelfilters();
-          handlefieldfilters();
+          handlemodelfilters(); // filtered by model visible
+          handlefieldfilters(); // contains sort, sort contains pagination update
         });
-        $('.gameplayersfilter,.gameagefilter').click(function () {
-          handlemodelfilters();
-          handlefieldfilters();
+        $('.gameplayersfilter,.agefilter').click(function () {
+          handlemodelfilters(); // filtered by model visible
+          handlefieldfilters(); // contains sort, sort contains pagination update
         });
       });
-      //updates filtered results to hold what we need
-      function handlemodelfilters(){
+      function handlemodelfilters(){ //updates filtered results to hold what models we need
         $('tr.gamerow,tr.genrerow,tr.publisherrow').hide();
-        if ($('.showgames').prop("checked") == true)
+        if ($('.showgames').prop("checked"))
           $('.gamerow').show();
-        if ($('.showgenres').prop("checked") == true)
+        if ($('.showgenres').prop("checked"))
           $('.genrerow').show();
-        if ($('.showpublishers').prop("checked") == true)
+        if ($('.showpublishers').prop("checked"))
           $('.publisherrow').show();
         filtered_results = $('tr.gamerow:visible,tr.genrerow:visible,tr.publisherrow:visible');
       }
-      function handlefieldfilters(){
+      function handlefieldfilters(){ //updates filtered results to hold results that meet field requirements
         filtered_results.each( function() {
           if($(this).attr("class")=="gamerow"){
-            if($('.gameplayersfilter').prop("checked")==true){
-              if ((parseInt($(this).find('.gminplayers').text()) > $('#players').val()) | (parseInt($(this).find('.gmaxplayers').text()) < $('#players').val())){
+            if($('.agefilter').prop("checked"))
+              if (parseInt($(this).find('.gminage').text()) > $('#age').val())
                   $(this).hide();
-              }
-            }
-            if($('.gameagefilter').prop("checked")==true){
-              if (parseInt($(this).find('.gminage').text()) > $('#age').val()){
-                  $(this).hide();
-              }
-            }
           }
-          else if($(this).attr("class")=="genrerow"){
-            if($('.gameplayersfilter').prop("checked")==true){
-              if ((parseInt($(this).find('.genminplayers').text()) > $('#players').val()) | (parseInt($(this).find('.genmaxplayers').text()) < $('#players').val())){
+          if($('.gameplayersfilter').prop("checked"))
+              if ((parseInt($(this).find('.minplayers').text()) > $('#players').val()) | (parseInt($(this).find('.maxplayers').text()) < $('#players').val()))
                   $(this).hide();
-              }
-            }
-          }
-          else if($(this).attr("class")=="publisherrow"){
-            if($('.gameplayersfilter').prop("checked")==true){
-              if ((parseInt($(this).find('.pminplayers').text()) > $('#players').val()) | (parseInt($(this).find('.pmaxplayers').text()) < $('#players').val())){
-                  $(this).hide();
-              }
-            }
-          }
         });
         filtered_results = $('tr.gamerow:visible,tr.genrerow:visible,tr.publisherrow:visible');
         sort(sorttype);
-        paginationupdate();
       }
       function paginationupdate(){
         $('#resultcount').text(filtered_results.length);
@@ -180,6 +158,7 @@
         current_page = p;
       }
       function sort(type){
+        filtered_results.show();
         sorttype = type;
         if(type == 'A-Z'){
           filtered_results.sort(function(a,b){
@@ -192,12 +171,10 @@
           }).appendTo($('tbody'));
         }
         else if(type == "board games, genres, publishers"){
-          filtered_results.show();
           var publishers = $('.publisherrow:visible');
           var genres = $('.genrerow:visible');
           var games = $('.gamerow:visible');
           $('tbody').prepend(games,genres,publishers);
-          filtered_results = $('tr.gamerow:visible,tr.genrerow:visible,tr.publisherrow:visible');
         }
         else if(type == "publishers, genres, board games") {
           filtered_results.show();
@@ -207,6 +184,7 @@
           $('tbody').prepend(publishers,genres,games);
           filtered_results = $('tr.gamerow:visible,tr.genrerow:visible,tr.publisherrow:visible');
         }
+        filtered_results = $('tr.gamerow:visible,tr.genrerow:visible,tr.publisherrow:visible');
         paginationupdate();
       }
     </script>
@@ -263,7 +241,7 @@
           <div class ="fieldfilter">
             <label for="age">Playable for a <span id = "ageval">9</span> year old</label>
             <input type="range" id="age" min="1" max="18">
-            <label><input type= "checkbox" class="gameagefilter"> Apply filter</label>
+            <label><input type= "checkbox" class="agefilter"> Apply filter</label>
           </div>
         </div>
       </div>
@@ -347,7 +325,7 @@
                   <td class="name text-center">
                     <form action="/game" method = "POST"><button type="submit" class="btn btn-link" name="gamename" id="gamename" value='{{g["Name"]}}'>
                       <strong>{{g['Name']}}</strong></button></form>
-                    <p>Players: <span class = 'gminplayers'>{{g["Min_Players"]}}</span> to <span  class = 'gmaxplayers'>{{g["Max_Players"]}}</span>
+                    <p>Players: <span class = 'minplayers'>{{g["Min_Players"]}}</span> to <span  class = 'maxplayers'>{{g["Max_Players"]}}</span>
                       <br>Play time: <span class = 'gminplaytime'>{{g["Min_Playtime"]}}</span> to <span  class = 'gmaxplaytime'>{{g["Max_Playtime"]}}</span> minutes
                       <br> For players <span class = 'gminage'>{{g["Min_Age"]}}</span> and up
                     </p>
@@ -362,7 +340,7 @@
                   <td class="name text-center">
                     <form action="/genre" method = "POST"><button type="submit" class="btn btn-link" title="main" name="genrename" id="genrename" value='{{g["Name"]}}'><strong>{{g['Name']}}</strong></button></form>
                       <p>Games take on average <span class = 'genplaytime'>{{g["Average_Playtime"]}}</span> minutes
-                        <br>On average <span  class = 'genminplayers'>{{g["Average_Min_Players"]}}</span> to <span  class = 'genmaxplayers'>{{g["Average_Max_Players"]}}</span> players
+                        <br>On average <span  class = 'minplayers'>{{g["Average_Min_Players"]}}</span> to <span  class = 'maxplayers'>{{g["Average_Max_Players"]}}</span> players
                       </p>
                   </td>
                   <td class="image"><img  class = 'instance-image' src='{{g["Image_URL"]}}'></td>
@@ -376,7 +354,7 @@
                   <td class="name text-center">
                     <form action="/publisher" method = "POST"><button type="submit" class="btn btn-link" title="main" name="publishername" id="publishername" value='{{p["Name"]}}'><strong>{{p['Name']}}</strong></button></form>
                     <p>Games take on average <span class = 'pplaytime'>{{p["Average_Playtime"]}}</span> minutes
-                        <br>On average <span  class = 'pminplayers'>{{p["Average_Min_Players"]}}</span> to <span  class = 'pmaxplayers'>{{p["Average_Max_Players"]}}</span> players
+                        <br>On average <span  class = 'minplayers'>{{p["Average_Min_Players"]}}</span> to <span  class = 'maxplayers'>{{p["Average_Max_Players"]}}</span> players
                       </p>
                   </td>
                   <td class="image"><img class = 'instance-image' src='{{p["Image_URL"]}}'></td>
@@ -390,7 +368,7 @@
                 <form action="/game" method = "POST">
                 <tr class = "gamerow">
                     <td class="name text-center"><button type="submit" class="btn btn-link" name="gamename" value='{{g["Name"]}}'><strong>{{g['Name']}}</strong></button><br>
-                      <p>Number of Players: <span  class = 'gminplayers'>{{g["Min_Players"]}}</span> to <span  class = 'gmaxplayers'>{{g["Max_Players"]}}</span>
+                      <p>Number of Players: <span  class = 'minplayers'>{{g["Min_Players"]}}</span> to <span  class = 'maxplayers'>{{g["Max_Players"]}}</span>
                       <br>Game Playtime: <span  class = 'gminplaytime'>{{g["Min_Playtime"]}}</span> to <span  class = 'gmaxplaytime'>{{g["Max_Playtime"]}} minutes</span>
                         <br> For players <span class = 'gminage'>{{g["Min_Age"]}}</span> and up
                       </p>
@@ -407,7 +385,7 @@
                     <td class="name text-center">
                       <form action="/genre" method = "POST"><button type="submit" class="btn btn-link" name="genrename" value='{{g["Name"]}}'><strong>{{g['Name']}}</strong></button></form>
                       <p>Games take on average <span class = 'genplaytime'>{{g["Average_Playtime"]}}</span> minutes
-                        <br>On average <span  class = 'genminplayers'>{{g["Average_Min_Players"]}}</span> to <span  class = 'genmaxplayers'>{{g["Average_Max_Players"]}}</span> players
+                        <br>On average <span  class = 'minplayers'>{{g["Average_Min_Players"]}}</span> to <span  class = 'maxplayers'>{{g["Average_Max_Players"]}}</span> players
                       </p>
                     </td>
                   <td class="image"><img  class = 'instance-image'  src='{{g["Image_URL"]}}'></td>
@@ -419,7 +397,7 @@
                 <tr class = 'publisherrow'>
                   <td class="name text-center"><form action="/publisher" method = "POST"><button type="submit" class="btn btn-link" name="publishername" value='{{p["Name"]}}'><strong>{{p['Name']}}</strong></button></form>
                     <p>Games take on average <span class = 'pplaytime'>{{p["Average_Playtime"]}}</span> minutes
-                        <br>On average <span  class = 'pminplayers'>{{p["Average_Min_Players"]}}</span> to <span  class = 'pmaxplayers'>{{p["Average_Max_Players"]}}</span> players
+                        <br>On average <span  class = 'minplayers'>{{p["Average_Min_Players"]}}</span> to <span  class = 'maxplayers'>{{p["Average_Max_Players"]}}</span> players
                       </p>
                   </td>
                   <td class="image"><img  class = 'instance-image'  src='{{p["Image_URL"]}}'></td>

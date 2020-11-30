@@ -11,9 +11,6 @@ board_game_objects = db.boardgamecollection
 genre_objects = db.genrecollection
 publisher_objects = db.publishercollection
 
-# input = string searched by user
-# models = list of string terms for each model type
-# fields = list of strings for each field to search
 def searchdb(input, models, fields):
     exactmatches = {}  # not case sensitive, array of all exact matches
     partialmatches = {}  # not case sensitive, dict of all partial matches with key the word they're matched to
