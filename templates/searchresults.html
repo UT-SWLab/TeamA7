@@ -66,9 +66,15 @@
           if($('#searchbygamefield').prop("checked")== true)
             fields.push('Games');
           if($('#searchbygenrefield').prop("checked")== true)
-            fields.push('genres');
+            if($('#modelselect option:selected').val() == "publishers")
+              fields.push('Genres');
+            else
+              fields.push('genres')
           if($('#searchbypublisherfield').prop("checked")== true)
-            fields.push('Publisher');
+            if($('#modelselect option:selected').val() == "genres")
+              fields.push('Publishers');
+            else
+              fields.push('Publisher')
           $('input[name="fields"]').val(fields);
           if (fields == [])
             $('input[name="fields"]').val('all');

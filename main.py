@@ -218,7 +218,7 @@ def search():
     if "fields" in request.form:
         fromform = request.form["fields"]
         if fromform != "all":
-            fields = fromform.split()
+            fields = fromform.split(',')
     exactmatches, partialmatches = searchdb(input=input_string, models=models, fields=fields)
 
     return render_template("searchresults.html", input_string=input_string, exactmatches=exactmatches,
