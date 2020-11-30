@@ -78,28 +78,27 @@ def about():
 def games(page, sort_type, filters):
     global boardgameobject
     filteredCollection = SelectFilter(filters, boardgameobjects)
-
     # Apply ordering to filtered collection.
     if sort_type == "alphabetical":
-        gameobjects = filteredCollection.find().sort("Name")
+        gameobjects = filteredCollection.sort("Name")
 
     elif sort_type == "inverse":
-        gameobjects = filteredCollection.find().sort("Name", -1)
+        gameobjects = filteredCollection.sort("Name", -1)
 
     elif sort_type == "min-playtime":
-        gameobjects = filteredCollection.find().sort("Min_Playtime")
+        gameobjects = filteredCollection.sort("Min_Playtime")
 
     elif sort_type == "min-players":
-        gameobjects = filteredCollection.find().sort("Min_Players")
+        gameobjects = filteredCollection.sort("Min_Players")
 
     else:
         # Case where no sorting is done, Give Cursor to list_Base Page
-        gameobjects = filteredCollection.find()
+        gameobjects = filteredCollection
     empty = filteredCollection.count() == 0
-    max_pages = ((gameobjects.collection.count() - 1) // 12) + 1
+    max_pages = ((gameobjects.count() - 1) // 12) + 1
     return render_template('Board_Games_List.html', gameobjects=gameobjects, page=page, max_pages=max_pages,
                            sort_type=sort_type, page_route='boardgames', filters=filters, empty=empty,
-                           models=gameobjects, filters_list=boardgame_filters, filter_title="Filters For Games")
+                            filters_list=boardgame_filters, filter_title="Filters For Games")
 
 
 @app.route('/boardgamegenres/<string:sort_type>/<int:page>/<string:filters>')
@@ -109,22 +108,22 @@ def genres(page, sort_type, filters):
     filteredCollection = SelectFilter(filters, genre_objects)
 
     if sort_type == "alphabetical":
-        genre_obj = filteredCollection.find().sort("Name")
+        genre_obj = filteredCollection.sort("Name")
     elif sort_type == "inverse":
-        genre_obj = filteredCollection.find().sort("Name", -1)
+        genre_obj = filteredCollection.sort("Name", -1)
 
     elif sort_type == "min-playtime":
-        genre_obj = filteredCollection.find().sort("Average_Min_Playtime")
+        genre_obj = filteredCollection.sort("Average_Min_Playtime")
 
     elif sort_type == "min-players":
-        genre_obj = filteredCollection.find().sort("Average_Min_Players")
+        genre_obj = filteredCollection.sort("Average_Min_Players")
     else:
-        genre_obj = filteredCollection.find()
+        genre_obj = filteredCollection
     empty = filteredCollection.count() == 0
-    max_pages = ((genre_obj.collection.count() - 1) // 12) + 1
+    max_pages = ((genre_obj.count() - 1) // 12) + 1
     return render_template('Genres_List.html', genres=genre_obj, page=page, max_pages=max_pages,
                            sort_type=sort_type, page_route='boardgamegenres', filters=filters, empty=empty,
-                           models=genre_obj, filters_list=genre_filters, filter_title="Filters For Genres")
+                            filters_list=genre_filters, filter_title="Filters For Genres")
 
 
 @app.route('/boardgamepublishers/<string:sort_type>/<int:page>/<string:filters>')
@@ -132,26 +131,25 @@ def publishers(page, sort_type, filters):
     global publish_objects
 
     filteredCollection = SelectFilter(filters, publish_objects)
-
     if sort_type == "alphabetical":
-        publish_obj = filteredCollection.find().sort("Name")
+        publish_obj = filteredCollection.sort("Name")
     elif sort_type == "inverse":
-        publish_obj = filteredCollection.find().sort("Name", -1)
+        publish_obj = filteredCollection.sort("Name", -1)
 
     elif sort_type == "min-playtime":
-        publish_obj = filteredCollection.find().sort("Average_Min_Playtime")
+        publish_obj = filteredCollection.sort("Average_Min_Playtime")
 
     elif sort_type == "min-players":
-        publish_obj = filteredCollection.find().sort("Average_Min_Players")
+        publish_obj = filteredCollection.sort("Average_Min_Players")
 
     else:
-        publish_obj = filteredCollection.find()
+        publish_obj = filteredCollection
 
     empty = filteredCollection.count() == 0
-    max_pages = ((publish_obj.collection.count() - 1) // 12) + 1
+    max_pages = ((publish_obj.count() - 1) // 12) + 1
     return render_template('Publishers_List.html', publishers=publish_obj, page=page, max_pages=max_pages,
                            sort_type=sort_type, page_route='boardgamepublishers', filters=filters,
-                           empty=empty, models=publish_obj, filters_list=publisher_filters, filter_title="Filters For Publishers")
+                           empty=empty, filters_list=publisher_filters, filter_title="Filters For Publishers")
 
 
 ############ ROUTE TO GENRE INSTANCE PAGES ############
@@ -233,62 +231,49 @@ def noFilter(cur, filteredCollection):
     return filteredCollection
 
 
+
 def SelectFilter(filter, NonFilteredCollection):
     if filter == "nofilters":
-        return NonFilteredCollection
-    listofFindCommands = []
+        return NonFilteredCollection.find()
     if (filter.split('_')[1]) == 'Hour':
         Minutes = int(filter.split('_')[0]) * 60
         if (filter.split('_')[3]) == 'More':
-            listofFindCommands.append({"Max_Playtime": {"$gte": Minutes}})
+            return ApplyFoundFilters(NonFilteredCollection, {"Max_Playtime": {"$gte": Minutes}})
         else:
-            listofFindCommands.append({"Max_Playtime": {"$lte": Minutes}})
+            return ApplyFoundFilters(NonFilteredCollection, {"Max_Playtime": {"$lte": Minutes}})
 
     if (filter.split('_')[1]) == 'Minutes':
-        listofFindCommands.append({"Max_Playtime": {"$lte": int(filter.split('_')[0])}})
+        return ApplyFoundFilters(NonFilteredCollection, {"Max_Playtime": {"$lte": int(filter.split('_')[0])}})
 
     if (filter.split('_')[0]) == 'Players:':
         numberOfPlayers = int((filter.split('_')[1]).strip('+'))  # Necessary for 5 + case
-        listofFindCommands.append({"$and": [{"Min_Players": {"$lte": numberOfPlayers}},
-                                            {"Max_Players": {"$gte": numberOfPlayers}}]})
+        return ApplyFoundFilters(NonFilteredCollection, {"Min_Players": {"$lte": numberOfPlayers}, "Max_Players": {"$gte": numberOfPlayers}})
 
     if (filter.split('_')[1]) == 'Price:':
         Price = int(filter.split('_')[2].strip('$'))
         if (filter.split('_')[4]) == 'More':
-            listofFindCommands.append({"Average_Price_Float": {"$gte": Price}})
+            return ApplyFoundFilters(NonFilteredCollection, {"Average_Price_Float": {"$gte": Price}})
         if (filter.split('_')[4]) == 'Less':
-            listofFindCommands.append({"Average_Price_Float": {"$lte": Price}})
+            return ApplyFoundFilters(NonFilteredCollection, {"Average_Price_Float": {"$lte": Price}})
 
     if filter.split('_')[1] == 'Playtime:':
         if (filter.split('_')[3]) == 'Hour':
             Minutes = int(filter.split('_')[2]) * 60
             if (filter.split('_')[5]) == 'More':
-                listofFindCommands.append({"Average_Playtime": {"$gte": Minutes}})
+                return ApplyFoundFilters(NonFilteredCollection, {"Average_Playtime": {"$gte": Minutes}})
             else:
-                listofFindCommands.append({"Average_Playtime": {"$lte": Minutes}})
+                return ApplyFoundFilters(NonFilteredCollection, {"Average_Playtime": {"$lte": Minutes}})
 
         if (filter.split('_')[3]) == 'Minutes':
             if (filter.split('_')[5]) == 'More':
-                listofFindCommands.append({"Average_Playtime": {"$gte": int(filter.split('_')[2])}})
+                return ApplyFoundFilters(NonFilteredCollection, {"Average_Playtime": {"$gte": int(filter.split('_')[2])}})
             else:
-                listofFindCommands.append({"Average_Playtime": {"$lte": int(filter.split('_')[2])}})
-
-    basedictionary = {"$and": listofFindCommands}
-    return ApplyFoundFilters(NonFilteredCollection,
-                             basedictionary)  # This function returns filtered collection
+                return ApplyFoundFilters(NonFilteredCollection, {"Average_Playtime": {"$lte": int(filter.split('_')[2])}})
+    return ApplyFoundFilters(NonFilteredCollection, null)  # This function returns filtered collection
 
 
 def ApplyFoundFilters(NonFilteredCollection, basedictionary):
-    # NonFilteredCollection is boardgame collections. This is used as a super collection.
-    filteredCollection = db["FinalFiltered"]
-    filteredCollection.drop()  # drop entire collection
-    filteredCollection = db["FinalFiltered"]
-
-    cur = NonFilteredCollection.find(basedictionary)
-    for element in cur:
-        # print(element)
-        filteredCollection.insert_one(element)
-    return filteredCollection  # This collection should be totally filtered
+    return NonFilteredCollection.find(basedictionary) # This collection should be totally filtered
 
 
 if __name__ == "__main__":
