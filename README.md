@@ -244,19 +244,28 @@ Github ID: cedrikho
 
 
 ## Phase IV Team Contribution Time
-Cedrik Ho ch45935
-Github ID: cedrikho
-
+Cedrik Ho ch45935  
+Github ID: cedrikho  
+Tasks Worked On:  
 *Refactor Filtering functionality
 *Estimated time: 10 hrs  
 *Actual time: 9hrs  
 
-Allegra Thomas at35737
-GitHub ID: AllegraThomas
+Allegra Thomas at35737  
+GitHub ID: AllegraThomas  
+Tasks Worked On:  
+Refactoring Database/API Code:  
+Estimated Time: 2 hours  
+Actual Time: 4 hours  
+Refactoring Testing Code:  
+Estimated Time: 3 hours  
+Actual Time: 6 hours  
 
-Sanne Bloemsma scb2936
-Github ID: sbloemsma
+Sanne Bloemsma scb2936  
+Github ID: sbloemsma  
+Tasks Worked On:  
 
-Grant Ross ghr344
-Github ID: Grant Ross
+Grant Ross ghr344  
+Github ID: Grant Ross  
+Tasks Worked On:  
 
