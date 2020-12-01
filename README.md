@@ -264,6 +264,9 @@ Actual Time: 6 hours
 Sanne Bloemsma scb2936  
 Github ID: sbloemsma  
 Tasks Worked On:  
+Refactoring Searching:  
+Estimated Time: 8 hours  
+Actual Time: 7 hours  
 
 Grant Ross ghr344  
 Github ID: Grant Ross  
