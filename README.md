@@ -241,3 +241,26 @@ Github ID: cedrikho
 *Filtering for all 3 modules and collections.  
 *Testing for Sorting  
 
+
+
+## Phase IV Team Contribution Time
+<pre>
+Cedrik Ho ch45935
+Github ID: cedrikho
+
+*Refactor Filtering functionality
+*Estimated time: 10 hrs  
+*Actual time: 9hrs  
+
+Allegra Thomas at35737
+GitHub ID: AllegraThomas
+
+Sanne Bloemsma scb2936
+Github ID: sbloemsma
+
+Grant Ross ghr344
+Github ID: Grant Ross
+
+</pre>
+
+
