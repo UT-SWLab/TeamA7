@@ -244,7 +244,6 @@ Github ID: cedrikho
 
 
 ## Phase IV Team Contribution Time
-<pre>
 Cedrik Ho ch45935
 Github ID: cedrikho
 
@@ -260,7 +259,4 @@ Github ID: sbloemsma
 
 Grant Ross ghr344
 Github ID: Grant Ross
-
-</pre>
-
 
