@@ -209,12 +209,13 @@ def GamePage(gamelink):
 @app.route('/search', methods=['POST'])
 def search():
     input_string = request.form['search']
+    modeltype = request.form["modeltype"]
     models = []
     fields = ['all']
-    if request.form["modeltype"] == 'all':
+    if modeltype == 'all':
         models = ['boardgames', 'genres', 'publishers']
     else:
-        models = [request.form["modeltype"]]
+        models = [modeltype]
     if "fields" in request.form:
         fromform = request.form["fields"]
         if fromform != "all":
@@ -222,7 +223,7 @@ def search():
     exactmatches, partialmatches = searchdb(input=input_string, models=models, fields=fields)
 
     return render_template("searchresults.html", input_string=input_string, exactmatches=exactmatches,
-                           partialmatches=partialmatches, modeltype=type)
+                           partialmatches=partialmatches, modeltype=modeltype)
 
 
 def noFilter(cur, filteredCollection):
